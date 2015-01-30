@@ -48,5 +48,23 @@ public class SystematicsClient extends WebServiceGatewaySupport{
 		GetFromTTIB2ProcessWSResponse response = (GetFromTTIB2ProcessWSResponse) getWebServiceTemplate().marshalSendAndReceive(ttib, new SoapActionCallback("http://10.1.101.79:9080/AAFWebService/services/AAFWebService"));
 		return response;
 	}
-
+	
+	public GetFromTTIB2ProcessWSResponse getTTIBServiceCharge(String currencyCode, String branchCode, String accountId, String transactionAmount){
+	    GetFromTTIB2ProcessWS ttib = new GetFromTTIB2ProcessWS();
+	    GetFromTTIB2InputProperties prop = new GetFromTTIB2InputProperties();
+	    String code = "1542";
+	    String tellerId = "SACT";
+	    String hoho = "00000000000";
+	    String a2 = "A2" + currencyCode;
+	    String a3 = "A3" + branchCode;
+	    String a5 = "A5" + accountId;
+	    String a7 = "A7" + transactionAmount;
+	    String message = code + tellerId + hoho + ";" + a2 + ";" + a3 + ";" + a5 + ";" + a7 + ";ab0;ah1;";
+	    logger.debug("TTIB Message: "+ message);
+	    prop.setInputString(message);
+		ttib.setInputFromClient(prop);
+		GetFromTTIB2ProcessWSResponse response = (GetFromTTIB2ProcessWSResponse) getWebServiceTemplate().marshalSendAndReceive(ttib, new SoapActionCallback("http://10.1.101.79:9080/AAFWebService/services/AAFWebService"));
+		return response;
+	}
+    
 }

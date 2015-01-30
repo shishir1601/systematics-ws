@@ -11,6 +11,8 @@ import com.pnb.systematics.enterprise.SystematicsUtil;
 import com.pnb.systematics.enterprise.bo.SystematicsBusinessObject;
 import com.pnb.systematics.interaction.BalanceInquiryRequest;
 import com.pnb.systematics.interaction.BalanceInquiryResponse;
+import com.pnb.systematics.interaction.ServiceChargeRequest;
+import com.pnb.systematics.interaction.ServiceChargeResponse;
 import com.pnb.systematics.schema.GetFromTTIB2OutputProperties;
 import com.pnb.systematics.schema.GetFromTTIB2ProcessWSResponse;
 
@@ -77,6 +79,14 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 			response.setTransactionStatusCode("00");
 		}
 		logger.debug("Exiting: Balance Inquiry CA");
+		return response;
+	}
+
+	@Override
+	public ServiceChargeResponse debitCa(ServiceChargeRequest request) {
+		ServiceChargeResponse response = new ServiceChargeResponse();
+		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBServiceCharge(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId(), request.getTransactionAmount());
+		GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
 		return response;
 	}
 
