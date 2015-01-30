@@ -1,0 +1,1166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://webserviceclasses" xmlns:impl="http://webserviceclasses" xmlns:intf="http://webserviceclasses" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsi="http://ws-i.org/profiles/basic/1.1/xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+    <schema targetNamespace="http://webserviceclasses" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:impl="http://webserviceclasses" xmlns:intf="http://webserviceclasses" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <complexType name="OnMerchantChangePassword_Input_Properties">
+    <sequence>
+     <element name="confirmPassword" nillable="true" type="xsd:string"/>
+     <element name="HPubLinkKey" nillable="true" type="xsd:string"/>
+     <element name="HPubStartPoolName" nillable="true" type="xsd:string"/>
+     <element name="merchantID" nillable="true" type="xsd:string"/>
+     <element name="newPassword" nillable="true" type="xsd:string"/>
+     <element name="password" nillable="true" type="xsd:string"/>
+     <element name="userID" nillable="true" type="xsd:string"/>
+     <element name="HPubAccessHandle" nillable="true" type="xsd:string"/>
+     <element name="HPubStyleSheet" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <element name="onMerchantChangePasswordProcessWSResponse">
+    <complexType>
+     <sequence>
+      <element name="onMerchantChangePasswordProcessWSReturn" nillable="true" type="impl:OnMerchantChangePassword_Output_Properties"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="isValidMFUserProcessWS">
+    <complexType>
+     <sequence>
+      <element name="inputFromClient" nillable="true" type="impl:IsValidMFUser_Input_Properties"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="isValidMFUserProcessWSResponse">
+    <complexType>
+     <sequence>
+      <element name="isValidMFUserProcessWSReturn" nillable="true" type="impl:IsValidMFUser_Output_Properties"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getFromTTIBProcessWS">
+    <complexType>
+     <sequence>
+      <element name="inputFromClient" nillable="true" type="impl:GetFromTTIB_Input_Properties"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getFromTTIBProcessWSResponse">
+    <complexType>
+     <sequence>
+      <element name="getFromTTIBProcessWSReturn" nillable="true" type="impl:GetFromTTIB_Output_Properties"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="createUserProcessWS">
+    <complexType>
+     <sequence>
+      <element name="inputFromClient" nillable="true" type="impl:CreateUser_Input_Properties"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="createUserProcessWSResponse">
+    <complexType>
+     <sequence>
+      <element name="createUserProcessWSReturn" nillable="true" type="impl:CreateUser_Output_Properties"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getStatementOfAccountProcessWS">
+    <complexType>
+     <sequence>
+      <element name="inputFromClient" nillable="true" type="impl:GetStatementOfAccount_Input_Properties"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getStatementOfAccountProcessWSResponse">
+    <complexType>
+     <sequence>
+      <element name="getStatementOfAccountProcessWSReturn" nillable="true" type="impl:GetStatementOfAccount_Output_Properties"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getBillsPaymentView2ProcessWS">
+    <complexType>
+     <sequence>
+      <element name="inputFromClient" nillable="true" type="impl:GetBillsPaymentView2_Input_Properties"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getBillsPaymentView2ProcessWSResponse">
+    <complexType>
+     <sequence>
+      <element name="getBillsPaymentView2ProcessWSReturn" nillable="true" type="impl:GetBillsPaymentView2_Output_Properties"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="accountEnrollmentProcessWS">
+    <complexType>
+     <sequence>
+      <element name="inputFromClient" nillable="true" type="impl:AccountEnrollment_Input_Properties"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="accountEnrollmentProcessWSResponse">
+    <complexType>
+     <sequence>
+      <element name="accountEnrollmentProcessWSReturn" nillable="true" type="impl:AccountEnrollment_Output_Properties"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="deleteMFUserProcessWS">
+    <complexType>
+     <sequence>
+      <element name="inputFromClient" nillable="true" type="impl:DeleteMFUser_Input_Properties"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="deleteMFUserProcessWSResponse">
+    <complexType>
+     <sequence>
+      <element name="deleteMFUserProcessWSReturn" nillable="true" type="impl:DeleteMFUser_Output_Properties"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="setAccountEnrollmentProcessWS">
+    <complexType>
+     <sequence>
+      <element name="inputFromClient" nillable="true" type="impl:SetAccountEnrollment_Input_Properties"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="setAccountEnrollmentProcessWSResponse">
+    <complexType>
+     <sequence>
+      <element name="setAccountEnrollmentProcessWSReturn" nillable="true" type="impl:SetAccountEnrollment_Output_Properties"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getFromTTIB2ProcessWS">
+    <complexType>
+     <sequence>
+      <element name="inputFromClient" nillable="true" type="impl:GetFromTTIB2_Input_Properties"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getFromTTIB2ProcessWSResponse">
+    <complexType>
+     <sequence>
+      <element name="getFromTTIB2ProcessWSReturn" nillable="true" type="impl:GetFromTTIB2_Output_Properties"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getAccountInquiryProcessWS">
+    <complexType>
+     <sequence>
+      <element name="inputFromClient" nillable="true" type="impl:GetAccountInquiry_Input_Properties"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getAccountInquiryProcessWSResponse">
+    <complexType>
+     <sequence>
+      <element name="getAccountInquiryProcessWSReturn" nillable="true" type="impl:GetAccountInquiry_Output_Properties"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getTodaysTransactionsProcessWS">
+    <complexType>
+     <sequence>
+      <element name="inputFromClient" nillable="true" type="impl:GetTodaysTransactions_Input_Properties"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getTodaysTransactionsProcessWSResponse">
+    <complexType>
+     <sequence>
+      <element name="getTodaysTransactionsProcessWSReturn" nillable="true" type="impl:GetTodaysTransactions_Output_Properties"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getBillsPaymentViewProcessWS">
+    <complexType>
+     <sequence>
+      <element name="inputFromClient" nillable="true" type="impl:GetBillsPaymentView_Input_Properties"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getBillsPaymentViewProcessWSResponse">
+    <complexType>
+     <sequence>
+      <element name="getBillsPaymentViewProcessWSReturn" nillable="true" type="impl:GetBillsPaymentView_Output_Properties"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getBalanceProcessWS">
+    <complexType>
+     <sequence>
+      <element name="inputFromClient" nillable="true" type="impl:GetBalance_Input_Properties"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getBalanceProcessWSResponse">
+    <complexType>
+     <sequence>
+      <element name="getBalanceProcessWSReturn" nillable="true" type="impl:GetBalance_Output_Properties"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getBillsPaymentInquiryProcessWS">
+    <complexType>
+     <sequence>
+      <element name="inputFromClient" nillable="true" type="impl:GetBillsPaymentInquiry_Input_Properties"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getBillsPaymentInquiryProcessWSResponse">
+    <complexType>
+     <sequence>
+      <element name="getBillsPaymentInquiryProcessWSReturn" nillable="true" type="impl:GetBillsPaymentInquiry_Output_Properties"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="onMerchantChangePasswordProcessWS">
+    <complexType>
+     <sequence>
+      <element name="inputFromClient" nillable="true" type="impl:OnMerchantChangePassword_Input_Properties"/>
+     </sequence>
+    </complexType>
+   </element>
+   <complexType name="OnMerchantChangePassword_Output_Properties">
+    <sequence>
+     <element name="HPubMacroMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubScreenState" nillable="true" type="xsd:string"/>
+     <element name="confirmPassword" nillable="true" type="xsd:string"/>
+     <element name="HPubBeanName" nillable="true" type="xsd:string"/>
+     <element name="HPubBeanType" nillable="true" type="xsd:string"/>
+     <element name="HPubEndChainName" nillable="true" type="xsd:string"/>
+     <element name="HPubEndType" type="xsd:int"/>
+     <element name="HPubErrorMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubErrorOccurred" type="xsd:int"/>
+     <element name="HPubLinkKey" nillable="true" type="xsd:string"/>
+     <element name="HPubOutputParmSuffix" nillable="true" type="xsd:string"/>
+     <element name="HPubStartChainName" nillable="true" type="xsd:string"/>
+     <element name="HPubStartPoolName" nillable="true" type="xsd:string"/>
+     <element name="HPubStartType" type="xsd:int"/>
+     <element name="merchantID" nillable="true" type="xsd:string"/>
+     <element name="newPassword" nillable="true" type="xsd:string"/>
+     <element name="password" nillable="true" type="xsd:string"/>
+     <element name="retMessage" nillable="true" type="xsd:string"/>
+     <element name="userID" nillable="true" type="xsd:string"/>
+     <element name="HPubXMLProperties" nillable="true" type="xsd:string"/>
+     <element name="HPubAccessHandle" nillable="true" type="xsd:string"/>
+     <element name="HPubStyleSheet" nillable="true" type="xsd:string"/>
+     <element name="HPubXMLData" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="IsValidMFUser_Input_Properties">
+    <sequence>
+     <element name="companyname" nillable="true" type="xsd:string"/>
+     <element name="HPubLinkKey" nillable="true" type="xsd:string"/>
+     <element name="HPubStartPoolName" nillable="true" type="xsd:string"/>
+     <element name="password" nillable="true" type="xsd:string"/>
+     <element name="userid" nillable="true" type="xsd:string"/>
+     <element name="HPubAccessHandle" nillable="true" type="xsd:string"/>
+     <element name="HPubStyleSheet" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="IsValidMFUser_Output_Properties">
+    <sequence>
+     <element name="HPubMacroMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubScreenState" nillable="true" type="xsd:string"/>
+     <element name="companyname" nillable="true" type="xsd:string"/>
+     <element name="errorMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubBeanName" nillable="true" type="xsd:string"/>
+     <element name="HPubBeanType" nillable="true" type="xsd:string"/>
+     <element name="HPubEndChainName" nillable="true" type="xsd:string"/>
+     <element name="HPubEndType" type="xsd:int"/>
+     <element name="HPubErrorMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubErrorOccurred" type="xsd:int"/>
+     <element name="HPubLinkKey" nillable="true" type="xsd:string"/>
+     <element name="HPubOutputParmSuffix" nillable="true" type="xsd:string"/>
+     <element name="HPubStartChainName" nillable="true" type="xsd:string"/>
+     <element name="HPubStartPoolName" nillable="true" type="xsd:string"/>
+     <element name="HPubStartType" type="xsd:int"/>
+     <element name="password" nillable="true" type="xsd:string"/>
+     <element name="userid" nillable="true" type="xsd:string"/>
+     <element name="HPubXMLProperties" nillable="true" type="xsd:string"/>
+     <element name="HPubAccessHandle" nillable="true" type="xsd:string"/>
+     <element name="HPubStyleSheet" nillable="true" type="xsd:string"/>
+     <element name="HPubXMLData" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="GetFromTTIB_Input_Properties">
+    <sequence>
+     <element name="HPubLinkKey" nillable="true" type="xsd:string"/>
+     <element name="HPubStartPoolName" nillable="true" type="xsd:string"/>
+     <element name="inputString" nillable="true" type="xsd:string"/>
+     <element name="HPubAccessHandle" nillable="true" type="xsd:string"/>
+     <element name="HPubStyleSheet" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="GetFromTTIB_Output_Properties">
+    <sequence>
+     <element name="HPubMacroMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubScreenState" nillable="true" type="xsd:string"/>
+     <element name="errorMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubBeanName" nillable="true" type="xsd:string"/>
+     <element name="HPubBeanType" nillable="true" type="xsd:string"/>
+     <element name="HPubEndChainName" nillable="true" type="xsd:string"/>
+     <element name="HPubEndType" type="xsd:int"/>
+     <element name="HPubErrorMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubErrorOccurred" type="xsd:int"/>
+     <element name="HPubLinkKey" nillable="true" type="xsd:string"/>
+     <element name="HPubOutputParmSuffix" nillable="true" type="xsd:string"/>
+     <element name="HPubStartChainName" nillable="true" type="xsd:string"/>
+     <element name="HPubStartPoolName" nillable="true" type="xsd:string"/>
+     <element name="HPubStartType" type="xsd:int"/>
+     <element name="inputString" nillable="true" type="xsd:string"/>
+     <element name="returnMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubXMLProperties" nillable="true" type="xsd:string"/>
+     <element name="HPubAccessHandle" nillable="true" type="xsd:string"/>
+     <element name="HPubStyleSheet" nillable="true" type="xsd:string"/>
+     <element name="HPubXMLData" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="CreateUser_Input_Properties">
+    <sequence>
+     <element name="accesslevel" nillable="true" type="xsd:string"/>
+     <element name="companyname" nillable="true" type="xsd:string"/>
+     <element name="HPubLinkKey" nillable="true" type="xsd:string"/>
+     <element name="HPubStartPoolName" nillable="true" type="xsd:string"/>
+     <element name="userid" nillable="true" type="xsd:string"/>
+     <element name="HPubAccessHandle" nillable="true" type="xsd:string"/>
+     <element name="HPubStyleSheet" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="CreateUser_Output_Properties">
+    <sequence>
+     <element name="HPubMacroMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubScreenState" nillable="true" type="xsd:string"/>
+     <element name="accesslevel" nillable="true" type="xsd:string"/>
+     <element name="companyname" nillable="true" type="xsd:string"/>
+     <element name="errorMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubBeanName" nillable="true" type="xsd:string"/>
+     <element name="HPubBeanType" nillable="true" type="xsd:string"/>
+     <element name="HPubEndChainName" nillable="true" type="xsd:string"/>
+     <element name="HPubEndType" type="xsd:int"/>
+     <element name="HPubErrorMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubErrorOccurred" type="xsd:int"/>
+     <element name="HPubLinkKey" nillable="true" type="xsd:string"/>
+     <element name="HPubOutputParmSuffix" nillable="true" type="xsd:string"/>
+     <element name="HPubStartChainName" nillable="true" type="xsd:string"/>
+     <element name="HPubStartPoolName" nillable="true" type="xsd:string"/>
+     <element name="HPubStartType" type="xsd:int"/>
+     <element name="userid" nillable="true" type="xsd:string"/>
+     <element name="HPubXMLProperties" nillable="true" type="xsd:string"/>
+     <element name="HPubAccessHandle" nillable="true" type="xsd:string"/>
+     <element name="HPubStyleSheet" nillable="true" type="xsd:string"/>
+     <element name="HPubXMLData" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="GetStatementOfAccount_Input_Properties">
+    <sequence>
+     <element name="accountnumber" nillable="true" type="xsd:string"/>
+     <element name="companyname" nillable="true" type="xsd:string"/>
+     <element name="enddate_dd" nillable="true" type="xsd:string"/>
+     <element name="enddate_mm" nillable="true" type="xsd:string"/>
+     <element name="enddate_yy" nillable="true" type="xsd:string"/>
+     <element name="HPubLinkKey" nillable="true" type="xsd:string"/>
+     <element name="HPubStartPoolName" nillable="true" type="xsd:string"/>
+     <element name="password" nillable="true" type="xsd:string"/>
+     <element name="startdate_dd" nillable="true" type="xsd:string"/>
+     <element name="startdate_mm" nillable="true" type="xsd:string"/>
+     <element name="startdate_yy" nillable="true" type="xsd:string"/>
+     <element name="username" nillable="true" type="xsd:string"/>
+     <element name="HPubAccessHandle" nillable="true" type="xsd:string"/>
+     <element name="HPubStyleSheet" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="GetStatementOfAccount_Output_Properties">
+    <sequence>
+     <element name="HPubMacroMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubScreenState" nillable="true" type="xsd:string"/>
+     <element name="accountNumber" nillable="true" type="xsd:string"/>
+     <element name="accountnumber" nillable="true" type="xsd:string"/>
+     <element name="availableBalance" nillable="true" type="xsd:string"/>
+     <element name="companyname" nillable="true" type="xsd:string"/>
+     <element name="enddate_dd" nillable="true" type="xsd:string"/>
+     <element name="enddate_mm" nillable="true" type="xsd:string"/>
+     <element name="enddate_yy" nillable="true" type="xsd:string"/>
+     <element name="errorMessage" nillable="true" type="xsd:string"/>
+     <element name="floatAmount" nillable="true" type="xsd:string"/>
+     <element name="HPubBeanName" nillable="true" type="xsd:string"/>
+     <element name="HPubBeanType" nillable="true" type="xsd:string"/>
+     <element name="HPubEndChainName" nillable="true" type="xsd:string"/>
+     <element name="HPubEndType" type="xsd:int"/>
+     <element name="HPubErrorMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubErrorOccurred" type="xsd:int"/>
+     <element name="HPubLinkKey" nillable="true" type="xsd:string"/>
+     <element name="HPubOutputParmSuffix" nillable="true" type="xsd:string"/>
+     <element name="HPubStartChainName" nillable="true" type="xsd:string"/>
+     <element name="HPubStartPoolName" nillable="true" type="xsd:string"/>
+     <element name="HPubStartType" type="xsd:int"/>
+     <element name="holdAmount" nillable="true" type="xsd:string"/>
+     <element name="lastTransDate" nillable="true" type="xsd:string"/>
+     <element name="password" nillable="true" type="xsd:string"/>
+     <element name="pledgedAmount" nillable="true" type="xsd:string"/>
+     <element name="presentBalance" nillable="true" type="xsd:string"/>
+     <element name="soaBalance" nillable="true" type="xsd:string"/>
+     <element name="soaBalanceCA" nillable="true" type="xsd:string"/>
+     <element name="soaBranch" nillable="true" type="xsd:string"/>
+     <element name="soaBranchCA" nillable="true" type="xsd:string"/>
+     <element name="soaCheckNoCA" nillable="true" type="xsd:string"/>
+     <element name="soaCredit" nillable="true" type="xsd:string"/>
+     <element name="soaCreditCA" nillable="true" type="xsd:string"/>
+     <element name="soaDate" nillable="true" type="xsd:string"/>
+     <element name="soaDateCA" nillable="true" type="xsd:string"/>
+     <element name="soaDebit" nillable="true" type="xsd:string"/>
+     <element name="soaDebitCA" nillable="true" type="xsd:string"/>
+     <element name="soaEndingBalance" nillable="true" type="xsd:string"/>
+     <element name="soaEndingBalanceCA" nillable="true" type="xsd:string"/>
+     <element name="soaForwardBalance" nillable="true" type="xsd:string"/>
+     <element name="soaForwardBalanceCA" nillable="true" type="xsd:string"/>
+     <element name="soaTotalCredit" nillable="true" type="xsd:string"/>
+     <element name="soaTotalCreditCA" nillable="true" type="xsd:string"/>
+     <element name="soaTotalCreditCount" nillable="true" type="xsd:string"/>
+     <element name="soaTotalCreditCountCA" nillable="true" type="xsd:string"/>
+     <element name="soaTotalDebit" nillable="true" type="xsd:string"/>
+     <element name="soaTotalDebitCA" nillable="true" type="xsd:string"/>
+     <element name="soaTotalDebitCount" nillable="true" type="xsd:string"/>
+     <element name="soaTotalDebitCountCA" nillable="true" type="xsd:string"/>
+     <element name="soaTrans" nillable="true" type="xsd:string"/>
+     <element name="soaTransCA" nillable="true" type="xsd:string"/>
+     <element name="startdate_dd" nillable="true" type="xsd:string"/>
+     <element name="startdate_mm" nillable="true" type="xsd:string"/>
+     <element name="startdate_yy" nillable="true" type="xsd:string"/>
+     <element name="username" nillable="true" type="xsd:string"/>
+     <element name="HPubXMLProperties" nillable="true" type="xsd:string"/>
+     <element name="HPubAccessHandle" nillable="true" type="xsd:string"/>
+     <element name="HPubStyleSheet" nillable="true" type="xsd:string"/>
+     <element name="HPubXMLData" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="GetBillsPaymentView2_Input_Properties">
+    <sequence>
+     <element name="dd" nillable="true" type="xsd:string"/>
+     <element name="HPubLinkKey" nillable="true" type="xsd:string"/>
+     <element name="HPubStartPoolName" nillable="true" type="xsd:string"/>
+     <element name="merchantID" nillable="true" type="xsd:string"/>
+     <element name="mm" nillable="true" type="xsd:string"/>
+     <element name="password" nillable="true" type="xsd:string"/>
+     <element name="userID" nillable="true" type="xsd:string"/>
+     <element name="yy" nillable="true" type="xsd:string"/>
+     <element name="HPubAccessHandle" nillable="true" type="xsd:string"/>
+     <element name="HPubStyleSheet" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="GetBillsPaymentView2_Output_Properties">
+    <sequence>
+     <element name="HPubMacroMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubScreenState" nillable="true" type="xsd:string"/>
+     <element name="bpAmount" nillable="true" type="xsd:string"/>
+     <element name="bpMerchantName" nillable="true" type="xsd:string"/>
+     <element name="bpName" nillable="true" type="xsd:string"/>
+     <element name="bpRefNo" nillable="true" type="xsd:string"/>
+     <element name="bpSubscriberNo" nillable="true" type="xsd:string"/>
+     <element name="bpTran" nillable="true" type="xsd:string"/>
+     <element name="dd" nillable="true" type="xsd:string"/>
+     <element name="errorMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubBeanName" nillable="true" type="xsd:string"/>
+     <element name="HPubBeanType" nillable="true" type="xsd:string"/>
+     <element name="HPubEndChainName" nillable="true" type="xsd:string"/>
+     <element name="HPubEndType" type="xsd:int"/>
+     <element name="HPubErrorMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubErrorOccurred" type="xsd:int"/>
+     <element name="HPubLinkKey" nillable="true" type="xsd:string"/>
+     <element name="HPubOutputParmSuffix" nillable="true" type="xsd:string"/>
+     <element name="HPubStartChainName" nillable="true" type="xsd:string"/>
+     <element name="HPubStartPoolName" nillable="true" type="xsd:string"/>
+     <element name="HPubStartType" type="xsd:int"/>
+     <element name="merchantID" nillable="true" type="xsd:string"/>
+     <element name="mm" nillable="true" type="xsd:string"/>
+     <element name="password" nillable="true" type="xsd:string"/>
+     <element name="userID" nillable="true" type="xsd:string"/>
+     <element name="yy" nillable="true" type="xsd:string"/>
+     <element name="HPubXMLProperties" nillable="true" type="xsd:string"/>
+     <element name="HPubAccessHandle" nillable="true" type="xsd:string"/>
+     <element name="HPubStyleSheet" nillable="true" type="xsd:string"/>
+     <element name="HPubXMLData" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="AccountEnrollment_Input_Properties">
+    <sequence>
+     <element name="accountNo" nillable="true" type="xsd:string"/>
+     <element name="companyName" nillable="true" type="xsd:string"/>
+     <element name="HPubLinkKey" nillable="true" type="xsd:string"/>
+     <element name="HPubStartPoolName" nillable="true" type="xsd:string"/>
+     <element name="HPubAccessHandle" nillable="true" type="xsd:string"/>
+     <element name="HPubStyleSheet" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="AccountEnrollment_Output_Properties">
+    <sequence>
+     <element name="HPubMacroMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubScreenState" nillable="true" type="xsd:string"/>
+     <element name="accountNo" nillable="true" type="xsd:string"/>
+     <element name="companyName" nillable="true" type="xsd:string"/>
+     <element name="errorMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubBeanName" nillable="true" type="xsd:string"/>
+     <element name="HPubBeanType" nillable="true" type="xsd:string"/>
+     <element name="HPubEndChainName" nillable="true" type="xsd:string"/>
+     <element name="HPubEndType" type="xsd:int"/>
+     <element name="HPubErrorMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubErrorOccurred" type="xsd:int"/>
+     <element name="HPubLinkKey" nillable="true" type="xsd:string"/>
+     <element name="HPubOutputParmSuffix" nillable="true" type="xsd:string"/>
+     <element name="HPubStartChainName" nillable="true" type="xsd:string"/>
+     <element name="HPubStartPoolName" nillable="true" type="xsd:string"/>
+     <element name="HPubStartType" type="xsd:int"/>
+     <element name="returnMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubXMLProperties" nillable="true" type="xsd:string"/>
+     <element name="HPubAccessHandle" nillable="true" type="xsd:string"/>
+     <element name="HPubStyleSheet" nillable="true" type="xsd:string"/>
+     <element name="HPubXMLData" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="DeleteMFUser_Input_Properties">
+    <sequence>
+     <element name="companyname" nillable="true" type="xsd:string"/>
+     <element name="HPubLinkKey" nillable="true" type="xsd:string"/>
+     <element name="HPubStartPoolName" nillable="true" type="xsd:string"/>
+     <element name="userid" nillable="true" type="xsd:string"/>
+     <element name="HPubAccessHandle" nillable="true" type="xsd:string"/>
+     <element name="HPubStyleSheet" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="DeleteMFUser_Output_Properties">
+    <sequence>
+     <element name="HPubMacroMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubScreenState" nillable="true" type="xsd:string"/>
+     <element name="companyname" nillable="true" type="xsd:string"/>
+     <element name="errorMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubBeanName" nillable="true" type="xsd:string"/>
+     <element name="HPubBeanType" nillable="true" type="xsd:string"/>
+     <element name="HPubEndChainName" nillable="true" type="xsd:string"/>
+     <element name="HPubEndType" type="xsd:int"/>
+     <element name="HPubErrorMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubErrorOccurred" type="xsd:int"/>
+     <element name="HPubLinkKey" nillable="true" type="xsd:string"/>
+     <element name="HPubOutputParmSuffix" nillable="true" type="xsd:string"/>
+     <element name="HPubStartChainName" nillable="true" type="xsd:string"/>
+     <element name="HPubStartPoolName" nillable="true" type="xsd:string"/>
+     <element name="HPubStartType" type="xsd:int"/>
+     <element name="userid" nillable="true" type="xsd:string"/>
+     <element name="HPubXMLProperties" nillable="true" type="xsd:string"/>
+     <element name="HPubAccessHandle" nillable="true" type="xsd:string"/>
+     <element name="HPubStyleSheet" nillable="true" type="xsd:string"/>
+     <element name="HPubXMLData" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="SetAccountEnrollment_Input_Properties">
+    <sequence>
+     <element name="accountnumber" nillable="true" type="xsd:string"/>
+     <element name="companyname" nillable="true" type="xsd:string"/>
+     <element name="HPubLinkKey" nillable="true" type="xsd:string"/>
+     <element name="HPubStartPoolName" nillable="true" type="xsd:string"/>
+     <element name="HPubAccessHandle" nillable="true" type="xsd:string"/>
+     <element name="HPubStyleSheet" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="SetAccountEnrollment_Output_Properties">
+    <sequence>
+     <element name="HPubMacroMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubScreenState" nillable="true" type="xsd:string"/>
+     <element name="accountnumber" nillable="true" type="xsd:string"/>
+     <element name="companyname" nillable="true" type="xsd:string"/>
+     <element name="errorMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubBeanName" nillable="true" type="xsd:string"/>
+     <element name="HPubBeanType" nillable="true" type="xsd:string"/>
+     <element name="HPubEndChainName" nillable="true" type="xsd:string"/>
+     <element name="HPubEndType" type="xsd:int"/>
+     <element name="HPubErrorMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubErrorOccurred" type="xsd:int"/>
+     <element name="HPubLinkKey" nillable="true" type="xsd:string"/>
+     <element name="HPubOutputParmSuffix" nillable="true" type="xsd:string"/>
+     <element name="HPubStartChainName" nillable="true" type="xsd:string"/>
+     <element name="HPubStartPoolName" nillable="true" type="xsd:string"/>
+     <element name="HPubStartType" type="xsd:int"/>
+     <element name="HPubXMLProperties" nillable="true" type="xsd:string"/>
+     <element name="HPubAccessHandle" nillable="true" type="xsd:string"/>
+     <element name="HPubStyleSheet" nillable="true" type="xsd:string"/>
+     <element name="HPubXMLData" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="GetFromTTIB2_Input_Properties">
+    <sequence>
+     <element name="HPubLinkKey" nillable="true" type="xsd:string"/>
+     <element name="HPubStartPoolName" nillable="true" type="xsd:string"/>
+     <element name="inputString" nillable="true" type="xsd:string"/>
+     <element name="HPubAccessHandle" nillable="true" type="xsd:string"/>
+     <element name="HPubStyleSheet" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="GetFromTTIB2_Output_Properties">
+    <sequence>
+     <element name="HPubMacroMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubScreenState" nillable="true" type="xsd:string"/>
+     <element name="errorMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubBeanName" nillable="true" type="xsd:string"/>
+     <element name="HPubBeanType" nillable="true" type="xsd:string"/>
+     <element name="HPubEndChainName" nillable="true" type="xsd:string"/>
+     <element name="HPubEndType" type="xsd:int"/>
+     <element name="HPubErrorMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubErrorOccurred" type="xsd:int"/>
+     <element name="HPubLinkKey" nillable="true" type="xsd:string"/>
+     <element name="HPubOutputParmSuffix" nillable="true" type="xsd:string"/>
+     <element name="HPubStartChainName" nillable="true" type="xsd:string"/>
+     <element name="HPubStartPoolName" nillable="true" type="xsd:string"/>
+     <element name="HPubStartType" type="xsd:int"/>
+     <element name="inputString" nillable="true" type="xsd:string"/>
+     <element name="returnMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubXMLProperties" nillable="true" type="xsd:string"/>
+     <element name="HPubAccessHandle" nillable="true" type="xsd:string"/>
+     <element name="HPubStyleSheet" nillable="true" type="xsd:string"/>
+     <element name="HPubXMLData" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="GetAccountInquiry_Input_Properties">
+    <sequence>
+     <element name="companyname" nillable="true" type="xsd:string"/>
+     <element name="HPubLinkKey" nillable="true" type="xsd:string"/>
+     <element name="HPubStartPoolName" nillable="true" type="xsd:string"/>
+     <element name="password" nillable="true" type="xsd:string"/>
+     <element name="pesodollar" nillable="true" type="xsd:string"/>
+     <element name="username" nillable="true" type="xsd:string"/>
+     <element name="HPubAccessHandle" nillable="true" type="xsd:string"/>
+     <element name="HPubStyleSheet" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="GetAccountInquiry_Output_Properties">
+    <sequence>
+     <element name="HPubMacroMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubScreenState" nillable="true" type="xsd:string"/>
+     <element name="companyname" nillable="true" type="xsd:string"/>
+     <element name="errorMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubBeanName" nillable="true" type="xsd:string"/>
+     <element name="HPubBeanType" nillable="true" type="xsd:string"/>
+     <element name="HPubEndChainName" nillable="true" type="xsd:string"/>
+     <element name="HPubEndType" type="xsd:int"/>
+     <element name="HPubErrorMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubErrorOccurred" type="xsd:int"/>
+     <element name="HPubLinkKey" nillable="true" type="xsd:string"/>
+     <element name="HPubOutputParmSuffix" nillable="true" type="xsd:string"/>
+     <element name="HPubStartChainName" nillable="true" type="xsd:string"/>
+     <element name="HPubStartPoolName" nillable="true" type="xsd:string"/>
+     <element name="HPubStartType" type="xsd:int"/>
+     <element name="inqAccounts" nillable="true" type="xsd:string"/>
+     <element name="inqAvailableBalance" nillable="true" type="xsd:string"/>
+     <element name="inqPresentBalance" nillable="true" type="xsd:string"/>
+     <element name="password" nillable="true" type="xsd:string"/>
+     <element name="pesodollar" nillable="true" type="xsd:string"/>
+     <element name="tblAggregateBalance" nillable="true" type="xsd:string"/>
+     <element name="username" nillable="true" type="xsd:string"/>
+     <element name="HPubXMLProperties" nillable="true" type="xsd:string"/>
+     <element name="HPubAccessHandle" nillable="true" type="xsd:string"/>
+     <element name="HPubStyleSheet" nillable="true" type="xsd:string"/>
+     <element name="HPubXMLData" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="GetTodaysTransactions_Input_Properties">
+    <sequence>
+     <element name="accountnumber" nillable="true" type="xsd:string"/>
+     <element name="companyname" nillable="true" type="xsd:string"/>
+     <element name="enddate_dd" nillable="true" type="xsd:string"/>
+     <element name="enddate_mm" nillable="true" type="xsd:string"/>
+     <element name="enddate_yy" nillable="true" type="xsd:string"/>
+     <element name="HPubLinkKey" nillable="true" type="xsd:string"/>
+     <element name="HPubStartPoolName" nillable="true" type="xsd:string"/>
+     <element name="password" nillable="true" type="xsd:string"/>
+     <element name="startdate_dd" nillable="true" type="xsd:string"/>
+     <element name="startdate_mm" nillable="true" type="xsd:string"/>
+     <element name="startdate_yy" nillable="true" type="xsd:string"/>
+     <element name="username" nillable="true" type="xsd:string"/>
+     <element name="HPubAccessHandle" nillable="true" type="xsd:string"/>
+     <element name="HPubStyleSheet" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="GetTodaysTransactions_Output_Properties">
+    <sequence>
+     <element name="HPubMacroMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubScreenState" nillable="true" type="xsd:string"/>
+     <element name="accountnumber" nillable="true" type="xsd:string"/>
+     <element name="companyname" nillable="true" type="xsd:string"/>
+     <element name="creditCount" nillable="true" type="xsd:string"/>
+     <element name="debitCount" nillable="true" type="xsd:string"/>
+     <element name="enddate_dd" nillable="true" type="xsd:string"/>
+     <element name="enddate_mm" nillable="true" type="xsd:string"/>
+     <element name="enddate_yy" nillable="true" type="xsd:string"/>
+     <element name="endingBalance" nillable="true" type="xsd:string"/>
+     <element name="errorMessage" nillable="true" type="xsd:string"/>
+     <element name="forwardBalance" nillable="true" type="xsd:string"/>
+     <element name="HPubBeanName" nillable="true" type="xsd:string"/>
+     <element name="HPubBeanType" nillable="true" type="xsd:string"/>
+     <element name="HPubEndChainName" nillable="true" type="xsd:string"/>
+     <element name="HPubEndType" type="xsd:int"/>
+     <element name="HPubErrorMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubErrorOccurred" type="xsd:int"/>
+     <element name="HPubLinkKey" nillable="true" type="xsd:string"/>
+     <element name="HPubOutputParmSuffix" nillable="true" type="xsd:string"/>
+     <element name="HPubStartChainName" nillable="true" type="xsd:string"/>
+     <element name="HPubStartPoolName" nillable="true" type="xsd:string"/>
+     <element name="HPubStartType" type="xsd:int"/>
+     <element name="password" nillable="true" type="xsd:string"/>
+     <element name="startdate_dd" nillable="true" type="xsd:string"/>
+     <element name="startdate_mm" nillable="true" type="xsd:string"/>
+     <element name="startdate_yy" nillable="true" type="xsd:string"/>
+     <element name="todayBalance" nillable="true" type="xsd:string"/>
+     <element name="todayBranch" nillable="true" type="xsd:string"/>
+     <element name="todayCheckNo" nillable="true" type="xsd:string"/>
+     <element name="todayCredit" nillable="true" type="xsd:string"/>
+     <element name="todayDebit" nillable="true" type="xsd:string"/>
+     <element name="todayTeller" nillable="true" type="xsd:string"/>
+     <element name="todayTime" nillable="true" type="xsd:string"/>
+     <element name="todayTransaction" nillable="true" type="xsd:string"/>
+     <element name="totalCredit" nillable="true" type="xsd:string"/>
+     <element name="totalDebit" nillable="true" type="xsd:string"/>
+     <element name="username" nillable="true" type="xsd:string"/>
+     <element name="HPubXMLProperties" nillable="true" type="xsd:string"/>
+     <element name="HPubAccessHandle" nillable="true" type="xsd:string"/>
+     <element name="HPubStyleSheet" nillable="true" type="xsd:string"/>
+     <element name="HPubXMLData" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="GetBillsPaymentView_Input_Properties">
+    <sequence>
+     <element name="HPubLinkKey" nillable="true" type="xsd:string"/>
+     <element name="HPubStartPoolName" nillable="true" type="xsd:string"/>
+     <element name="merchantID" nillable="true" type="xsd:string"/>
+     <element name="password" nillable="true" type="xsd:string"/>
+     <element name="subscriberNo" nillable="true" type="xsd:string"/>
+     <element name="userID" nillable="true" type="xsd:string"/>
+     <element name="HPubAccessHandle" nillable="true" type="xsd:string"/>
+     <element name="HPubStyleSheet" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="GetBillsPaymentView_Output_Properties">
+    <sequence>
+     <element name="HPubMacroMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubScreenState" nillable="true" type="xsd:string"/>
+     <element name="bpAmount" nillable="true" type="xsd:string"/>
+     <element name="bpBankCode" nillable="true" type="xsd:string"/>
+     <element name="bpBranchCode" nillable="true" type="xsd:string"/>
+     <element name="bpCheckNo" nillable="true" type="xsd:string"/>
+     <element name="bpMerchantName" nillable="true" type="xsd:string"/>
+     <element name="bpName" nillable="true" type="xsd:string"/>
+     <element name="bpReferenceNo" nillable="true" type="xsd:string"/>
+     <element name="bpSubscriberName" nillable="true" type="xsd:string"/>
+     <element name="bpTransaction" nillable="true" type="xsd:string"/>
+     <element name="bpTransactionDate" nillable="true" type="xsd:string"/>
+     <element name="bpTransactionTime" nillable="true" type="xsd:string"/>
+     <element name="errorMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubBeanName" nillable="true" type="xsd:string"/>
+     <element name="HPubBeanType" nillable="true" type="xsd:string"/>
+     <element name="HPubEndChainName" nillable="true" type="xsd:string"/>
+     <element name="HPubEndType" type="xsd:int"/>
+     <element name="HPubErrorMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubErrorOccurred" type="xsd:int"/>
+     <element name="HPubLinkKey" nillable="true" type="xsd:string"/>
+     <element name="HPubOutputParmSuffix" nillable="true" type="xsd:string"/>
+     <element name="HPubStartChainName" nillable="true" type="xsd:string"/>
+     <element name="HPubStartPoolName" nillable="true" type="xsd:string"/>
+     <element name="HPubStartType" type="xsd:int"/>
+     <element name="merchantID" nillable="true" type="xsd:string"/>
+     <element name="password" nillable="true" type="xsd:string"/>
+     <element name="subscriberNo" nillable="true" type="xsd:string"/>
+     <element name="userID" nillable="true" type="xsd:string"/>
+     <element name="HPubXMLProperties" nillable="true" type="xsd:string"/>
+     <element name="HPubAccessHandle" nillable="true" type="xsd:string"/>
+     <element name="HPubStyleSheet" nillable="true" type="xsd:string"/>
+     <element name="HPubXMLData" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="GetBalance_Input_Properties">
+    <sequence>
+     <element name="accountnumber" nillable="true" type="xsd:string"/>
+     <element name="companyname" nillable="true" type="xsd:string"/>
+     <element name="HPubLinkKey" nillable="true" type="xsd:string"/>
+     <element name="HPubStartPoolName" nillable="true" type="xsd:string"/>
+     <element name="password" nillable="true" type="xsd:string"/>
+     <element name="userid" nillable="true" type="xsd:string"/>
+     <element name="HPubAccessHandle" nillable="true" type="xsd:string"/>
+     <element name="HPubStyleSheet" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="GetBalance_Output_Properties">
+    <sequence>
+     <element name="HPubMacroMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubScreenState" nillable="true" type="xsd:string"/>
+     <element name="accountname" nillable="true" type="xsd:string"/>
+     <element name="accountnumber" nillable="true" type="xsd:string"/>
+     <element name="availablebalance" nillable="true" type="xsd:string"/>
+     <element name="companyname" nillable="true" type="xsd:string"/>
+     <element name="errorMessage" nillable="true" type="xsd:string"/>
+     <element name="floatamount" nillable="true" type="xsd:string"/>
+     <element name="HPubBeanName" nillable="true" type="xsd:string"/>
+     <element name="HPubBeanType" nillable="true" type="xsd:string"/>
+     <element name="HPubEndChainName" nillable="true" type="xsd:string"/>
+     <element name="HPubEndType" type="xsd:int"/>
+     <element name="HPubErrorMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubErrorOccurred" type="xsd:int"/>
+     <element name="HPubLinkKey" nillable="true" type="xsd:string"/>
+     <element name="HPubOutputParmSuffix" nillable="true" type="xsd:string"/>
+     <element name="HPubStartChainName" nillable="true" type="xsd:string"/>
+     <element name="HPubStartPoolName" nillable="true" type="xsd:string"/>
+     <element name="HPubStartType" type="xsd:int"/>
+     <element name="holdamount" nillable="true" type="xsd:string"/>
+     <element name="lastTranDate" nillable="true" type="xsd:string"/>
+     <element name="password" nillable="true" type="xsd:string"/>
+     <element name="pledgedamount" nillable="true" type="xsd:string"/>
+     <element name="presentbalance" nillable="true" type="xsd:string"/>
+     <element name="userid" nillable="true" type="xsd:string"/>
+     <element name="HPubXMLProperties" nillable="true" type="xsd:string"/>
+     <element name="HPubAccessHandle" nillable="true" type="xsd:string"/>
+     <element name="HPubStyleSheet" nillable="true" type="xsd:string"/>
+     <element name="HPubXMLData" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="GetBillsPaymentInquiry_Input_Properties">
+    <sequence>
+     <element name="date" nillable="true" type="xsd:string"/>
+     <element name="HPubLinkKey" nillable="true" type="xsd:string"/>
+     <element name="HPubStartPoolName" nillable="true" type="xsd:string"/>
+     <element name="merchantID" nillable="true" type="xsd:string"/>
+     <element name="password" nillable="true" type="xsd:string"/>
+     <element name="userid" nillable="true" type="xsd:string"/>
+     <element name="HPubAccessHandle" nillable="true" type="xsd:string"/>
+     <element name="HPubStyleSheet" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="GetBillsPaymentInquiry_Output_Properties">
+    <sequence>
+     <element name="HPubMacroMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubScreenState" nillable="true" type="xsd:string"/>
+     <element name="date" nillable="true" type="xsd:string"/>
+     <element name="errorMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubBeanName" nillable="true" type="xsd:string"/>
+     <element name="HPubBeanType" nillable="true" type="xsd:string"/>
+     <element name="HPubEndChainName" nillable="true" type="xsd:string"/>
+     <element name="HPubEndType" type="xsd:int"/>
+     <element name="HPubErrorMessage" nillable="true" type="xsd:string"/>
+     <element name="HPubErrorOccurred" type="xsd:int"/>
+     <element name="HPubLinkKey" nillable="true" type="xsd:string"/>
+     <element name="HPubOutputParmSuffix" nillable="true" type="xsd:string"/>
+     <element name="HPubStartChainName" nillable="true" type="xsd:string"/>
+     <element name="HPubStartPoolName" nillable="true" type="xsd:string"/>
+     <element name="HPubStartType" type="xsd:int"/>
+     <element name="merchantID" nillable="true" type="xsd:string"/>
+     <element name="password" nillable="true" type="xsd:string"/>
+     <element name="tblAmount" nillable="true" type="xsd:string"/>
+     <element name="tblName" nillable="true" type="xsd:string"/>
+     <element name="tblRefNo" nillable="true" type="xsd:string"/>
+     <element name="tblSubscriberNo" nillable="true" type="xsd:string"/>
+     <element name="tblTran" nillable="true" type="xsd:string"/>
+     <element name="userid" nillable="true" type="xsd:string"/>
+     <element name="HPubXMLProperties" nillable="true" type="xsd:string"/>
+     <element name="HPubAccessHandle" nillable="true" type="xsd:string"/>
+     <element name="HPubStyleSheet" nillable="true" type="xsd:string"/>
+     <element name="HPubXMLData" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+  </wsdl:types>
+  <wsdl:message name="getTodaysTransactionsProcessWSResponse">
+    <wsdl:part element="impl:getTodaysTransactionsProcessWSResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="createUserProcessWSRequest">
+    <wsdl:part element="impl:createUserProcessWS" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="deleteMFUserProcessWSRequest">
+    <wsdl:part element="impl:deleteMFUserProcessWS" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="onMerchantChangePasswordProcessWSRequest">
+    <wsdl:part element="impl:onMerchantChangePasswordProcessWS" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getBillsPaymentViewProcessWSResponse">
+    <wsdl:part element="impl:getBillsPaymentViewProcessWSResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="isValidMFUserProcessWSRequest">
+    <wsdl:part element="impl:isValidMFUserProcessWS" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getBalanceProcessWSResponse">
+    <wsdl:part element="impl:getBalanceProcessWSResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getBillsPaymentView2ProcessWSResponse">
+    <wsdl:part element="impl:getBillsPaymentView2ProcessWSResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getBillsPaymentView2ProcessWSRequest">
+    <wsdl:part element="impl:getBillsPaymentView2ProcessWS" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="setAccountEnrollmentProcessWSRequest">
+    <wsdl:part element="impl:setAccountEnrollmentProcessWS" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="onMerchantChangePasswordProcessWSResponse">
+    <wsdl:part element="impl:onMerchantChangePasswordProcessWSResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getAccountInquiryProcessWSRequest">
+    <wsdl:part element="impl:getAccountInquiryProcessWS" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="accountEnrollmentProcessWSRequest">
+    <wsdl:part element="impl:accountEnrollmentProcessWS" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getFromTTIBProcessWSRequest">
+    <wsdl:part element="impl:getFromTTIBProcessWS" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getAccountInquiryProcessWSResponse">
+    <wsdl:part element="impl:getAccountInquiryProcessWSResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="setAccountEnrollmentProcessWSResponse">
+    <wsdl:part element="impl:setAccountEnrollmentProcessWSResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getBillsPaymentInquiryProcessWSRequest">
+    <wsdl:part element="impl:getBillsPaymentInquiryProcessWS" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getFromTTIBProcessWSResponse">
+    <wsdl:part element="impl:getFromTTIBProcessWSResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getTodaysTransactionsProcessWSRequest">
+    <wsdl:part element="impl:getTodaysTransactionsProcessWS" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="accountEnrollmentProcessWSResponse">
+    <wsdl:part element="impl:accountEnrollmentProcessWSResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getBillsPaymentInquiryProcessWSResponse">
+    <wsdl:part element="impl:getBillsPaymentInquiryProcessWSResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="deleteMFUserProcessWSResponse">
+    <wsdl:part element="impl:deleteMFUserProcessWSResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getBillsPaymentViewProcessWSRequest">
+    <wsdl:part element="impl:getBillsPaymentViewProcessWS" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getFromTTIB2ProcessWSRequest">
+    <wsdl:part element="impl:getFromTTIB2ProcessWS" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getStatementOfAccountProcessWSRequest">
+    <wsdl:part element="impl:getStatementOfAccountProcessWS" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="isValidMFUserProcessWSResponse">
+    <wsdl:part element="impl:isValidMFUserProcessWSResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getStatementOfAccountProcessWSResponse">
+    <wsdl:part element="impl:getStatementOfAccountProcessWSResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="createUserProcessWSResponse">
+    <wsdl:part element="impl:createUserProcessWSResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getBalanceProcessWSRequest">
+    <wsdl:part element="impl:getBalanceProcessWS" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getFromTTIB2ProcessWSResponse">
+    <wsdl:part element="impl:getFromTTIB2ProcessWSResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:portType name="AAFWebService">
+    <wsdl:operation name="onMerchantChangePasswordProcessWS">
+      <wsdl:input message="impl:onMerchantChangePasswordProcessWSRequest" name="onMerchantChangePasswordProcessWSRequest"/>
+      <wsdl:output message="impl:onMerchantChangePasswordProcessWSResponse" name="onMerchantChangePasswordProcessWSResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="isValidMFUserProcessWS">
+      <wsdl:input message="impl:isValidMFUserProcessWSRequest" name="isValidMFUserProcessWSRequest"/>
+      <wsdl:output message="impl:isValidMFUserProcessWSResponse" name="isValidMFUserProcessWSResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getFromTTIBProcessWS">
+      <wsdl:input message="impl:getFromTTIBProcessWSRequest" name="getFromTTIBProcessWSRequest"/>
+      <wsdl:output message="impl:getFromTTIBProcessWSResponse" name="getFromTTIBProcessWSResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="createUserProcessWS">
+      <wsdl:input message="impl:createUserProcessWSRequest" name="createUserProcessWSRequest"/>
+      <wsdl:output message="impl:createUserProcessWSResponse" name="createUserProcessWSResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getStatementOfAccountProcessWS">
+      <wsdl:input message="impl:getStatementOfAccountProcessWSRequest" name="getStatementOfAccountProcessWSRequest"/>
+      <wsdl:output message="impl:getStatementOfAccountProcessWSResponse" name="getStatementOfAccountProcessWSResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getBillsPaymentView2ProcessWS">
+      <wsdl:input message="impl:getBillsPaymentView2ProcessWSRequest" name="getBillsPaymentView2ProcessWSRequest"/>
+      <wsdl:output message="impl:getBillsPaymentView2ProcessWSResponse" name="getBillsPaymentView2ProcessWSResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="accountEnrollmentProcessWS">
+      <wsdl:input message="impl:accountEnrollmentProcessWSRequest" name="accountEnrollmentProcessWSRequest"/>
+      <wsdl:output message="impl:accountEnrollmentProcessWSResponse" name="accountEnrollmentProcessWSResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="deleteMFUserProcessWS">
+      <wsdl:input message="impl:deleteMFUserProcessWSRequest" name="deleteMFUserProcessWSRequest"/>
+      <wsdl:output message="impl:deleteMFUserProcessWSResponse" name="deleteMFUserProcessWSResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="setAccountEnrollmentProcessWS">
+      <wsdl:input message="impl:setAccountEnrollmentProcessWSRequest" name="setAccountEnrollmentProcessWSRequest"/>
+      <wsdl:output message="impl:setAccountEnrollmentProcessWSResponse" name="setAccountEnrollmentProcessWSResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getFromTTIB2ProcessWS">
+      <wsdl:input message="impl:getFromTTIB2ProcessWSRequest" name="getFromTTIB2ProcessWSRequest"/>
+      <wsdl:output message="impl:getFromTTIB2ProcessWSResponse" name="getFromTTIB2ProcessWSResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getAccountInquiryProcessWS">
+      <wsdl:input message="impl:getAccountInquiryProcessWSRequest" name="getAccountInquiryProcessWSRequest"/>
+      <wsdl:output message="impl:getAccountInquiryProcessWSResponse" name="getAccountInquiryProcessWSResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getTodaysTransactionsProcessWS">
+      <wsdl:input message="impl:getTodaysTransactionsProcessWSRequest" name="getTodaysTransactionsProcessWSRequest"/>
+      <wsdl:output message="impl:getTodaysTransactionsProcessWSResponse" name="getTodaysTransactionsProcessWSResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getBillsPaymentViewProcessWS">
+      <wsdl:input message="impl:getBillsPaymentViewProcessWSRequest" name="getBillsPaymentViewProcessWSRequest"/>
+      <wsdl:output message="impl:getBillsPaymentViewProcessWSResponse" name="getBillsPaymentViewProcessWSResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getBalanceProcessWS">
+      <wsdl:input message="impl:getBalanceProcessWSRequest" name="getBalanceProcessWSRequest"/>
+      <wsdl:output message="impl:getBalanceProcessWSResponse" name="getBalanceProcessWSResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getBillsPaymentInquiryProcessWS">
+      <wsdl:input message="impl:getBillsPaymentInquiryProcessWSRequest" name="getBillsPaymentInquiryProcessWSRequest"/>
+      <wsdl:output message="impl:getBillsPaymentInquiryProcessWSResponse" name="getBillsPaymentInquiryProcessWSResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="AAFWebServiceSoapBinding" type="impl:AAFWebService">
+    <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="onMerchantChangePasswordProcessWS">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="onMerchantChangePasswordProcessWSRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="onMerchantChangePasswordProcessWSResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="isValidMFUserProcessWS">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="isValidMFUserProcessWSRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="isValidMFUserProcessWSResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getFromTTIBProcessWS">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="getFromTTIBProcessWSRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getFromTTIBProcessWSResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createUserProcessWS">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="createUserProcessWSRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createUserProcessWSResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getStatementOfAccountProcessWS">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="getStatementOfAccountProcessWSRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getStatementOfAccountProcessWSResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getBillsPaymentView2ProcessWS">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="getBillsPaymentView2ProcessWSRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getBillsPaymentView2ProcessWSResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="accountEnrollmentProcessWS">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="accountEnrollmentProcessWSRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="accountEnrollmentProcessWSResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteMFUserProcessWS">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="deleteMFUserProcessWSRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteMFUserProcessWSResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setAccountEnrollmentProcessWS">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="setAccountEnrollmentProcessWSRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="setAccountEnrollmentProcessWSResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getFromTTIB2ProcessWS">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="getFromTTIB2ProcessWSRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getFromTTIB2ProcessWSResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAccountInquiryProcessWS">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="getAccountInquiryProcessWSRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAccountInquiryProcessWSResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTodaysTransactionsProcessWS">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="getTodaysTransactionsProcessWSRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getTodaysTransactionsProcessWSResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getBillsPaymentViewProcessWS">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="getBillsPaymentViewProcessWSRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getBillsPaymentViewProcessWSResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getBalanceProcessWS">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="getBalanceProcessWSRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getBalanceProcessWSResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getBillsPaymentInquiryProcessWS">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="getBillsPaymentInquiryProcessWSRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getBillsPaymentInquiryProcessWSResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="AAFWebServiceService">
+    <wsdl:port binding="impl:AAFWebServiceSoapBinding" name="AAFWebService">
+      <wsdlsoap:address location="http://10.1.101.79:9080/AAFWebService/services/AAFWebService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
