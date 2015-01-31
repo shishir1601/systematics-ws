@@ -12,4 +12,17 @@ public abstract class SystematicsUtil {
 			return balance.substring(0, balance.length() -2);
 		}
 	}
+	
+	public static String getError(String input){
+		String errorMessage = "";
+		int index = input.indexOf("F:");
+		int index2 = input.indexOf("E:");
+		if(index != -1){
+			errorMessage.substring(index + 2, index + 20);
+		}
+		if(index2 != -1){
+			errorMessage.substring(index + 2, index +20);
+		}
+		return errorMessage;
+	}
 }
