@@ -13,15 +13,14 @@
 	http://www.springframework.org/schema/context
 	http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 	
-	<context:component-scan base-package="com.pnb.systematics.enterprise.bo" />
+	<context:component-scan base-package="com.pnb.systematics" />
 	<wss:binding url="/wsdl">
 		<wss:service>
 			<ws:service bean="#webServiceBean" />
 		</wss:service>
 	</wss:binding>
 	
-	<!-- Web service bean -->
-	<bean id="webServiceBean" class="com.pnb.systematics.enterprise.WebServiceEndpoint" />
+	<bean name = "webServiceBean" class = "com.pnb.systematics.enterprise.WebServiceEndpoint"/>
 	<!-- Configuration Bean -->
     <!--  <bean class="com.pnb.systematics.configuration.WebServiceConfiguration"/>-->
 </beans>

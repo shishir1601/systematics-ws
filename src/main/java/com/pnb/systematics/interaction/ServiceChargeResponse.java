@@ -10,6 +10,21 @@ public class ServiceChargeResponse extends InteractionBase {
 	private String messageCode;
 	private String messageText;
 	private String userReferenceNumber;
+	private String errorCode;
+	
+	public String getErrorCode() {
+		return errorCode;
+	}
+	public void setErrorCode(String errorCode) {
+		this.errorCode = errorCode;
+	}
+	public String getReplyText() {
+		return replyText;
+	}
+	public void setReplyText(String replyText) {
+		this.replyText = replyText;
+	}
+	private String replyText;
 	
 	public String getTransactionStatusCode() {
 		return transactionStatusCode;

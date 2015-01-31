@@ -14,7 +14,7 @@ import com.pnb.systematics.interaction.BalanceInquiryResponse;
 import com.pnb.systematics.interaction.ServiceChargeRequest;
 import com.pnb.systematics.interaction.ServiceChargeResponse;
 
-@WebService(serviceName="SystematicsWebservices")
+@WebService(serviceName="SystematicsWebservice")
 @SOAPBinding(style = Style.RPC, use = Use.LITERAL)
 public class WebServiceEndpoint {
 	
@@ -38,6 +38,6 @@ public class WebServiceEndpoint {
 	
 	@WebMethod(operationName = "WSDebitCA")
 	public ServiceChargeResponse debitCa(ServiceChargeRequest request){
-		return null;
+		return systematicsBO.debitCa(request);
 	}
 }

@@ -82,12 +82,31 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		return response;
 	}
 
-	@Override
+
 	public ServiceChargeResponse debitCa(ServiceChargeRequest request) {
 		ServiceChargeResponse response = new ServiceChargeResponse();
 		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBServiceCharge(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId(), request.getTransactionAmount());
 		GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
+		if(prop.getErrorMessage().trim().length() != 0){
+			response.setTransactionStatusCode("99");
+			response.setErrorCode("TS0304");
+			response.setReplyText(prop.getErrorMessage().toUpperCase());
+			logger.fatal("Error in return: " + prop.getErrorMessage());
+		}else{
+			String returnMessage = prop.getReturnMessage();
+			String errorMessage = SystematicsUtil.getError(returnMessage);
+			if(errorMessage.trim().length() == 0){
+				response.setTransactionStatusCode("00");
+				response.setAccountId(request.getAccountId());
+				response.setMessageCode("I");
+				response.setMessageText(returnMessage.substring(62, 127));
+				response.setUserReferenceNumber(request.getUserReferenceNumber());
+			}else{
+				response.setTransactionStatusCode("99");
+				response.setErrorCode("TS0304");
+				response.setReplyText(prop.getErrorMessage().toUpperCase());
+			}
+		}
 		return response;
 	}
-
 }
