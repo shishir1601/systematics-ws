@@ -85,6 +85,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 
 	public ServiceChargeResponse debitCa(ServiceChargeRequest request) {
 		ServiceChargeResponse response = new ServiceChargeResponse();
+		logger.debug("Entering Debit CA (Service Charge)");
 		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBServiceCharge(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId(), request.getTransactionAmount());
 		GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
 		if(prop.getErrorMessage().trim().length() != 0){
@@ -95,11 +96,12 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		}else{
 			String returnMessage = prop.getReturnMessage();
 			String errorMessage = SystematicsUtil.getError(returnMessage);
+			logger.debug("TTIB response: " + returnMessage);
 			if(errorMessage.trim().length() == 0){
 				response.setTransactionStatusCode("00");
 				response.setAccountId(request.getAccountId());
 				response.setMessageCode("I");
-				response.setMessageText(returnMessage.substring(62, 127));
+				response.setMessageText("PROCESS COMPLETE");
 				response.setUserReferenceNumber(request.getUserReferenceNumber());
 			}else{
 				response.setTransactionStatusCode("99");
@@ -107,6 +109,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				response.setReplyText(prop.getErrorMessage().toUpperCase());
 			}
 		}
+		logger.debug("Exiting Debit CA");
 		return response;
 	}
 }
