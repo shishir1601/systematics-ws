@@ -11,6 +11,8 @@ import com.pnb.systematics.enterprise.SystematicsUtil;
 import com.pnb.systematics.enterprise.bo.SystematicsBusinessObject;
 import com.pnb.systematics.interaction.BalanceInquiryRequest;
 import com.pnb.systematics.interaction.BalanceInquiryResponse;
+import com.pnb.systematics.interaction.FundTransferRequest;
+import com.pnb.systematics.interaction.FundTransferResponse;
 import com.pnb.systematics.interaction.ServiceChargeRequest;
 import com.pnb.systematics.interaction.ServiceChargeResponse;
 import com.pnb.systematics.schema.GetFromTTIB2OutputProperties;
@@ -111,5 +113,37 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		}
 		logger.debug("Exiting Debit CA");
 		return response;
+	}
+
+	public FundTransferResponse fundTrSAtoCA(FundTransferRequest request) {
+		FundTransferResponse response = new FundTransferResponse();
+		logger.debug("Entering Fund Transfer (SA to CA)");
+		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBFundTransferSA(request.getCurrencyCode(), request.getFromAccountId(), request.getFromBranchCode(), request.getToAccountId(), request.getToBranchCode(), request.getTransactionAmount());
+		GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
+		if(prop.getErrorMessage().trim().length() != 0){
+			response.setTransactionStatusCode("99");
+			response.setErrorCode("TS0304");
+			response.setReplyText(prop.getErrorMessage().toUpperCase());
+			logger.fatal("Error in return: " + prop.getErrorMessage());
+		}else{
+			
+		}
+		logger.debug("Exiting Debit CA");
+		return response;
+	}
+
+	public FundTransferResponse fundTrSAtoSA(FundTransferRequest request) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public FundTransferResponse fundTrCAtoSA(FundTransferRequest request) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public FundTransferResponse fundTrCAtoCA(FundTransferRequest request) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

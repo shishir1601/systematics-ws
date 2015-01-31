@@ -67,4 +67,44 @@ public class SystematicsClient extends WebServiceGatewaySupport{
 		return response;
 	}
     
+	public GetFromTTIB2ProcessWSResponse getTTIBFundTransferSA(String currencyCode, String fromAccountId, String fromBranchCode, String toAccountId, String toBranchCode, String transactionAmount){
+	    GetFromTTIB2ProcessWS ttib = new GetFromTTIB2ProcessWS();
+	    GetFromTTIB2InputProperties prop = new GetFromTTIB2InputProperties();
+	    String code = "0560";
+	    String tellerId = "SACT";
+	    String hoho = "00000000000";
+	    String a2 = "A2" + currencyCode;
+	    String a3 = "A3" + fromBranchCode;
+	    String a5 = "A5" + fromAccountId;
+	    String a7 = "A7" + transactionAmount;
+	    String ao = "ao" + toBranchCode;
+	    String af = "af" + toAccountId;
+	    String message = code + tellerId + hoho + ";" + a2 + ";" + a3 + ";" + "A4000" + ";" + a5 + ";" + a7 + ao + ";" + af + ";an1;";
+	    logger.debug("TTIB Message: "+ message);
+	    prop.setInputString(message);
+		ttib.setInputFromClient(prop);
+		GetFromTTIB2ProcessWSResponse response = (GetFromTTIB2ProcessWSResponse) getWebServiceTemplate().marshalSendAndReceive(ttib, new SoapActionCallback("http://10.1.101.79:9080/AAFWebService/services/AAFWebService"));
+		return response;
+	}
+	
+	public GetFromTTIB2ProcessWSResponse getTTIBFundTransferCA(String currencyCode, String fromAccountId, String fromBranchCode, String toAccountId, String toBranchCode, String transactionAmount){
+	    GetFromTTIB2ProcessWS ttib = new GetFromTTIB2ProcessWS();
+	    GetFromTTIB2InputProperties prop = new GetFromTTIB2InputProperties();
+	    String code = "1560";
+	    String tellerId = "SACT";
+	    String hoho = "00000000000";
+	    String a2 = "A2" + currencyCode;
+	    String a3 = "A3" + fromBranchCode;
+	    String a5 = "A5" + fromAccountId;
+	    String a7 = "A7" + transactionAmount;
+	    String ao = "ao" + toBranchCode;
+	    String af = "af" + toAccountId;
+	    String message = code + tellerId + hoho + ";" + a2 + ";" + a3 + ";" + "A4000" + ";" + a5 + ";" + a7 + ao + ";" + af + ";an0;";
+	    logger.debug("TTIB Message: "+ message);
+	    prop.setInputString(message);
+		ttib.setInputFromClient(prop);
+		GetFromTTIB2ProcessWSResponse response = (GetFromTTIB2ProcessWSResponse) getWebServiceTemplate().marshalSendAndReceive(ttib, new SoapActionCallback("http://10.1.101.79:9080/AAFWebService/services/AAFWebService"));
+		return response;
+	}
+
 }

@@ -56,9 +56,6 @@ public class ServiceChargeResponse extends InteractionBase {
 	public void setUserReferenceNumber(String userReferenceNumber) {
 		this.userReferenceNumber = userReferenceNumber;
 	}
-	
-	
-	
 
 }
 

@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.pnb.systematics.enterprise.bo.SystematicsBusinessObject;
 import com.pnb.systematics.interaction.BalanceInquiryRequest;
 import com.pnb.systematics.interaction.BalanceInquiryResponse;
+import com.pnb.systematics.interaction.FundTransferRequest;
+import com.pnb.systematics.interaction.FundTransferResponse;
 import com.pnb.systematics.interaction.ServiceChargeRequest;
 import com.pnb.systematics.interaction.ServiceChargeResponse;
 
@@ -39,5 +41,25 @@ public class WebServiceEndpoint {
 	@WebMethod(operationName = "WSDebitCA")
 	public ServiceChargeResponse debitCa(ServiceChargeRequest request){
 		return systematicsBO.debitCa(request);
+	}
+	
+	@WebMethod(operationName = "WSFundTrSAtoCA")
+	public FundTransferResponse fundTrSAtoCA(FundTransferRequest request){
+		return null;
+	}
+	
+	@WebMethod(operationName = "WSFundTrSAtoSA")
+	public FundTransferResponse fundTrSAtoSA(FundTransferRequest request){
+		return null;
+	}
+	
+	@WebMethod(operationName = "WSFundTrCAtoCA")
+	public FundTransferResponse fundTrCAtoCA(FundTransferRequest request){
+		return null;
+	}
+	
+	@WebMethod(operationName = "WSFundTrCAtoSA")
+	public FundTransferResponse fundTrCAtoSA(FundTransferRequest request){
+		return null;
 	}
 }
