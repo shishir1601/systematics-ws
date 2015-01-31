@@ -11,30 +11,6 @@
 			<url>http://repo.maven.apache.org/maven2/</url>
 		</repository>
 	</repositories>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.jvnet.jaxb2.maven2</groupId>
-				<artifactId>maven-jaxb2-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<schemaLanguage>WSDL</schemaLanguage>
-					<generatePackage>com.pnb.systematics.schema</generatePackage>
-					<schemas>
-						<schema>
-							<url>http://10.1.101.79:9080/AAFWebService/services/AAFWebService/wsdl/AAFWebService.wsdl</url>
-						</schema>
-					</schemas>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
