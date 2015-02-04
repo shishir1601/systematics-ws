@@ -79,7 +79,7 @@ public class SystematicsClient extends WebServiceGatewaySupport{
 	    String a7 = "A7" + transactionAmount;
 	    String ao = "ao" + toBranchCode;
 	    String af = "af" + toAccountId;
-	    String message = code + tellerId + hoho + ";" + a2 + ";" + a3 + ";" + "A4000" + ";" + a5 + ";" + a7 + ao + ";" + af + ";an1;";
+	    String message = code + tellerId + hoho + ";" + a2 + ";" + a3 + ";" + "A4000" + ";" + a5 + ";" + a7 + ";" + ao + ";" + af + ";an1;";
 	    logger.debug("TTIB Message: "+ message);
 	    prop.setInputString(message);
 		ttib.setInputFromClient(prop);
@@ -89,6 +89,7 @@ public class SystematicsClient extends WebServiceGatewaySupport{
 	
 	public GetFromTTIB2ProcessWSResponse getTTIBFundTransferCA(String currencyCode, String fromAccountId, String fromBranchCode, String toAccountId, String toBranchCode, String transactionAmount){
 	    GetFromTTIB2ProcessWS ttib = new GetFromTTIB2ProcessWS();
+	   
 	    GetFromTTIB2InputProperties prop = new GetFromTTIB2InputProperties();
 	    String code = "1560";
 	    String tellerId = "SACT";
@@ -99,7 +100,7 @@ public class SystematicsClient extends WebServiceGatewaySupport{
 	    String a7 = "A7" + transactionAmount;
 	    String ao = "ao" + toBranchCode;
 	    String af = "af" + toAccountId;
-	    String message = code + tellerId + hoho + ";" + a2 + ";" + a3 + ";" + "A4000" + ";" + a5 + ";" + a7 + ao + ";" + af + ";an0;";
+	    String message = code + tellerId + hoho + ";" + a2 + ";" + a3 + ";" + "A4000" + ";" + a5 + ";" + a7 + ";" + ao + ";" + af + ";an0;";
 	    logger.debug("TTIB Message: "+ message);
 	    prop.setInputString(message);
 		ttib.setInputFromClient(prop);
@@ -107,4 +108,27 @@ public class SystematicsClient extends WebServiceGatewaySupport{
 		return response;
 	}
 
+	public GetFromTTIB2ProcessWSResponse getTTIBBillsPaymentSA(String currencyCode, String branchCode, String accountId,String merchantID, String subscriberNumber, String billNo,String payeeName, String transactionAmount) {
+		GetFromTTIB2InputProperties prop = new GetFromTTIB2InputProperties();
+		GetFromTTIB2ProcessWS ttib = new GetFromTTIB2ProcessWS();
+		String code = "0970";
+		String hoho = "002300000005000101527";
+		String a2 = "A2" + currencyCode;
+		String a3 = "A3" + branchCode;
+		String a4 = "A4000";
+		String a5 = "A5"+ accountId;
+		String aj = "AJ" + merchantID;
+		String ak = "AK" + subscriberNumber;
+		String ap = "AP" + billNo;
+		String al = "AL" + payeeName;
+		String a7 = "A7" + transactionAmount;
+		String ai = "AI0005";
+		String message = code + hoho + ";" + a2 + ";" + a3 + ";" + a4 + ";" + a5 + ";" + aj + ";" + ak + ";" + ap + ";" +al + ";" + a7 + ";" + ai + ";AN0;";
+	    logger.debug("TTIB Message: "+ message);
+	    prop.setInputString(message);
+		ttib.setInputFromClient(prop);
+		GetFromTTIB2ProcessWSResponse response = (GetFromTTIB2ProcessWSResponse) getWebServiceTemplate().marshalSendAndReceive(ttib, new SoapActionCallback("http://10.1.101.79:9080/AAFWebService/services/AAFWebService"));
+		return response;
+	}
+	
 }

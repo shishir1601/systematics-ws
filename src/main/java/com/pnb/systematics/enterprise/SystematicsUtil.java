@@ -4,10 +4,10 @@ public abstract class SystematicsUtil {
 
 	public static String getRealBalance(String balance){
 		//get last character
-		String operator = balance.charAt(balance.length() - 1) + "";
-		
+		String temp = balance.trim();
+		String operator = temp.charAt(temp.length() - 1) + "";
 		if(operator.equals("-")){
-			return "-" + balance.substring(0, balance.length() - 1).trim();
+			return "-" + balance.substring(0, balance.length() - 2).trim();
 		}else{
 			return balance.substring(0, balance.length() -2);
 		}
@@ -24,5 +24,32 @@ public abstract class SystematicsUtil {
 			errorMessage.substring(index + 2, index +20);
 		}
 		return errorMessage;
+	}
+	
+	public static String checkForError(String message){
+		String errorMessage = "";
+		int index = message.indexOf("E:");
+		if(index != -1){
+			int found = index;
+			index += 2;
+			for(; index < message.length() && !(message.substring(index, index + 1).equals("¬")); ++index){
+				errorMessage += message.charAt(index);
+			}
+			errorMessage = errorMessage.trim();
+			errorMessage += "|" + message.substring(found - 7,found - 1);
+		}else{
+			index = message.indexOf("F:");
+			if(index != -1){
+				int found = index;
+				index += 2;
+				for(; index < message.length() && !(message.substring(index, index + 1).equals("¬")); ++index){
+					errorMessage += message.charAt(index);
+				}
+				errorMessage = errorMessage.trim();
+				errorMessage += "|" + message.substring(found - 7,found - 1);
+			}
+		}
+		return errorMessage.trim();
+			
 	}
 }

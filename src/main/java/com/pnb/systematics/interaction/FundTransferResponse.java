@@ -9,7 +9,22 @@ public class FundTransferResponse extends InteractionBase {
 	private String errorCode;
 	private String replyText;
 	private String userReferenceNumber;
-
+	private String messageCode;
+	private String messageText;
+	
+	public String getMessageCode() {
+		return messageCode;
+	}
+	public void setMessageCode(String messageCode) {
+		this.messageCode = messageCode;
+	}
+	public String getMessageText() {
+		return messageText;
+	}
+	public void setMessageText(String messageText) {
+		this.messageText = messageText;
+	}
+	
 	public String getTransactionStatusCode() {
 		return transactionStatusCode;
 	}
@@ -34,9 +49,4 @@ public class FundTransferResponse extends InteractionBase {
 	public void setUserReferenceNumber(String userReferenceNumber) {
 		this.userReferenceNumber = userReferenceNumber;
 	}
-	
-	
-	
-	
-
 }

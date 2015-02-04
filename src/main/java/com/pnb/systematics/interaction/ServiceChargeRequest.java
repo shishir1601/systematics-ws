@@ -10,19 +10,19 @@ import javax.xml.bind.annotation.XmlAccessType;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ServiceChargeRequest extends InteractionBase {
 
-	@XmlElement(name = "currencyCode")
+	@XmlElement(name = "currencyCode", required = true)
 	private String currencyCode;
 	
-	@XmlElement(name = "branchCode")
+	@XmlElement(name = "branchCode", required = true)
 	private String branchCode;
 	
-	@XmlElement(name = "accountId")
+	@XmlElement(name = "accountId", required = true)
 	private String accountId;
 	
-	@XmlElement(name = "transactionAmount")
+	@XmlElement(name = "transactionAmount", required = true)
 	private String transactionAmount;
 	
-	@XmlElement(name = "userReferenceNumber")
+	@XmlElement(name = "userReferenceNumber", required = true)
 	private String userReferenceNumber;
 
 	public String getCurrencyCode() {
