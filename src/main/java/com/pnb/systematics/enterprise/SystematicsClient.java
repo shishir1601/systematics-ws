@@ -111,8 +111,10 @@ public class SystematicsClient extends WebServiceGatewaySupport{
 	public GetFromTTIB2ProcessWSResponse getTTIBBillsPaymentSA(String currencyCode, String branchCode, String accountId,String merchantID, String subscriberNumber, String billNo,String payeeName, String transactionAmount) {
 		GetFromTTIB2InputProperties prop = new GetFromTTIB2InputProperties();
 		GetFromTTIB2ProcessWS ttib = new GetFromTTIB2ProcessWS();
-		String code = "0970";
-		String hoho = "002300000005000101527";
+		
+		String code = "0974";
+		String tellerId = "997A";
+        String ttibVal = ""; 
 		String a2 = "A2" + currencyCode;
 		String a3 = "A3" + branchCode;
 		String a4 = "A4000";
@@ -123,7 +125,7 @@ public class SystematicsClient extends WebServiceGatewaySupport{
 		String al = "AL" + payeeName;
 		String a7 = "A7" + transactionAmount;
 		String ai = "AI0005";
-		String message = code + hoho + ";" + a2 + ";" + a3 + ";" + a4 + ";" + a5 + ";" + aj + ";" + ak + ";" + ap + ";" +al + ";" + a7 + ";" + ai + ";AN0;";
+		String message = code + tellerId + ttibVal + ";" + a2 + ";" + a3 + ";" + a4 + ";" + a5 + ";" + aj + ";" + ak + ";" + ap + ";" +al + ";" + a7 + ";" + ai + ";AN0;";
 	    logger.debug("TTIB Message: "+ message);
 	    prop.setInputString(message);
 		ttib.setInputFromClient(prop);

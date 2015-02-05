@@ -76,7 +76,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 			logger.debug("TTIB return message: " + returnMessage);
 			response.setAccountId(request.getAccountId());
 			response.setUserReferenceNumber(request.getUserReferenceNumber());
-			response.setAvailableBalance(SystematicsUtil.getRealBalance(returnMessage.substring(168,193)));
+			response.setAvailableBalance(SystematicsUtil.getRealBalance(returnMessage.substring(168,194)));
 			response.setUnavailableBalance(SystematicsUtil.getRealBalance(returnMessage.substring(281,303)));
 			response.setAccountStatus(returnMessage.substring(351,374));
 			response.setCustomerShortName(returnMessage.substring(384,404));
