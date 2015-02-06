@@ -50,23 +50,28 @@ public class WebServiceEndpoint {
 		return systematicsBO.fundTrSAtoCA(request);
 	}
 	
+	@WebMethod(operationName = "WSFundTrCAtoSA")
+	public FundTransferResponse fundTrCAtoSA(FundTransferRequest request){
+		return systematicsBO.fundTrCAtoSA(request);
+	}
+	
 	@WebMethod(operationName = "WSFundTrSAtoSA")
 	public FundTransferResponse fundTrSAtoSA(FundTransferRequest request){
-		return null;
+		return systematicsBO.fundTrCAtoSA(request);
 	}
 	
 	@WebMethod(operationName = "WSFundTrCAtoCA")
 	public FundTransferResponse fundTrCAtoCA(FundTransferRequest request){
-		return null;
-	}
-	
-	@WebMethod(operationName = "WSFundTrCAtoSA")
-	public FundTransferResponse fundTrCAtoSA(FundTransferRequest request){
 		return systematicsBO.fundTrCAtoSA(request);
 	}
 	
 	@WebMethod(operationName = "WSBillPayfrSA")
 	public BillsPaymentResponse billPayfrSA(BillsPaymentRequest request){
 		return systematicsBO.billPayfrSA(request);
+	}
+	
+	@WebMethod(operationName = "WSBillPayfrCA")
+	public BillsPaymentResponse billPayfrCA(BillsPaymentRequest request){
+		return systematicsBO.billPayfrCA(request);
 	}
 }

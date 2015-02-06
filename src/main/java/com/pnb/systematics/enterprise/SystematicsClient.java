@@ -16,13 +16,16 @@ public class SystematicsClient extends WebServiceGatewaySupport{
 		GetFromTTIB2ProcessWS ttib = new GetFromTTIB2ProcessWS();
 		GetFromTTIB2InputProperties prop = new GetFromTTIB2InputProperties();
 		String code = "0100";
-		String tellerId = "SACT";
-		String hoho = "00000000000";
+		String tellerId = "997A";
+        String overrideTellerId = "0000";
+        String tranSeqNum = "000"; //temporary: transaction sequence number
+        String statusByte = "000"; //temporary: status byte
+        String tranTime = "000000"; //temporary: transaction time	
 		String a5 = "A5" + accountNumber;
 		String a3 = "A3" + branchCode;
 		String a4 = "A4000";
 		String a2 = "A2" + currencyCode;
-		String message = code + tellerId + hoho + ";" + a2 + ";"+ a3 + ";" + a4 + ";" + a5+ ";ab0;ah1;";
+		String message = code + tellerId + overrideTellerId + tranSeqNum + statusByte + tranTime + ";" + a2 + ";"+ a3 + ";" + a4 + ";" + a5+ ";ab0;ah1;";
 		logger.debug("TTIB message: " +  message);
 		prop.setInputString(message);
 		ttib.setInputFromClient(prop);
@@ -35,13 +38,16 @@ public class SystematicsClient extends WebServiceGatewaySupport{
 		GetFromTTIB2ProcessWS ttib = new GetFromTTIB2ProcessWS();
 		GetFromTTIB2InputProperties prop = new GetFromTTIB2InputProperties();
 		String code = "1100";
-		String tellerId = "SACT";
-		String hoho = "00000000000";	
+		String tellerId = "997A";
+        String overrideTellerId = "0000";
+        String tranSeqNum = "000"; //temporary: transaction sequence number
+        String statusByte = "000"; //temporary: status byte
+        String tranTime = "000000"; //temporary: transaction time	
 		String a5 = "A5" + accountNumber;
 		String a3 = "A3" + branchCode;
 		String a4 = "A40000";
 		String a2 = "A2" + currencyCode;
-		String message = code + tellerId + hoho + ";" + a2 + ";"+ a3 + ";" + a4 + ";" + a5+ ";ab0;ah1;";
+		String message = code + tellerId + overrideTellerId + tranSeqNum + statusByte + tranTime + ";" + a2 + ";"+ a3 + ";" + a4 + ";" + a5+ ";ab0;ah1;";
 		logger.debug("TTIB Message: "+ message);
 		prop.setInputString(message);
 		ttib.setInputFromClient(prop);
@@ -53,13 +59,16 @@ public class SystematicsClient extends WebServiceGatewaySupport{
 	    GetFromTTIB2ProcessWS ttib = new GetFromTTIB2ProcessWS();
 	    GetFromTTIB2InputProperties prop = new GetFromTTIB2InputProperties();
 	    String code = "1542";
-	    String tellerId = "SACT";
-	    String hoho = "00000000000";
+		String tellerId = "997A";
+        String overrideTellerId = "0000";
+        String tranSeqNum = "000"; //temporary: transaction sequence number
+        String statusByte = "000"; //temporary: status byte
+        String tranTime = "000000"; //temporary: transaction time
 	    String a2 = "A2" + currencyCode;
 	    String a3 = "A3" + branchCode;
 	    String a5 = "A5" + accountId;
 	    String a7 = "A7" + transactionAmount;
-	    String message = code + tellerId + hoho + ";" + a2 + ";" + a3 + ";" + a5 + ";" + a7 + ";ab0;ah1;";
+	    String message = code + tellerId + overrideTellerId + tranSeqNum + statusByte + tranTime + ";" + a2 + ";" + a3 + ";" + a5 + ";" + a7 + ";ab0;ah1;";
 	    logger.debug("TTIB Message: "+ message);
 	    prop.setInputString(message);
 		ttib.setInputFromClient(prop);
@@ -67,19 +76,22 @@ public class SystematicsClient extends WebServiceGatewaySupport{
 		return response;
 	}
     
-	public GetFromTTIB2ProcessWSResponse getTTIBFundTransferSA(String currencyCode, String fromAccountId, String fromBranchCode, String toAccountId, String toBranchCode, String transactionAmount){
+	public GetFromTTIB2ProcessWSResponse getTTIBFundTransferSAtoCA(String currencyCode, String fromAccountId, String fromBranchCode, String toAccountId, String toBranchCode, String transactionAmount){
 	    GetFromTTIB2ProcessWS ttib = new GetFromTTIB2ProcessWS();
 	    GetFromTTIB2InputProperties prop = new GetFromTTIB2InputProperties();
 	    String code = "0560";
-	    String tellerId = "SACT";
-	    String hoho = "00000000000";
+		String tellerId = "997A";
+        String overrideTellerId = "0000";
+        String tranSeqNum = "000"; //temporary: transaction sequence number
+        String statusByte = "000"; //temporary: status byte
+        String tranTime = "000000"; //temporary: transaction time
 	    String a2 = "A2" + currencyCode;
 	    String a3 = "A3" + fromBranchCode;
 	    String a5 = "A5" + fromAccountId;
 	    String a7 = "A7" + transactionAmount;
 	    String ao = "ao" + toBranchCode;
 	    String af = "af" + toAccountId;
-	    String message = code + tellerId + hoho + ";" + a2 + ";" + a3 + ";" + "A4000" + ";" + a5 + ";" + a7 + ";" + ao + ";" + af + ";an1;";
+	    String message = code + tellerId + overrideTellerId + tranSeqNum + statusByte + tranTime + ";" + a2 + ";" + a3 + ";" + "A4000" + ";" + a5 + ";" + a7 + ";" + ao + ";" + af + ";AN0;";
 	    logger.debug("TTIB Message: "+ message);
 	    prop.setInputString(message);
 		ttib.setInputFromClient(prop);
@@ -87,20 +99,22 @@ public class SystematicsClient extends WebServiceGatewaySupport{
 		return response;
 	}
 	
-	public GetFromTTIB2ProcessWSResponse getTTIBFundTransferCA(String currencyCode, String fromAccountId, String fromBranchCode, String toAccountId, String toBranchCode, String transactionAmount){
+	public GetFromTTIB2ProcessWSResponse getTTIBFundTransferCAtoSA(String currencyCode, String fromAccountId, String fromBranchCode, String toAccountId, String toBranchCode, String transactionAmount){
 	    GetFromTTIB2ProcessWS ttib = new GetFromTTIB2ProcessWS();
-	   
 	    GetFromTTIB2InputProperties prop = new GetFromTTIB2InputProperties();
 	    String code = "1560";
-	    String tellerId = "SACT";
-	    String hoho = "00000000000";
+		String tellerId = "997A";
+        String overrideTellerId = "0000";
+        String tranSeqNum = "000"; //temporary: transaction sequence number
+        String statusByte = "000"; //temporary: status byte
+        String tranTime = "000000"; //temporary: transaction time
 	    String a2 = "A2" + currencyCode;
 	    String a3 = "A3" + fromBranchCode;
 	    String a5 = "A5" + fromAccountId;
 	    String a7 = "A7" + transactionAmount;
 	    String ao = "ao" + toBranchCode;
 	    String af = "af" + toAccountId;
-	    String message = code + tellerId + hoho + ";" + a2 + ";" + a3 + ";" + "A4000" + ";" + a5 + ";" + a7 + ";" + ao + ";" + af + ";an0;";
+	    String message = code + tellerId + overrideTellerId + tranSeqNum + statusByte + tranTime + ";" + a2 + ";" + a3 + ";" + "A4000" + ";" + a5 + ";" + a7 + ";" + ao + ";" + af + ";AN1;";
 	    logger.debug("TTIB Message: "+ message);
 	    prop.setInputString(message);
 		ttib.setInputFromClient(prop);
@@ -108,13 +122,15 @@ public class SystematicsClient extends WebServiceGatewaySupport{
 		return response;
 	}
 
-	public GetFromTTIB2ProcessWSResponse getTTIBBillsPaymentSA(String currencyCode, String branchCode, String accountId,String merchantID, String subscriberNumber, String billNo,String payeeName, String transactionAmount) {
+	public GetFromTTIB2ProcessWSResponse getTTIBBillsPaymentSAtoSA(String currencyCode, String branchCode, String accountId,String merchantID, String subscriberNumber, String billNo,String payeeName, String transactionAmount) {
 		GetFromTTIB2InputProperties prop = new GetFromTTIB2InputProperties();
 		GetFromTTIB2ProcessWS ttib = new GetFromTTIB2ProcessWS();
-		
 		String code = "0974";
 		String tellerId = "997A";
-        String ttibVal = ""; 
+        String overrideTellerId = "0000";
+        String tranSeqNum = "000"; //temporary: transaction sequence number
+        String statusByte = "000"; //temporary: status byte
+        String tranTime = "000000"; //temporary: transaction time
 		String a2 = "A2" + currencyCode;
 		String a3 = "A3" + branchCode;
 		String a4 = "A4000";
@@ -125,7 +141,7 @@ public class SystematicsClient extends WebServiceGatewaySupport{
 		String al = "AL" + payeeName;
 		String a7 = "A7" + transactionAmount;
 		String ai = "AI0005";
-		String message = code + tellerId + ttibVal + ";" + a2 + ";" + a3 + ";" + a4 + ";" + a5 + ";" + aj + ";" + ak + ";" + ap + ";" +al + ";" + a7 + ";" + ai + ";AN0;";
+		String message = code + tellerId + overrideTellerId + tranSeqNum + statusByte + tranTime + ";" + a2 + ";" + a3 + ";" + a4 + ";" + a5 + ";" + aj + ";" + ak + ";" + ap + ";" +al + ";" + a7 + ";" + ai + ";AN0;";
 	    logger.debug("TTIB Message: "+ message);
 	    prop.setInputString(message);
 		ttib.setInputFromClient(prop);
@@ -133,4 +149,30 @@ public class SystematicsClient extends WebServiceGatewaySupport{
 		return response;
 	}
 	
+	public GetFromTTIB2ProcessWSResponse getTTIBBillsPaymentCAtoCA(String currencyCode, String branchCode, String accountId,String merchantID, String subscriberNumber, String billNo,String payeeName, String transactionAmount) {
+		GetFromTTIB2InputProperties prop = new GetFromTTIB2InputProperties();
+		GetFromTTIB2ProcessWS ttib = new GetFromTTIB2ProcessWS();
+		String code = "1974";
+		String tellerId = "997A";
+        String overrideTellerId = "0000";
+        String tranSeqNum = "000"; //temporary: transaction sequence number
+        String statusByte = "000"; //temporary: status byte
+        String tranTime = "000000"; //temporary: transaction time
+		String a2 = "A2" + currencyCode;
+		String a3 = "A3" + branchCode;
+		String a4 = "A4000";
+		String a5 = "A5"+ accountId;
+		String aj = "AJ" + merchantID;
+		String ak = "AK" + subscriberNumber;
+		String ap = "AP" + billNo;
+		String al = "AL" + payeeName;
+		String a7 = "A7" + transactionAmount;
+		String ai = "AI0005";
+		String message = code + tellerId + overrideTellerId + tranSeqNum + statusByte + tranTime + ";" + a2 + ";" + a3 + ";" + a4 + ";" + a5 + ";" + aj + ";" + ak + ";" + ap + ";" +al + ";" + a7 + ";" + ai + ";AN1;";
+	    logger.debug("TTIB Message: "+ message);
+	    prop.setInputString(message);
+		ttib.setInputFromClient(prop);
+		GetFromTTIB2ProcessWSResponse response = (GetFromTTIB2ProcessWSResponse) getWebServiceTemplate().marshalSendAndReceive(ttib, new SoapActionCallback("http://10.1.101.79:9080/AAFWebService/services/AAFWebService"));
+		return response;
+	}
 }

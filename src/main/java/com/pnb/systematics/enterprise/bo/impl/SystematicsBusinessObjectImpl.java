@@ -147,10 +147,6 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		return response;
 	}
 
-	public FundTransferResponse fundTrSAtoSA(FundTransferRequest request) {
-		return null;
-	}
-
 	public FundTransferResponse fundTrCAtoSA(FundTransferRequest request) {
 	   	FundTransferResponse response = new FundTransferResponse();
 		logger.debug("Entering Fund Transfer (CA to SA)");
@@ -181,10 +177,6 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		return response;
 
 	}
-
-	public FundTransferResponse fundTrCAtoCA(FundTransferRequest request) {
-		return null;
-	}
 	
 	public BillsPaymentResponse billPayfrSA(BillsPaymentRequest request) {
 		BillsPaymentResponse response = new BillsPaymentResponse();
@@ -213,6 +205,36 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 			}
 		}
 		logger.debug("Exiting Fund Transfer SA)");
+		return response;
+	}
+	
+	public BillsPaymentResponse billPayfrCA(BillsPaymentRequest request) {
+		BillsPaymentResponse response = new BillsPaymentResponse();
+		logger.debug("Entering Bills Payment (CA)");
+		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBBillsPaymentCA(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId(), request.getMerchantID(), request.getSubscriberNumber(), request.getBillNo(), request.getPayeeName(), request.getTransactionAmount());
+		GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
+		if(prop.getErrorMessage().trim().length() != 0){
+			String[] errorResponse = SystematicsUtil.checkForError(prop.getErrorMessage()).split("\\|");
+			response.setErrorCode(errorResponse[1]);
+			response.setReplyText(errorResponse[0]);
+			logger.fatal("Error in return: " + prop.getErrorMessage());
+		}else{
+			String returnMessage = prop.getReturnMessage();
+			String errorMessage = SystematicsUtil.checkForError(returnMessage);
+			logger.debug("TTIB response: " + returnMessage);
+			if(errorMessage.trim().length() == 0){
+				response.setTransactionStatusCode("00");
+				response.setMessageCode("I");
+				response.setMessageText("PROCESS COMPLETE");
+				response.setUserReferenceNumber(request.getUserReferenceNumber());
+			}else{
+				String[] errorResponse = errorMessage.split("\\|");
+				response.setErrorCode(errorResponse[1]);
+				response.setReplyText(errorResponse[0]);
+				logger.fatal("Error in return: " + prop.getErrorMessage());
+			}
+		}
+		logger.debug("Exiting Fund Transfer CA)");
 		return response;
 	}
 }

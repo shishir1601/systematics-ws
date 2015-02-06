@@ -14,8 +14,9 @@ public interface SystematicsBusinessObject {
 	public BalanceInquiryResponse balanceInquiryCA(BalanceInquiryRequest request);
 	public ServiceChargeResponse debitCa(ServiceChargeRequest request);
 	public FundTransferResponse fundTrSAtoCA(FundTransferRequest request);
-	public FundTransferResponse fundTrSAtoSA(FundTransferRequest request);
 	public FundTransferResponse fundTrCAtoSA(FundTransferRequest request);
+	public FundTransferResponse fundTrSAtoSA(FundTransferRequest request);
 	public FundTransferResponse fundTrCAtoCA(FundTransferRequest request);
 	public BillsPaymentResponse billPayfrSA(BillsPaymentRequest request);
+	public BillsPaymentResponse billPayfrCA(BillsPaymentRequest request);
 }

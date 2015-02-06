@@ -1,5 +1,6 @@
 package com.pnb.systematics.enterprise;
 
+
 public abstract class SystematicsUtil {
 
 	public static String getRealBalance(String balance){
@@ -51,5 +52,12 @@ public abstract class SystematicsUtil {
 		}
 		return errorMessage.trim();
 			
+	}
+	
+	public static String getFirstTtib(String firstTtib)
+	{
+		
+		
+		return firstTtib;	
 	}
 }
