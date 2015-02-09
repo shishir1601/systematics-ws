@@ -80,10 +80,10 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 			logger.debug("TTIB return message: " + returnMessage);
 			response.setAccountId(request.getAccountId());
 			response.setUserReferenceNumber(request.getUserReferenceNumber());
-			response.setAvailableBalance(SystematicsUtil.getRealBalance(returnMessage.substring(168,194)));
-			response.setUnavailableBalance(SystematicsUtil.getRealBalance(returnMessage.substring(281,303)));
-			response.setAccountStatus(returnMessage.substring(351,374));
-			response.setCustomerShortName(returnMessage.substring(384,404));
+			response.setAvailableBalance(SystematicsUtil.getRealBalance(SystematicsUtil.getWebServiceObject(returnMessage, "AVAIL BAL", 29)));
+			response.setUnavailableBalance(SystematicsUtil.getRealBalance(SystematicsUtil.getWebServiceObject(returnMessage, "UNAVAIL    AMT", 24)));
+			response.setAccountStatus(SystematicsUtil.getWebServiceObject(returnMessage, "ACCT STATUS", 24));
+			response.setCustomerShortName(SystematicsUtil.getWebServiceObject(returnMessage, "ACCT NAME", 21));
 			response.setTransactionStatusCode("00");
 		}
 		logger.debug("Exiting: Balance Inquiry CA");

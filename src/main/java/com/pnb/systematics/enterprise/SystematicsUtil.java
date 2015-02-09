@@ -56,7 +56,10 @@ public abstract class SystematicsUtil {
 	
 	public static String getWebServiceObject(String hayStack, String needle, int length){
 		int index = hayStack.indexOf(needle);
-		String returnValue = hayStack.substring(index, index + length);
+		String returnValue = hayStack.substring(index + needle.length(), index + length + needle.length());
+		if(returnValue.contains("-")){
+			returnValue = returnValue.substring(0,returnValue.length() - 2);
+		}
 		return returnValue.trim();
 	}
 }
