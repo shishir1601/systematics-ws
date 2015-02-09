@@ -60,6 +60,6 @@ public abstract class SystematicsUtil {
 		if(returnValue.contains("-")){
 			returnValue = returnValue.substring(0,returnValue.length() - 2);
 		}
-		return returnValue.trim();
+		return returnValue;
 	}
 }
