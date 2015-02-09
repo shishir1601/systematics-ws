@@ -56,8 +56,8 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 			response.setAccountStatus(SystematicsUtil.getWebServiceObject(returnMessage, "STATUS", 25));
 			response.setCustomerShortName(returnMessage.substring(357,373));
 			response.setTransactionStatusCode("00");
-			response.setMemoBalance(SystematicsUtil.getRealBalance(returnMessage.substring(133,156)));
-			response.setFloatAmount(SystematicsUtil.getRealBalance(returnMessage.substring(229,253)));
+			response.setMemoBalance(SystematicsUtil.getRealBalance(SystematicsUtil.getWebServiceObject(returnMessage,"MEMO  BAL", 25)));
+			response.setFloatAmount(SystematicsUtil.getRealBalance(SystematicsUtil.getWebServiceObject(returnMessage, "FLOAT AMT", 25)));
 		}
 
 		logger.debug("Exiting: Balance Inquiry SA");
