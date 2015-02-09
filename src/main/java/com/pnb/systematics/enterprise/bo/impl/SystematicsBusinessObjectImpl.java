@@ -13,6 +13,10 @@ import com.pnb.systematics.interaction.BalanceInquiryRequest;
 import com.pnb.systematics.interaction.BalanceInquiryResponse;
 import com.pnb.systematics.interaction.BillsPaymentRequest;
 import com.pnb.systematics.interaction.BillsPaymentResponse;
+import com.pnb.systematics.interaction.DebitMemoImRequest;
+import com.pnb.systematics.interaction.DebitMemoImResponse;
+import com.pnb.systematics.interaction.DebitMemoStRequest;
+import com.pnb.systematics.interaction.DebitMemoStResponse;
 import com.pnb.systematics.interaction.FundTransferRequest;
 import com.pnb.systematics.interaction.FundTransferResponse;
 import com.pnb.systematics.interaction.ServiceChargeRequest;
@@ -93,34 +97,94 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBServiceCharge(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId(), request.getTransactionAmount());
 		GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
 		if(prop.getErrorMessage().trim().length() != 0){
-			response.setTransactionStatusCode("99");
-			response.setErrorCode("TS0304");
-			response.setReplyText(prop.getErrorMessage().toUpperCase());
+			String[] errorResponse = SystematicsUtil.checkForError(prop.getErrorMessage()).split("\\|");
+			response.setErrorCode(errorResponse[1]);
+			response.setReplyText(errorResponse[0]);
 			logger.fatal("Error in return: " + prop.getErrorMessage());
 		}else{
 			String returnMessage = prop.getReturnMessage();
-			String errorMessage = SystematicsUtil.getError(returnMessage);
+			String errorMessage = SystematicsUtil.checkForError(returnMessage);
 			logger.debug("TTIB response: " + returnMessage);
 			if(errorMessage.trim().length() == 0){
 				response.setTransactionStatusCode("00");
-				response.setAccountId(request.getAccountId());
 				response.setMessageCode("I");
 				response.setMessageText("PROCESS COMPLETE");
 				response.setUserReferenceNumber(request.getUserReferenceNumber());
 			}else{
-				response.setTransactionStatusCode("99");
-				response.setErrorCode("TS0304");
-				response.setReplyText(prop.getErrorMessage().toUpperCase());
+				String[] errorResponse = errorMessage.split("\\|");
+				response.setErrorCode(errorResponse[1]);
+				response.setReplyText(errorResponse[0]);
+				logger.fatal("Error in return: " + prop.getErrorMessage());
 			}
 		}
 		logger.debug("Exiting Debit CA");
+		return response;
+	}
+	
+	public DebitMemoImResponse debitMemoIm(DebitMemoImRequest request) {
+		DebitMemoImResponse response = new DebitMemoImResponse();
+		logger.debug("Entering Debit Memo IM (Service Charge) for SMS");
+		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBDebitMemoIm(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId(), request.getTransactionAmount());
+		GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
+		if(prop.getErrorMessage().trim().length() != 0){
+			String[] errorResponse = SystematicsUtil.checkForError(prop.getErrorMessage()).split("\\|");
+			response.setErrorCode(errorResponse[1]);
+			response.setReplyText(errorResponse[0]);
+			logger.fatal("Error in return: " + prop.getErrorMessage());
+		}else{
+			String returnMessage = prop.getReturnMessage();
+			String errorMessage = SystematicsUtil.checkForError(returnMessage);
+			logger.debug("TTIB response: " + returnMessage);
+			if(errorMessage.trim().length() == 0){
+				response.setTransactionStatusCode("00");
+				response.setMessageCode("I");
+				response.setMessageText("PROCESS COMPLETE");
+				response.setUserReferenceNumber(request.getUserReferenceNumber());
+			}else{
+				String[] errorResponse = errorMessage.split("\\|");
+				response.setErrorCode(errorResponse[1]);
+				response.setReplyText(errorResponse[0]);
+				logger.fatal("Error in return: " + prop.getErrorMessage());
+			}
+		}
+		logger.debug("Exiting Debit Memo IM");
+		return response;
+	}
+	
+	public DebitMemoStResponse debitMemoSt(DebitMemoStRequest request) {
+		DebitMemoStResponse response = new DebitMemoStResponse();
+		logger.debug("Entering Debit Memo IM (Service Charge) for SMS");
+		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBDebitMemoSt(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId(), request.getTransactionAmount());
+		GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
+		if(prop.getErrorMessage().trim().length() != 0){
+			String[] errorResponse = SystematicsUtil.checkForError(prop.getErrorMessage()).split("\\|");
+			response.setErrorCode(errorResponse[1]);
+			response.setReplyText(errorResponse[0]);
+			logger.fatal("Error in return: " + prop.getErrorMessage());
+		}else{
+			String returnMessage = prop.getReturnMessage();
+			String errorMessage = SystematicsUtil.checkForError(returnMessage);
+			logger.debug("TTIB response: " + returnMessage);
+			if(errorMessage.trim().length() == 0){
+				response.setTransactionStatusCode("00");
+				response.setMessageCode("I");
+				response.setMessageText("PROCESS COMPLETE");
+				response.setUserReferenceNumber(request.getUserReferenceNumber());
+			}else{
+				String[] errorResponse = errorMessage.split("\\|");
+				response.setErrorCode(errorResponse[1]);
+				response.setReplyText(errorResponse[0]);
+				logger.fatal("Error in return: " + prop.getErrorMessage());
+			}
+		}
+		logger.debug("Exiting Debit Memo IM");
 		return response;
 	}
 
 	public FundTransferResponse fundTrSAtoCA(FundTransferRequest request) {
 		FundTransferResponse response = new FundTransferResponse();
 		logger.debug("Entering Fund Transfer (SA to CA)");
-		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBFundTransferSA(request.getCurrencyCode(), request.getFromAccountId(), request.getFromBranchCode(), request.getToAccountId(), request.getToBranchCode(), request.getTransactionAmount());
+		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBFundTransferSAtoCA(request.getCurrencyCode(), request.getFromAccountId(), request.getFromBranchCode(), request.getToAccountId(), request.getToBranchCode(), request.getTransactionAmount());
 		GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
 		if(prop.getErrorMessage().trim().length() != 0){
 			String[] errorResponse = SystematicsUtil.checkForError(prop.getErrorMessage()).split("\\|");
@@ -150,7 +214,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 	public FundTransferResponse fundTrCAtoSA(FundTransferRequest request) {
 	   	FundTransferResponse response = new FundTransferResponse();
 		logger.debug("Entering Fund Transfer (CA to SA)");
-		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBFundTransferCA(request.getCurrencyCode(), request.getFromAccountId(), request.getFromBranchCode(), request.getToAccountId(), request.getToBranchCode(), request.getTransactionAmount());
+		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBFundTransferCAtoSA(request.getCurrencyCode(), request.getFromAccountId(), request.getFromBranchCode(), request.getToAccountId(), request.getToBranchCode(), request.getTransactionAmount());
 		GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
 		if(prop.getErrorMessage().trim().length() != 0){
 			String[] errorResponse = SystematicsUtil.checkForError(prop.getErrorMessage()).split("\\|");
@@ -174,6 +238,67 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 			}
 		}
 		logger.debug("Exiting Fund Transfer (CA to SA)");
+		return response;
+	}
+	
+	public FundTransferResponse fundTrSAtoSA(FundTransferRequest request) {
+	   	FundTransferResponse response = new FundTransferResponse();
+		logger.debug("Entering Fund Transfer (SA to SA)");
+		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBFundTransferSAtoSA(request.getCurrencyCode(), request.getFromAccountId(), request.getFromBranchCode(), request.getToAccountId(), request.getToBranchCode(), request.getTransactionAmount());
+		GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
+		if(prop.getErrorMessage().trim().length() != 0){
+			String[] errorResponse = SystematicsUtil.checkForError(prop.getErrorMessage()).split("\\|");
+			response.setErrorCode(errorResponse[1]);
+			response.setReplyText(errorResponse[0]);
+			logger.fatal("Error in return: " + prop.getErrorMessage());
+		}else{
+			String returnMessage = prop.getReturnMessage();
+			String errorMessage = SystematicsUtil.checkForError(returnMessage);
+			logger.debug("TTIB response: " + returnMessage);
+			if(errorMessage.trim().length() == 0){
+				response.setTransactionStatusCode("00");
+				response.setMessageCode("I");
+				response.setMessageText("PROCESS COMPLETE");
+				response.setUserReferenceNumber(request.getUserReferenceNumber());
+			}else{
+				String[] errorResponse = errorMessage.split("\\|");
+				response.setErrorCode(errorResponse[1]);
+				response.setReplyText(errorResponse[0]);
+				logger.fatal("Error in return: " + prop.getErrorMessage());
+			}
+		}
+		logger.debug("Exiting Fund Transfer (SA to SA)");
+		return response;
+
+	}
+	
+	public FundTransferResponse fundTrCAtoCA(FundTransferRequest request) {
+	   	FundTransferResponse response = new FundTransferResponse();
+		logger.debug("Entering Fund Transfer (CA to CA)");
+		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBFundTransferCAtoCA(request.getCurrencyCode(), request.getFromAccountId(), request.getFromBranchCode(), request.getToAccountId(), request.getToBranchCode(), request.getTransactionAmount());
+		GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
+		if(prop.getErrorMessage().trim().length() != 0){
+			String[] errorResponse = SystematicsUtil.checkForError(prop.getErrorMessage()).split("\\|");
+			response.setErrorCode(errorResponse[1]);
+			response.setReplyText(errorResponse[0]);
+			logger.fatal("Error in return: " + prop.getErrorMessage());
+		}else{
+			String returnMessage = prop.getReturnMessage();
+			String errorMessage = SystematicsUtil.checkForError(returnMessage);
+			logger.debug("TTIB response: " + returnMessage);
+			if(errorMessage.trim().length() == 0){
+				response.setTransactionStatusCode("00");
+				response.setMessageCode("I");
+				response.setMessageText("PROCESS COMPLETE");
+				response.setUserReferenceNumber(request.getUserReferenceNumber());
+			}else{
+				String[] errorResponse = errorMessage.split("\\|");
+				response.setErrorCode(errorResponse[1]);
+				response.setReplyText(errorResponse[0]);
+				logger.fatal("Error in return: " + prop.getErrorMessage());
+			}
+		}
+		logger.debug("Exiting Fund Transfer (CA to CA)");
 		return response;
 
 	}
@@ -208,33 +333,4 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		return response;
 	}
 	
-	public BillsPaymentResponse billPayfrCA(BillsPaymentRequest request) {
-		BillsPaymentResponse response = new BillsPaymentResponse();
-		logger.debug("Entering Bills Payment (CA)");
-		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBBillsPaymentCA(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId(), request.getMerchantID(), request.getSubscriberNumber(), request.getBillNo(), request.getPayeeName(), request.getTransactionAmount());
-		GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
-		if(prop.getErrorMessage().trim().length() != 0){
-			String[] errorResponse = SystematicsUtil.checkForError(prop.getErrorMessage()).split("\\|");
-			response.setErrorCode(errorResponse[1]);
-			response.setReplyText(errorResponse[0]);
-			logger.fatal("Error in return: " + prop.getErrorMessage());
-		}else{
-			String returnMessage = prop.getReturnMessage();
-			String errorMessage = SystematicsUtil.checkForError(returnMessage);
-			logger.debug("TTIB response: " + returnMessage);
-			if(errorMessage.trim().length() == 0){
-				response.setTransactionStatusCode("00");
-				response.setMessageCode("I");
-				response.setMessageText("PROCESS COMPLETE");
-				response.setUserReferenceNumber(request.getUserReferenceNumber());
-			}else{
-				String[] errorResponse = errorMessage.split("\\|");
-				response.setErrorCode(errorResponse[1]);
-				response.setReplyText(errorResponse[0]);
-				logger.fatal("Error in return: " + prop.getErrorMessage());
-			}
-		}
-		logger.debug("Exiting Fund Transfer CA)");
-		return response;
-	}
 }

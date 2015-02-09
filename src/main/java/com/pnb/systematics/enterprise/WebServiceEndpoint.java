@@ -13,6 +13,10 @@ import com.pnb.systematics.interaction.BalanceInquiryRequest;
 import com.pnb.systematics.interaction.BalanceInquiryResponse;
 import com.pnb.systematics.interaction.BillsPaymentRequest;
 import com.pnb.systematics.interaction.BillsPaymentResponse;
+import com.pnb.systematics.interaction.DebitMemoImRequest;
+import com.pnb.systematics.interaction.DebitMemoImResponse;
+import com.pnb.systematics.interaction.DebitMemoStRequest;
+import com.pnb.systematics.interaction.DebitMemoStResponse;
 import com.pnb.systematics.interaction.FundTransferRequest;
 import com.pnb.systematics.interaction.FundTransferResponse;
 import com.pnb.systematics.interaction.ServiceChargeRequest;
@@ -57,21 +61,26 @@ public class WebServiceEndpoint {
 	
 	@WebMethod(operationName = "WSFundTrSAtoSA")
 	public FundTransferResponse fundTrSAtoSA(FundTransferRequest request){
-		return systematicsBO.fundTrCAtoSA(request);
+		return systematicsBO.fundTrSAtoSA(request);
 	}
 	
 	@WebMethod(operationName = "WSFundTrCAtoCA")
 	public FundTransferResponse fundTrCAtoCA(FundTransferRequest request){
-		return systematicsBO.fundTrCAtoSA(request);
+		return systematicsBO.fundTrCAtoCA(request);
 	}
 	
-	@WebMethod(operationName = "WSBillPayfrSA")
+	@WebMethod(operationName = "WSBillPayIBS")
 	public BillsPaymentResponse billPayfrSA(BillsPaymentRequest request){
 		return systematicsBO.billPayfrSA(request);
 	}
+
+	@WebMethod(operationName = "WSDebitMemoIm")
+	public DebitMemoImResponse debitMemoIm(DebitMemoImRequest request){
+		return systematicsBO.debitMemoIm(request);
+	}
 	
-	@WebMethod(operationName = "WSBillPayfrCA")
-	public BillsPaymentResponse billPayfrCA(BillsPaymentRequest request){
-		return systematicsBO.billPayfrCA(request);
+	@WebMethod(operationName = "WSDebitMemoSt")
+	public DebitMemoStResponse debitMemoSt(DebitMemoStRequest request){
+		return systematicsBO.debitMemoSt(request);
 	}
 }

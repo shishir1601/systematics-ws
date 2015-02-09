@@ -4,6 +4,10 @@ import com.pnb.systematics.interaction.BalanceInquiryRequest;
 import com.pnb.systematics.interaction.BalanceInquiryResponse;
 import com.pnb.systematics.interaction.BillsPaymentRequest;
 import com.pnb.systematics.interaction.BillsPaymentResponse;
+import com.pnb.systematics.interaction.DebitMemoImRequest;
+import com.pnb.systematics.interaction.DebitMemoImResponse;
+import com.pnb.systematics.interaction.DebitMemoStRequest;
+import com.pnb.systematics.interaction.DebitMemoStResponse;
 import com.pnb.systematics.interaction.FundTransferRequest;
 import com.pnb.systematics.interaction.FundTransferResponse;
 import com.pnb.systematics.interaction.ServiceChargeRequest;
@@ -17,6 +21,7 @@ public interface SystematicsBusinessObject {
 	public FundTransferResponse fundTrCAtoSA(FundTransferRequest request);
 	public FundTransferResponse fundTrSAtoSA(FundTransferRequest request);
 	public FundTransferResponse fundTrCAtoCA(FundTransferRequest request);
-	public BillsPaymentResponse billPayfrSA(BillsPaymentRequest request);
-	public BillsPaymentResponse billPayfrCA(BillsPaymentRequest request);
+	public BillsPaymentResponse billPayfrSA(BillsPaymentRequest request);	
+	public DebitMemoImResponse debitMemoIm(DebitMemoImRequest request);
+	public DebitMemoStResponse debitMemoSt(DebitMemoStRequest request);
 }

@@ -19,10 +19,11 @@ public abstract class SystematicsUtil {
 		int index = input.indexOf("F:");
 		int index2 = input.indexOf("E:");
 		if(index != -1){
-			errorMessage.substring(index + 2, index + 20);
+			errorMessage.substring(index+2,68);
 		}
 		if(index2 != -1){
-			errorMessage.substring(index + 2, index +20);
+			errorMessage.substring(index+2,68);
+			//(index + 2, index + 67);
 		}
 		return errorMessage;
 	}
@@ -52,12 +53,5 @@ public abstract class SystematicsUtil {
 		}
 		return errorMessage.trim();
 			
-	}
-	
-	public static String getFirstTtib(String firstTtib)
-	{
-		
-		
-		return firstTtib;	
 	}
 }
