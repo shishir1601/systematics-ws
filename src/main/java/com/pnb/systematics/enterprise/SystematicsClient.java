@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 import org.springframework.ws.soap.client.core.SoapActionCallback;
 
+import com.pnb.systematics.configuration.DateUtil;
 import com.pnb.systematics.schema.GetFromTTIB2InputProperties;
 import com.pnb.systematics.schema.GetFromTTIB2ProcessWS;
 import com.pnb.systematics.schema.GetFromTTIB2ProcessWSResponse;
@@ -20,7 +21,7 @@ public class SystematicsClient extends WebServiceGatewaySupport{
         String overrideTellerId = "0000";
         String tranSeqNum = "000"; //temporary: transaction sequence number
         String statusByte = "000"; //temporary: status byte
-        String tranTime = "000000"; //temporary: transaction time	
+        String tranTime = DateUtil.getCurrentHour() + DateUtil.getCurrentMinutes() + DateUtil.getCurrentSecond(); //temporary: transaction time	
 		String a5 = "A5" + accountNumber;
 		String a3 = "A3" + branchCode;
 		String a4 = "A4000";
@@ -41,7 +42,7 @@ public class SystematicsClient extends WebServiceGatewaySupport{
         String overrideTellerId = "0000";
         String tranSeqNum = "000"; //temporary: transaction sequence number
         String statusByte = "000"; //temporary: status byte
-        String tranTime = "000000"; //temporary: transaction time	
+        String tranTime = DateUtil.getCurrentHour() + DateUtil.getCurrentMinutes() + DateUtil.getCurrentSecond(); //temporary: transaction time	
 		String a5 = "A5" + accountNumber;
 		String a3 = "A3" + branchCode;
 		String a4 = "A40000";
@@ -62,7 +63,7 @@ public class SystematicsClient extends WebServiceGatewaySupport{
         String overrideTellerId = "0000";
         String tranSeqNum = "000"; //temporary: transaction sequence number
         String statusByte = "000"; //temporary: status byte
-        String tranTime = "000000"; //temporary: transaction time
+        String tranTime = DateUtil.getCurrentHour() + DateUtil.getCurrentMinutes() + DateUtil.getCurrentSecond(); //temporary: transaction time
 	    String a2 = "A2" + currencyCode;
 	    String a3 = "A3" + branchCode;
 	    String a5 = "A5" + accountId;
@@ -83,7 +84,7 @@ public class SystematicsClient extends WebServiceGatewaySupport{
         String overrideTellerId = "0000";
         String tranSeqNum = "000"; //temporary: transaction sequence number
         String statusByte = "000"; //temporary: status byte
-        String tranTime = "000000"; //temporary: transaction time
+        String tranTime = DateUtil.getCurrentHour() + DateUtil.getCurrentMinutes() + DateUtil.getCurrentSecond(); //temporary: transaction time
 	    String a2 = "A2" + currencyCode;
 	    String a3 = "A3" + branchCode;
 	    String a5 = "A5" + accountId;
@@ -104,7 +105,7 @@ public class SystematicsClient extends WebServiceGatewaySupport{
         String overrideTellerId = "0000";
         String tranSeqNum = "000"; //temporary: transaction sequence number
         String statusByte = "000"; //temporary: status byte
-        String tranTime = "000000"; //temporary: transaction time
+        String tranTime = DateUtil.getCurrentHour() + DateUtil.getCurrentMinutes() + DateUtil.getCurrentSecond(); //temporary: transaction time
 	    String a2 = "A2" + currencyCode;
 	    String a3 = "A3" + branchCode;
 	    String a5 = "A5" + accountId;
@@ -125,7 +126,7 @@ public class SystematicsClient extends WebServiceGatewaySupport{
         String overrideTellerId = "0000";
         String tranSeqNum = "000"; //temporary: transaction sequence number
         String statusByte = "000"; //temporary: status byte
-        String tranTime = "000000"; //temporary: transaction time
+        String tranTime = DateUtil.getCurrentHour() + DateUtil.getCurrentMinutes() + DateUtil.getCurrentSecond(); //temporary: transaction time
 	    String a2 = "A2" + currencyCode;
 	    String a3 = "A3" + fromBranchCode;
 	    String a5 = "A5" + fromAccountId;
@@ -148,7 +149,7 @@ public class SystematicsClient extends WebServiceGatewaySupport{
         String overrideTellerId = "0000";
         String tranSeqNum = "000"; //temporary: transaction sequence number
         String statusByte = "000"; //temporary: status byte
-        String tranTime = "000000"; //temporary: transaction time
+        String tranTime = DateUtil.getCurrentHour() + DateUtil.getCurrentMinutes() + DateUtil.getCurrentSecond(); //temporary: transaction time
 	    String a2 = "A2" + currencyCode;
 	    String a3 = "A3" + fromBranchCode;
 	    String a5 = "A5" + fromAccountId;
@@ -171,7 +172,7 @@ public class SystematicsClient extends WebServiceGatewaySupport{
         String overrideTellerId = "0000";
         String tranSeqNum = "000"; //temporary: transaction sequence number
         String statusByte = "000"; //temporary: status byte
-        String tranTime = "000000"; //temporary: transaction time
+        String tranTime = DateUtil.getCurrentHour() + DateUtil.getCurrentMinutes() + DateUtil.getCurrentSecond(); //temporary: transaction time
 	    String a2 = "A2" + currencyCode;
 	    String a3 = "A3" + fromBranchCode;
 	    String a5 = "A5" + fromAccountId;
@@ -194,7 +195,7 @@ public class SystematicsClient extends WebServiceGatewaySupport{
         String overrideTellerId = "0000";
         String tranSeqNum = "000"; //temporary: transaction sequence number
         String statusByte = "000"; //temporary: status byte
-        String tranTime = "000000"; //temporary: transaction time
+        String tranTime = DateUtil.getCurrentHour() + DateUtil.getCurrentMinutes() + DateUtil.getCurrentSecond(); //temporary: transaction time
 	    String a2 = "A2" + currencyCode;
 	    String a3 = "A3" + fromBranchCode;
 	    String a5 = "A5" + fromAccountId;
@@ -217,7 +218,7 @@ public class SystematicsClient extends WebServiceGatewaySupport{
         String overrideTellerId = "0000";
         String tranSeqNum = "000"; //temporary: transaction sequence number
         String statusByte = "000"; //temporary: status byte
-        String tranTime = "000000"; //temporary: transaction time
+        String tranTime = DateUtil.getCurrentHour() + DateUtil.getCurrentMinutes() + DateUtil.getCurrentSecond(); //temporary: transaction time
 		String a2 = "A2" + currencyCode;
 		String a3 = "A3" + branchCode;
 		String a4 = "A4000";
@@ -227,7 +228,7 @@ public class SystematicsClient extends WebServiceGatewaySupport{
 		String ap = "AP" + billNo;
 		String al = "AL" + payeeName;
 		String a7 = "A7" + transactionAmount;
-		String ai = "AI0005";
+		String ai = "AI0005"; //sequence number
 		
 		String an = "AN" + a5.charAt(4);
 		
