@@ -51,9 +51,9 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 			logger.debug("TTIB return message" + returnMessage);
 			response.setAccountId(request.getAccountId());
 			response.setUserReferenceNumber(request.getUserReferenceNumber());
-			response.setBalanceOnHold(SystematicsUtil.getRealBalance(returnMessage.substring(261,285)));
-			response.setPleadgeAmount(SystematicsUtil.getRealBalance(returnMessage.substring(293,317)));
-			response.setAccountStatus(returnMessage.substring(322,347));
+			response.setBalanceOnHold(SystematicsUtil.getRealBalance(SystematicsUtil.getWebServiceObject(returnMessage,"HOLD  AMT", 25)));
+			response.setPleadgeAmount(SystematicsUtil.getRealBalance(SystematicsUtil.getWebServiceObject(returnMessage, "PLDGE AMT", 25)));
+			response.setAccountStatus(SystematicsUtil.getWebServiceObject(returnMessage, "STATUS", 25));
 			response.setCustomerShortName(returnMessage.substring(357,373));
 			response.setTransactionStatusCode("00");
 			response.setMemoBalance(SystematicsUtil.getRealBalance(returnMessage.substring(133,156)));
@@ -98,6 +98,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
 		if(prop.getErrorMessage().trim().length() != 0){
 			String[] errorResponse = SystematicsUtil.checkForError(prop.getErrorMessage()).split("\\|");
+			logger.debug("Error Response: " + errorResponse);
 			response.setErrorCode(errorResponse[1]);
 			response.setReplyText(errorResponse[0]);
 			logger.fatal("Error in return: " + prop.getErrorMessage());
