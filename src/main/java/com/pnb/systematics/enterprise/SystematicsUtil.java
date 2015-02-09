@@ -52,6 +52,11 @@ public abstract class SystematicsUtil {
 			}
 		}
 		return errorMessage.trim();
-			
+	}
+	
+	public static String getWebServiceObject(String hayStack, String needle, int length){
+		int index = hayStack.indexOf(needle);
+		String returnValue = hayStack.substring(index, index + length);
+		return returnValue.trim();
 	}
 }
