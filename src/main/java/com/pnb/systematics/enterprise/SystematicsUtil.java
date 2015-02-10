@@ -49,6 +49,17 @@ public abstract class SystematicsUtil {
 				}
 				errorMessage = errorMessage.trim();
 				errorMessage += "|" + message.substring(found - 7,found - 1);
+			}else{
+				index = message.indexOf("S:");
+				if(index != -1){
+					int found = index;
+					index += 2;
+					for(; index < message.length() && !(message.substring(index, index + 1).equals("¬")); ++index){
+						errorMessage += message.charAt(index);
+					}
+					errorMessage = errorMessage.trim();
+					errorMessage += "|" + message.substring(found - 7,found - 1);
+				}
 			}
 		}
 		return errorMessage.trim();
