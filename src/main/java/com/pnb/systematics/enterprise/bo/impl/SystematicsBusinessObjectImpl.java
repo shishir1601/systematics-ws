@@ -1,8 +1,8 @@
 package com.pnb.systematics.enterprise.bo.impl;
 
 
-import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 import org.springframework.stereotype.Component;
 
 import com.pnb.systematics.configuration.WebServiceUtil;
@@ -29,10 +29,6 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 
 	private static final SystematicsClient client = WebServiceUtil.systematicsClient();
 	private static Logger logger = Logger.getLogger(SystematicsBusinessObjectImpl.class);
-	
-	public SystematicsBusinessObjectImpl(){
-		BasicConfigurator.configure();
-	}
 	
 	public BalanceInquiryResponse balanceInquirySA(BalanceInquiryRequest request) {
 		BalanceInquiryResponse response = new BalanceInquiryResponse();
@@ -105,13 +101,13 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		}else{
 			String returnMessage = prop.getReturnMessage();
 			String errorMessage = SystematicsUtil.checkForError(returnMessage);
-			logger.debug("TTIB response: " + returnMessage);
 			if(errorMessage.trim().length() == 0){
 				response.setTransactionStatusCode("00");
 				response.setMessageCode("I");
 				response.setMessageText("PROCESS COMPLETE");
 				response.setUserReferenceNumber(request.getUserReferenceNumber());
 			}else{
+				logger.fatal("TTIB Response: " + returnMessage);
 				String[] errorResponse = errorMessage.split("\\|");
 				response.setErrorCode(errorResponse[1]);
 				response.setReplyText(errorResponse[0]);
