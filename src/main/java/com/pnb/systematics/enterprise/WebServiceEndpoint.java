@@ -74,12 +74,12 @@ public class WebServiceEndpoint {
 		return systematicsBO.billPayfrSA(request);
 	}
 
-	@WebMethod(operationName = "WSDebitMemoIm")
+	@WebMethod(operationName = "WSDebitMemoIM")
 	public DebitMemoImResponse debitMemoIm(DebitMemoImRequest request){
 		return systematicsBO.debitMemoIm(request);
 	}
 	
-	@WebMethod(operationName = "WSDebitMemoSt")
+	@WebMethod(operationName = "WSDebitMemoST")
 	public DebitMemoStResponse debitMemoSt(DebitMemoStRequest request){
 		return systematicsBO.debitMemoSt(request);
 	}

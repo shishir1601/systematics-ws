@@ -2,7 +2,6 @@ package com.pnb.systematics.enterprise.bo.impl;
 
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 import org.springframework.stereotype.Component;
 
 import com.pnb.systematics.configuration.WebServiceUtil;
@@ -41,7 +40,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 			response.setTransactionStatusCode("99");
 			response.setErrorCode("TS0304");
 			response.setReplyText("ACCOUNT NOT FOUND");
-			logger.fatal("Error in return: " + prop.getErrorMessage());
+			logger.debug("Error in return: " + prop.getErrorMessage());
 		}else{
 			String returnMessage = prop.getReturnMessage();
 			logger.debug("TTIB return message" + returnMessage);
@@ -97,7 +96,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 			logger.debug("Error Response: " + errorResponse);
 			response.setErrorCode(errorResponse[1]);
 			response.setReplyText(errorResponse[0]);
-			logger.fatal("Error in return: " + prop.getErrorMessage());
+			logger.debug("Error in return: " + prop.getErrorMessage());
 		}else{
 			String returnMessage = prop.getReturnMessage();
 			String errorMessage = SystematicsUtil.checkForError(returnMessage);
@@ -107,11 +106,11 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				response.setMessageText("PROCESS COMPLETE");
 				response.setUserReferenceNumber(request.getUserReferenceNumber());
 			}else{
-				logger.fatal("TTIB Response: " + returnMessage);
+				logger.debug("TTIB Response: " + returnMessage);
 				String[] errorResponse = errorMessage.split("\\|");
 				response.setErrorCode(errorResponse[1]);
 				response.setReplyText(errorResponse[0]);
-				logger.fatal("Error in return: " + prop.getErrorMessage());
+				logger.debug("Error in return: " + prop.getErrorMessage());
 			}
 		}
 		logger.debug("Exiting Debit CA");
@@ -127,7 +126,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 			String[] errorResponse = SystematicsUtil.checkForError(prop.getErrorMessage()).split("\\|");
 			response.setErrorCode(errorResponse[1]);
 			response.setReplyText(errorResponse[0]);
-			logger.fatal("Error in return: " + prop.getErrorMessage());
+			logger.debug("Error in return: " + prop.getErrorMessage());
 		}else{
 			String returnMessage = prop.getReturnMessage();
 			String errorMessage = SystematicsUtil.checkForError(returnMessage);
@@ -141,7 +140,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				String[] errorResponse = errorMessage.split("\\|");
 				response.setErrorCode(errorResponse[1]);
 				response.setReplyText(errorResponse[0]);
-				logger.fatal("Error in return: " + prop.getErrorMessage());
+				logger.debug("Error in return: " + prop.getErrorMessage());
 			}
 		}
 		logger.debug("Exiting Debit Memo IM");
@@ -157,7 +156,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 			String[] errorResponse = SystematicsUtil.checkForError(prop.getErrorMessage()).split("\\|");
 			response.setErrorCode(errorResponse[1]);
 			response.setReplyText(errorResponse[0]);
-			logger.fatal("Error in return: " + prop.getErrorMessage());
+			logger.debug("Error in return: " + prop.getErrorMessage());
 		}else{
 			String returnMessage = prop.getReturnMessage();
 			String errorMessage = SystematicsUtil.checkForError(returnMessage);
@@ -171,7 +170,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				String[] errorResponse = errorMessage.split("\\|");
 				response.setErrorCode(errorResponse[1]);
 				response.setReplyText(errorResponse[0]);
-				logger.fatal("Error in return: " + prop.getErrorMessage());
+				logger.debug("Error in return: " + prop.getErrorMessage());
 			}
 		}
 		logger.debug("Exiting Debit Memo IM");
@@ -187,7 +186,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 			String[] errorResponse = SystematicsUtil.checkForError(prop.getErrorMessage()).split("\\|");
 			response.setErrorCode(errorResponse[1]);
 			response.setReplyText(errorResponse[0]);
-			logger.fatal("Error in return: " + prop.getErrorMessage());
+			logger.debug("Error in return: " + prop.getErrorMessage());
 		}else{
 			String returnMessage = prop.getReturnMessage();
 			String errorMessage = SystematicsUtil.checkForError(returnMessage);
@@ -201,7 +200,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				String[] errorResponse = errorMessage.split("\\|");
 				response.setErrorCode(errorResponse[1]);
 				response.setReplyText(errorResponse[0]);
-				logger.fatal("Error in return: " + prop.getErrorMessage());
+				logger.debug("Error in return: " + prop.getErrorMessage());
 			}
 		}
 		logger.debug("Exiting Fund Transfer (SA to CA)");
@@ -217,7 +216,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 			String[] errorResponse = SystematicsUtil.checkForError(prop.getErrorMessage()).split("\\|");
 			response.setErrorCode(errorResponse[1]);
 			response.setReplyText(errorResponse[0]);
-			logger.fatal("Error in return: " + prop.getErrorMessage());
+			logger.debug("Error in return: " + prop.getErrorMessage());
 		}else{
 			String returnMessage = prop.getReturnMessage();
 			String errorMessage = SystematicsUtil.checkForError(returnMessage);
@@ -231,7 +230,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				String[] errorResponse = errorMessage.split("\\|");
 				response.setErrorCode(errorResponse[1]);
 				response.setReplyText(errorResponse[0]);
-				logger.fatal("Error in return: " + prop.getErrorMessage());
+				logger.debug("Error in return: " + prop.getErrorMessage());
 			}
 		}
 		logger.debug("Exiting Fund Transfer (CA to SA)");
@@ -247,7 +246,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 			String[] errorResponse = SystematicsUtil.checkForError(prop.getErrorMessage()).split("\\|");
 			response.setErrorCode(errorResponse[1]);
 			response.setReplyText(errorResponse[0]);
-			logger.fatal("Error in return: " + prop.getErrorMessage());
+			logger.debug("Error in return: " + prop.getErrorMessage());
 		}else{
 			String returnMessage = prop.getReturnMessage();
 			String errorMessage = SystematicsUtil.checkForError(returnMessage);
@@ -261,7 +260,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				String[] errorResponse = errorMessage.split("\\|");
 				response.setErrorCode(errorResponse[1]);
 				response.setReplyText(errorResponse[0]);
-				logger.fatal("Error in return: " + prop.getErrorMessage());
+				logger.debug("Error in return: " + prop.getErrorMessage());
 			}
 		}
 		logger.debug("Exiting Fund Transfer (SA to SA)");
@@ -278,7 +277,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 			String[] errorResponse = SystematicsUtil.checkForError(prop.getErrorMessage()).split("\\|");
 			response.setErrorCode(errorResponse[1]);
 			response.setReplyText(errorResponse[0]);
-			logger.fatal("Error in return: " + prop.getErrorMessage());
+			logger.debug("Error in return: " + prop.getErrorMessage());
 		}else{
 			String returnMessage = prop.getReturnMessage();
 			String errorMessage = SystematicsUtil.checkForError(returnMessage);
@@ -292,7 +291,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				String[] errorResponse = errorMessage.split("\\|");
 				response.setErrorCode(errorResponse[1]);
 				response.setReplyText(errorResponse[0]);
-				logger.fatal("Error in return: " + prop.getErrorMessage());
+				logger.debug("Error in return: " + prop.getErrorMessage());
 			}
 		}
 		logger.debug("Exiting Fund Transfer (CA to CA)");
@@ -302,14 +301,14 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 	
 	public BillsPaymentResponse billPayfrSA(BillsPaymentRequest request) {
 		BillsPaymentResponse response = new BillsPaymentResponse();
-		logger.debug("Entering Bills Payment (SA)");
+		logger.debug("Entering Bills Payment (SA/CA)");
 		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBBillsPaymentSA(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId(), request.getMerchantID(), request.getSubscriberNumber(), request.getBillNo(), request.getPayeeName(), request.getTransactionAmount());
 		GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
 		if(prop.getErrorMessage().trim().length() != 0){
 			String[] errorResponse = SystematicsUtil.checkForError(prop.getErrorMessage()).split("\\|");
 			response.setErrorCode(errorResponse[1]);
 			response.setReplyText(errorResponse[0]);
-			logger.fatal("Error in return: " + prop.getErrorMessage());
+			logger.debug("Error in return: " + prop.getErrorMessage());
 		}else{
 			String returnMessage = prop.getReturnMessage();
 			String errorMessage = SystematicsUtil.checkForError(returnMessage);
@@ -323,10 +322,10 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				String[] errorResponse = errorMessage.split("\\|");
 				response.setErrorCode(errorResponse[1]);
 				response.setReplyText(errorResponse[0]);
-				logger.fatal("Error in return: " + prop.getErrorMessage());
+				logger.debug("Error in return: " + prop.getErrorMessage());
 			}
 		}
-		logger.debug("Exiting Fund Transfer SA)");
+		logger.debug("Exiting Bills Payment SA/CA)");
 		return response;
 	}
 	

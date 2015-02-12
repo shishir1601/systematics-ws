@@ -21,7 +21,7 @@ public class SystematicsClient extends WebServiceGatewaySupport{
         String overrideTellerId = "0000";
         String tranSeqNum = "000"; //temporary: transaction sequence number
         String statusByte = "000"; //temporary: status byte
-        String tranTime = DateUtil.getCurrentHour() + DateUtil.getCurrentMinutes() + DateUtil.getCurrentSecond(); //temporary: transaction time	
+        String tranTime = DateUtil.getCurrentHour() + DateUtil.getCurrentMinutes() + DateUtil.getCurrentSecond(); 
 		String a5 = "A5" + accountNumber;
 		String a3 = "A3" + branchCode;
 		String a4 = "A4000";
@@ -230,7 +230,7 @@ public class SystematicsClient extends WebServiceGatewaySupport{
 		String a7 = "A7" + transactionAmount;
 		String ai = "AI0005"; //sequence number
 		
-		String an = "AN" + a5.charAt(4);
+		String an = "AN" + a5.charAt(5);
 		
 		String message = code + tellerId + overrideTellerId + tranSeqNum + statusByte + tranTime + ";" + a2 + ";" + a3 + ";" + a4 + ";" + a5 + ";" + aj + ";" + ak + ";" + ap + ";" +al + ";" + a7 + ";" + ai + ";" + an + ";";
 	    logger.debug("TTIB Message: "+ message);
