@@ -9,6 +9,8 @@ import javax.jws.soap.SOAPBinding.Use;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.pnb.systematics.enterprise.bo.SystematicsBusinessObject;
+import com.pnb.systematics.interaction.AccountDetailsInqLoanRequest;
+import com.pnb.systematics.interaction.AccountDetailsInqLoanResponse;
 import com.pnb.systematics.interaction.BalanceInquiryRequest;
 import com.pnb.systematics.interaction.BalanceInquiryResponse;
 import com.pnb.systematics.interaction.BillsPaymentRequest;
@@ -82,5 +84,10 @@ public class WebServiceEndpoint {
 	@WebMethod(operationName = "WSDebitMemoST")
 	public DebitMemoStResponse debitMemoSt(DebitMemoStRequest request){
 		return systematicsBO.debitMemoSt(request);
+	}
+	
+	@WebMethod(operationName = "WSAcctDetInqLN")
+	public AccountDetailsInqLoanResponse accountLoan(AccountDetailsInqLoanRequest request){
+		return null;
 	}
 }

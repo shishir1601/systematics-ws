@@ -1,5 +1,7 @@
 package com.pnb.systematics.enterprise.bo;
 
+import com.pnb.systematics.interaction.AccountDetailsInqLoanRequest;
+import com.pnb.systematics.interaction.AccountDetailsInqLoanResponse;
 import com.pnb.systematics.interaction.BalanceInquiryRequest;
 import com.pnb.systematics.interaction.BalanceInquiryResponse;
 import com.pnb.systematics.interaction.BillsPaymentRequest;
@@ -24,4 +26,5 @@ public interface SystematicsBusinessObject {
 	public BillsPaymentResponse billPayfrSA(BillsPaymentRequest request);	
 	public DebitMemoImResponse debitMemoIm(DebitMemoImRequest request);
 	public DebitMemoStResponse debitMemoSt(DebitMemoStRequest request);
+	public AccountDetailsInqLoanResponse accountLoan(AccountDetailsInqLoanRequest request);
 }
