@@ -3,7 +3,7 @@ package com.pnb.systematics.interaction;
 import javax.xml.bind.annotation.XmlRootElement;
 
 
-@XmlRootElement(name = "ÄccountDetailsMessageSTResponse")
+@XmlRootElement(name = "AccountDetailsMessageSTResponse")
 public class AccountDetailsMessageSTResponse extends InteractionBase {
 
 	private String transactionStatusCode;
