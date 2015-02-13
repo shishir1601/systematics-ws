@@ -18,7 +18,7 @@ public class TransactionHistoryCARequest extends InteractionBase {
 	@XmlElement(name = "accountId", required = true)
 	private String accountId;
 	
-	@XmlElement(name = "userReferenceNumber")
+	@XmlElement(name = "userReferenceNumber", required = true)
 	private String userReferenceNumber;
 	
 	public String getCurrencyCode() {
