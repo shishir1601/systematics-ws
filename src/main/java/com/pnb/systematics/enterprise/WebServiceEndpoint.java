@@ -29,6 +29,10 @@ import com.pnb.systematics.interaction.FundTransferRequest;
 import com.pnb.systematics.interaction.FundTransferResponse;
 import com.pnb.systematics.interaction.ServiceChargeRequest;
 import com.pnb.systematics.interaction.ServiceChargeResponse;
+import com.pnb.systematics.interaction.TransactionHistoryCARequest;
+import com.pnb.systematics.interaction.TransactionHistoryCAResponse;
+import com.pnb.systematics.interaction.TransactionHistorySARequest;
+import com.pnb.systematics.interaction.TransactionHistorySAResponse;
 
 @WebService(serviceName="SystematicsWebservice")
 @SOAPBinding(style = Style.RPC, use = Use.LITERAL)
@@ -98,17 +102,27 @@ public class WebServiceEndpoint {
 	}
 	
 	@WebMethod(operationName = "WSAcctDetInqIM")
-	public AccountDetailsMessageIMResponse accountMessage(AccountDetailsMessageIMRequest request){
+	public AccountDetailsMessageIMResponse accountMessageIM(AccountDetailsMessageIMRequest request){
 		return null;
 	}
 	
 	@WebMethod(operationName = "WSAcctDetInqST")
-	public AccountDetailsMessageSTResponse accountMessage(AccountDetailsMessageSTRequest request){
+	public AccountDetailsMessageSTResponse accountMessageST(AccountDetailsMessageSTRequest request){
 		return null;
 	}
 	
 	@WebMethod(operationName = "WSAcctDetInqTD")
-	public AccountDetailsMessageTDResponse accountMessage(AccountDetailsMessageTDRequest request){
+	public AccountDetailsMessageTDResponse accountMessageTD(AccountDetailsMessageTDRequest request){
+		return null;
+	}
+	
+	@WebMethod(operationName = "WSTxHistoryCA")
+	public TransactionHistoryCAResponse transactionHistoryCA(TransactionHistoryCARequest request){
+		return null;
+	}
+	
+	@WebMethod(operationName = "WSTxHistorySA")
+	public TransactionHistorySAResponse transactionHistorySA(TransactionHistorySARequest request){
 		return null;
 	}
 }

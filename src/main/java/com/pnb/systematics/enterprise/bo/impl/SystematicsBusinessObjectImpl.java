@@ -28,6 +28,10 @@ import com.pnb.systematics.interaction.FundTransferRequest;
 import com.pnb.systematics.interaction.FundTransferResponse;
 import com.pnb.systematics.interaction.ServiceChargeRequest;
 import com.pnb.systematics.interaction.ServiceChargeResponse;
+import com.pnb.systematics.interaction.TransactionHistoryCARequest;
+import com.pnb.systematics.interaction.TransactionHistoryCAResponse;
+import com.pnb.systematics.interaction.TransactionHistorySARequest;
+import com.pnb.systematics.interaction.TransactionHistorySAResponse;
 import com.pnb.systematics.schema.GetFromTTIB2OutputProperties;
 import com.pnb.systematics.schema.GetFromTTIB2ProcessWSResponse;
 
@@ -341,13 +345,19 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 	public AccountDetailsInqLoanResponse accountLoan(AccountDetailsInqLoanRequest request){
 		return null;
 	}
-	public AccountDetailsMessageIMResponse accountMessage(AccountDetailsMessageIMRequest request){
+	public AccountDetailsMessageIMResponse accountMessageIM(AccountDetailsMessageIMRequest request){
 		return null;
 	}
-	public AccountDetailsMessageSTResponse accountMessage(AccountDetailsMessageSTRequest request){
+	public AccountDetailsMessageSTResponse accountMessageST(AccountDetailsMessageSTRequest request){
 		return null;
 	}
-	public AccountDetailsMessageTDResponse accountMessage(AccountDetailsMessageTDRequest request){
+	public AccountDetailsMessageTDResponse accountMessageTD(AccountDetailsMessageTDRequest request){
+		return null;
+	}
+	public TransactionHistoryCAResponse transactionHistoryCA(TransactionHistoryCARequest request){
+		return null;
+	}
+	public TransactionHistorySAResponse transactionHistorySA(TransactionHistorySARequest request){
 		return null;
 	}
 }

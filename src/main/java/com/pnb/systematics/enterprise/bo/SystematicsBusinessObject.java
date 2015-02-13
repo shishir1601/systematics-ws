@@ -20,6 +20,10 @@ import com.pnb.systematics.interaction.FundTransferRequest;
 import com.pnb.systematics.interaction.FundTransferResponse;
 import com.pnb.systematics.interaction.ServiceChargeRequest;
 import com.pnb.systematics.interaction.ServiceChargeResponse;
+import com.pnb.systematics.interaction.TransactionHistoryCARequest;
+import com.pnb.systematics.interaction.TransactionHistoryCAResponse;
+import com.pnb.systematics.interaction.TransactionHistorySARequest;
+import com.pnb.systematics.interaction.TransactionHistorySAResponse;
 
 public interface SystematicsBusinessObject {
 	public BalanceInquiryResponse balanceInquirySA(BalanceInquiryRequest request);
@@ -33,7 +37,10 @@ public interface SystematicsBusinessObject {
 	public DebitMemoImResponse debitMemoIm(DebitMemoImRequest request);
 	public DebitMemoStResponse debitMemoSt(DebitMemoStRequest request);
 	public AccountDetailsInqLoanResponse accountLoan(AccountDetailsInqLoanRequest request);
-	public AccountDetailsMessageIMResponse accountMessage(AccountDetailsMessageIMRequest request);
-	public AccountDetailsMessageSTResponse accountMessage(AccountDetailsMessageSTRequest request);
-	public AccountDetailsMessageTDResponse accountMessage(AccountDetailsMessageTDRequest request);
+	public AccountDetailsMessageIMResponse accountMessageIM(AccountDetailsMessageIMRequest request);
+	public AccountDetailsMessageSTResponse accountMessageST(AccountDetailsMessageSTRequest request);
+	public AccountDetailsMessageTDResponse accountMessageTD(AccountDetailsMessageTDRequest request);
+    public TransactionHistoryCAResponse transactionHistoryCA(TransactionHistoryCARequest request);
+    public TransactionHistorySAResponse transactionHistorySA(TransactionHistorySARequest request);
+
 }
