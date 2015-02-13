@@ -10,8 +10,12 @@ import com.pnb.systematics.enterprise.SystematicsUtil;
 import com.pnb.systematics.enterprise.bo.SystematicsBusinessObject;
 import com.pnb.systematics.interaction.AccountDetailsInqLoanRequest;
 import com.pnb.systematics.interaction.AccountDetailsInqLoanResponse;
-import com.pnb.systematics.interaction.AccountDetailsMessageRequest;
-import com.pnb.systematics.interaction.AccountDetailsMessageResponse;
+import com.pnb.systematics.interaction.AccountDetailsMessageIMRequest;
+import com.pnb.systematics.interaction.AccountDetailsMessageIMResponse;
+import com.pnb.systematics.interaction.AccountDetailsMessageSTRequest;
+import com.pnb.systematics.interaction.AccountDetailsMessageSTResponse;
+import com.pnb.systematics.interaction.AccountDetailsMessageTDRequest;
+import com.pnb.systematics.interaction.AccountDetailsMessageTDResponse;
 import com.pnb.systematics.interaction.BalanceInquiryRequest;
 import com.pnb.systematics.interaction.BalanceInquiryResponse;
 import com.pnb.systematics.interaction.BillsPaymentRequest;
@@ -334,11 +338,16 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 	}
 	
 	
-	public AccountDetailsInqLoanResponse accountLoan(AccountDetailsInqLoanRequest request) {
+	public AccountDetailsInqLoanResponse accountLoan(AccountDetailsInqLoanRequest request){
 		return null;
 	}
-	
-	public AccountDetailsMessageResponse accountMessage(AccountDetailsMessageRequest request) {
+	public AccountDetailsMessageIMResponse accountMessage(AccountDetailsMessageIMRequest request){
+		return null;
+	}
+	public AccountDetailsMessageSTResponse accountMessage(AccountDetailsMessageSTRequest request){
+		return null;
+	}
+	public AccountDetailsMessageTDResponse accountMessage(AccountDetailsMessageTDRequest request){
 		return null;
 	}
 }

@@ -11,6 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.pnb.systematics.enterprise.bo.SystematicsBusinessObject;
 import com.pnb.systematics.interaction.AccountDetailsInqLoanRequest;
 import com.pnb.systematics.interaction.AccountDetailsInqLoanResponse;
+import com.pnb.systematics.interaction.AccountDetailsMessageIMRequest;
+import com.pnb.systematics.interaction.AccountDetailsMessageIMResponse;
+import com.pnb.systematics.interaction.AccountDetailsMessageSTRequest;
+import com.pnb.systematics.interaction.AccountDetailsMessageSTResponse;
+import com.pnb.systematics.interaction.AccountDetailsMessageTDRequest;
+import com.pnb.systematics.interaction.AccountDetailsMessageTDResponse;
 import com.pnb.systematics.interaction.BalanceInquiryRequest;
 import com.pnb.systematics.interaction.BalanceInquiryResponse;
 import com.pnb.systematics.interaction.BillsPaymentRequest;
@@ -88,6 +94,21 @@ public class WebServiceEndpoint {
 	
 	@WebMethod(operationName = "WSAcctDetInqLN")
 	public AccountDetailsInqLoanResponse accountLoan(AccountDetailsInqLoanRequest request){
+		return null;
+	}
+	
+	@WebMethod(operationName = "WSAcctDetInqIM")
+	public AccountDetailsMessageIMResponse accountMessage(AccountDetailsMessageIMRequest request){
+		return null;
+	}
+	
+	@WebMethod(operationName = "WSAcctDetInqST")
+	public AccountDetailsMessageSTResponse accountMessage(AccountDetailsMessageSTRequest request){
+		return null;
+	}
+	
+	@WebMethod(operationName = "WSAcctDetInqTD")
+	public AccountDetailsMessageTDResponse accountMessage(AccountDetailsMessageTDRequest request){
 		return null;
 	}
 }
