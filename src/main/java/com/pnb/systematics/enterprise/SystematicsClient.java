@@ -239,4 +239,5 @@ public class SystematicsClient extends WebServiceGatewaySupport{
 		GetFromTTIB2ProcessWSResponse response = (GetFromTTIB2ProcessWSResponse) getWebServiceTemplate().marshalSendAndReceive(ttib, new SoapActionCallback("http://10.1.101.79:9080/AAFWebService/services/AAFWebService"));
 		return response;
 	}
+	
 }

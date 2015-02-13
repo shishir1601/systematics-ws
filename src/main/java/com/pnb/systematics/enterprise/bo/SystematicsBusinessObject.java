@@ -2,6 +2,12 @@ package com.pnb.systematics.enterprise.bo;
 
 import com.pnb.systematics.interaction.AccountDetailsInqLoanRequest;
 import com.pnb.systematics.interaction.AccountDetailsInqLoanResponse;
+import com.pnb.systematics.interaction.AccountDetailsMessageIMRequest;
+import com.pnb.systematics.interaction.AccountDetailsMessageIMResponse;
+import com.pnb.systematics.interaction.AccountDetailsMessageSTRequest;
+import com.pnb.systematics.interaction.AccountDetailsMessageSTResponse;
+import com.pnb.systematics.interaction.AccountDetailsMessageTDRequest;
+import com.pnb.systematics.interaction.AccountDetailsMessageTDResponse;
 import com.pnb.systematics.interaction.BalanceInquiryRequest;
 import com.pnb.systematics.interaction.BalanceInquiryResponse;
 import com.pnb.systematics.interaction.BillsPaymentRequest;
@@ -27,4 +33,7 @@ public interface SystematicsBusinessObject {
 	public DebitMemoImResponse debitMemoIm(DebitMemoImRequest request);
 	public DebitMemoStResponse debitMemoSt(DebitMemoStRequest request);
 	public AccountDetailsInqLoanResponse accountLoan(AccountDetailsInqLoanRequest request);
+	public AccountDetailsMessageIMResponse accountMessage(AccountDetailsMessageIMRequest request);
+	public AccountDetailsMessageSTResponse accountMessage(AccountDetailsMessageSTRequest request);
+	public AccountDetailsMessageTDResponse accountMessage(AccountDetailsMessageTDRequest request);
 }

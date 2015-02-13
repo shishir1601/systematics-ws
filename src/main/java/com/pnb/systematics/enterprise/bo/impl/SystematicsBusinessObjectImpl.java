@@ -10,6 +10,8 @@ import com.pnb.systematics.enterprise.SystematicsUtil;
 import com.pnb.systematics.enterprise.bo.SystematicsBusinessObject;
 import com.pnb.systematics.interaction.AccountDetailsInqLoanRequest;
 import com.pnb.systematics.interaction.AccountDetailsInqLoanResponse;
+import com.pnb.systematics.interaction.AccountDetailsMessageRequest;
+import com.pnb.systematics.interaction.AccountDetailsMessageResponse;
 import com.pnb.systematics.interaction.BalanceInquiryRequest;
 import com.pnb.systematics.interaction.BalanceInquiryResponse;
 import com.pnb.systematics.interaction.BillsPaymentRequest;
@@ -333,6 +335,10 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 	
 	
 	public AccountDetailsInqLoanResponse accountLoan(AccountDetailsInqLoanRequest request) {
+		return null;
+	}
+	
+	public AccountDetailsMessageResponse accountMessage(AccountDetailsMessageRequest request) {
 		return null;
 	}
 }
