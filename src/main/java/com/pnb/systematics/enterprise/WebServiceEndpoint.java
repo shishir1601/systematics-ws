@@ -98,7 +98,7 @@ public class WebServiceEndpoint {
 	
 	@WebMethod(operationName = "WSAcctDetInqLN")
 	public AccountDetailsInqLoanResponse accountLoan(AccountDetailsInqLoanRequest request){
-		return null;
+		return systematicsBO.accountLoan(request);
 	}
 	
 	@WebMethod(operationName = "WSAcctDetInqIM")
@@ -118,11 +118,11 @@ public class WebServiceEndpoint {
 	
 	@WebMethod(operationName = "WSTxHistoryCA")
 	public TransactionHistoryCAResponse transactionHistoryCA(TransactionHistoryCARequest request){
-		return null;
+		return systematicsBO.transactionHistoryCA(request);
 	}
 	
 	@WebMethod(operationName = "WSTxHistorySA")
 	public TransactionHistorySAResponse transactionHistorySA(TransactionHistorySARequest request){
-		return null;
+		return systematicsBO.transactionHistorySA(request);
 	}
 }

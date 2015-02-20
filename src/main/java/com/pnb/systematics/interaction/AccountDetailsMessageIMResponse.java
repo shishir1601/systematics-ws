@@ -20,6 +20,21 @@ public class AccountDetailsMessageIMResponse extends InteractionBase {
 	private String productCode;
 	private String errorCode;
 	private String replyText;
+	private String employeeAccount;
+	private String jointAccount;
+	
+	public String getEmployeeAccount() {
+		return employeeAccount;
+	}
+	public void setEmployeeAccount(String employeeAccount) {
+		this.employeeAccount = employeeAccount;
+	}
+	public String getJointAccount() {
+		return jointAccount;
+	}
+	public void setJointAccount(String jointAccount) {
+		this.jointAccount = jointAccount;
+	}
 	
 	public String getTransactionStatusCode() {
 		return transactionStatusCode;

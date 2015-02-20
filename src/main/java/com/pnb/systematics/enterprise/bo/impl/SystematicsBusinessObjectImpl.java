@@ -35,6 +35,7 @@ import com.pnb.systematics.interaction.TransactionHistorySARequest;
 import com.pnb.systematics.interaction.TransactionHistorySAResponse;
 import com.pnb.systematics.schema.GetFromTTIB2OutputProperties;
 import com.pnb.systematics.schema.GetFromTTIB2ProcessWSResponse;
+import com.teligent.crawler.LoanAccountInquiryCommand;
 
 @Component
 public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{	
@@ -323,12 +324,49 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 	
 	
 	public AccountDetailsInqLoanResponse accountLoan(AccountDetailsInqLoanRequest request){
-		return null;
+		AccountDetailsInqLoanResponse response = new AccountDetailsInqLoanResponse();
+		System.setProperty("jagacy.properties.dir","classpath");
+		try {
+			LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
+			command.open();
+			String returnValue = command.submitCommand(request.getAccountId());
+			logger.debug(returnValue);
+			if(returnValue == ""){
+				response.setErrorCode("99");
+				response.setReplyText("Error in connecting to mainframe. More INFO: ");
+			}else if(returnValue.contains("F:")){
+				response.setErrorCode("99");
+				response.setReplyText("Account Not Found");
+			}else{
+				response.setTransactionStatusCode("00");
+				response.setUserReferenceNumber(request.getUserReferenceNumber());
+				response.setProductType(returnValue.substring(547,560));
+				response.setEffectiveDate(returnValue.substring(226,240));
+				response.setCurrentRate(returnValue.substring(521,535));
+				response.setCurrentTerm(returnValue.substring(947,960));
+				response.setCurrentMaturityDate(returnValue.substring(925,935));
+				response.setCurrentPrincipalBalance(returnValue.substring(814,828));
+				response.setTotalOverdueAmount(returnValue.substring(1134,1148));
+				response.setAccountStatus(returnValue.substring(297,320));
+				response.setPastDueDate(returnValue.substring(1165,1175));
+				response.setOriginalLoanAmt(returnValue.substring(495,508));
+				response.setOriginalProceed(returnValue.substring(575,588));
+				response.setCustomerShortName(returnValue.substring(1361,1417));
+			}
+			command.close();
+		} catch (JagacyException e) {
+			response.setErrorCode("99");
+			response.setReplyText("Error in connecting to mainframe. More INFO: " + e.getMessage());
+		}
+		
+		return response;
 	}
 	public AccountDetailsMessageIMResponse accountMessageIM(AccountDetailsMessageIMRequest request){
 		AccountDetailsMessageIMResponse response = new AccountDetailsMessageIMResponse();
 		System.setProperty("jagacy.properties.dir","classpath");
 		try {
+			LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
+			command.open();
 			String returnValue = client.getTTIBAccountLoanCA(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId());
 			logger.debug(returnValue);
 			if(returnValue == ""){
@@ -338,19 +376,22 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				response.setErrorCode("99");
 				response.setReplyText(returnValue.substring(7, 35));
 			}else{
-				response.setTransactionStatusCode("00");
-				response.setCurrencyCode(request.getCurrencyCode());
-				response.setAccountId(request.getAccountId());
-				response.setBranchCode(request.getBranchCode());
-				response.setAccountStatus(returnValue.substring(23, 25));
-				response.setCustomerShortName(returnValue.substring(25,38));
-				response.setCurrentBalance(returnValue.substring(38,61));
-				response.setDepositTerm(returnValue.substring(61, 67));
-				response.setInterestRate(returnValue.substring(67,78));
-				response.setAccruedInterest(returnValue.substring(78, 102));
-				response.setDateOpened(returnValue.substring(102,110));
-				response.setProductCode(returnValue.substring(110,113));
+				response.setTransactionStatusCode(returnValue.substring(5,7));
+				response.setCurrencyCode(returnValue.substring(6,9));
+				response.setBranchCode(returnValue.substring(9,12));
+				response.setAccountId(returnValue.substring(12,22));
+				response.setAccountStatus(returnValue.substring(22,24));
+				response.setCustomerShortName(returnValue.substring(24,37));
+				response.setCurrentBalance(returnValue.substring(37,60));
+				response.setDepositTerm(returnValue.substring(60,67)); //length: 4? temporary
+				response.setInterestRate(returnValue.substring(67,77));//length: 10? temporary
+				response.setAccruedInterest(returnValue.substring(77,100)); //length: 23? temporary
+				response.setDateOpened(returnValue.substring(100,108));
+				response.setProductCode(returnValue.substring(108,111));
+				response.setEmployeeAccount(returnValue.substring(111,112));
+				response.setJointAccount(returnValue.substring(112,115));
 			}
+			command.close();
 		} catch (JagacyException e) {
 			response.setErrorCode("99");
 			response.setReplyText("Error in connecting to mainframe. More INFO: " + e.getMessage());
@@ -361,6 +402,8 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		AccountDetailsMessageSTResponse response = new AccountDetailsMessageSTResponse();
 		System.setProperty("jagacy.properties.dir","classpath");
 		try {
+			LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
+			command.open();
 			String returnValue = client.getTTIBAccountLoanSA(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId());
 			logger.debug(returnValue);
 			if(returnValue == ""){
@@ -370,19 +413,22 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				response.setErrorCode("99");
 				response.setReplyText(returnValue.substring(7, 35));
 			}else{
-				response.setTransactionStatusCode("00");
-				response.setCurrencyCode(request.getCurrencyCode());
-				response.setAccountId(request.getAccountId());
-				response.setBranchCode(request.getBranchCode());
-				response.setAccountStatus(returnValue.substring(23, 25));
-				response.setCustomerShortName(returnValue.substring(25,38));
-				response.setCurrentBalance(returnValue.substring(38,61));
-				response.setDepositTerm(returnValue.substring(61, 67));
-				response.setInterestRate(returnValue.substring(67,78));
-				response.setAccruedInterest(returnValue.substring(78, 102));
-				response.setDateOpened(returnValue.substring(102,110));
-				response.setProductCode(returnValue.substring(110,113));
+				response.setTransactionStatusCode(returnValue.substring(5,7));
+				response.setCurrencyCode(returnValue.substring(6,9));
+				response.setBranchCode(returnValue.substring(9,12));
+				response.setAccountId(returnValue.substring(12,22));
+				response.setAccountStatus(returnValue.substring(22,24));
+				response.setCustomerShortName(returnValue.substring(24,37));
+				response.setCurrentBalance(returnValue.substring(37,60));
+				response.setDepositTerm(returnValue.substring(60,67)); //length: 4? temporary
+				response.setInterestRate(returnValue.substring(67,77));//length: 10? temporary
+				response.setAccruedInterest(returnValue.substring(77,100)); //length: 23? temporary
+				response.setDateOpened(returnValue.substring(100,108));
+				response.setProductCode(returnValue.substring(108,111));
+				response.setEmployeeAccount(returnValue.substring(111,112));
+				response.setJointAccount(returnValue.substring(112,115));
 			}
+			command.close();
 		} catch (JagacyException e) {
 			response.setErrorCode("99");
 			response.setReplyText("Error in connecting to mainframe. More INFO: " + e.getMessage());
@@ -393,6 +439,8 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		AccountDetailsMessageTDResponse response = new AccountDetailsMessageTDResponse();
 		System.setProperty("jagacy.properties.dir","classpath");
 		try {
+			LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
+			command.open();
 			String returnValue = client.getTTIBAccountLoanTD(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId());
 			logger.debug(returnValue);
 			if(returnValue == ""){
@@ -402,19 +450,22 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				response.setErrorCode("99");
 				response.setReplyText(returnValue.substring(7, 35));
 			}else{
-				response.setTransactionStatusCode("00");
-				response.setCurrencyCode(request.getCurrencyCode());
-				response.setAccountId(request.getAccountId());
-				response.setBranchCode(request.getBranchCode());
-				response.setAccountStatus(returnValue.substring(23, 25));
-				response.setCustomerShortName(returnValue.substring(25,38));
-				response.setCurrentBalance(returnValue.substring(38,61));
-				response.setDepositTerm(returnValue.substring(61, 67));
-				response.setInterestRate(returnValue.substring(67,78));
-				response.setAccruedInterest(returnValue.substring(78, 102));
-				response.setDateOpened(returnValue.substring(102,110));
-				response.setProductCode(returnValue.substring(110,113));
+				response.setTransactionStatusCode(returnValue.substring(5,7));
+				response.setCurrencyCode(returnValue.substring(6,9));
+				response.setBranchCode(returnValue.substring(9,12));
+				response.setAccountId(returnValue.substring(12,22));
+				response.setAccountStatus(returnValue.substring(22,24));
+				response.setCustomerShortName(returnValue.substring(24,37));
+				response.setCurrentBalance(returnValue.substring(37,60));
+				response.setDepositTerm(returnValue.substring(60,67)); //length: 4? temporary
+				response.setInterestRate(returnValue.substring(67,77));//length: 10? temporary
+				response.setAccruedInterest(returnValue.substring(77,100)); //length: 23? temporary
+				response.setDateOpened(returnValue.substring(100,108));
+				response.setProductCode(returnValue.substring(108,111));
+				response.setEmployeeAccount(returnValue.substring(111,112));
+				response.setJointAccount(returnValue.substring(112,115));
 			}
+			command.close();
 		} catch (JagacyException e) {
 			response.setErrorCode("99");
 			response.setReplyText("Error in connecting to mainframe. More INFO: " + e.getMessage());
@@ -427,6 +478,40 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 	}
 	
 	public TransactionHistorySAResponse transactionHistorySA(TransactionHistorySARequest request){
-		return null;
+		TransactionHistorySAResponse response = new TransactionHistorySAResponse();
+		System.setProperty("jagacy.properties.dir","classpath");
+		try {
+			LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
+			command.open();
+			String returnValue = client.getTransactionHistorySA(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId());
+			logger.debug(returnValue);
+			if(returnValue == ""){
+				response.setErrorCode("99");
+				response.setReplyText("Error in connecting to mainframe");
+			}else if(returnValue.contains("ERROR READING")){
+				response.setErrorCode("99");
+				response.setReplyText(returnValue.substring(7, 35));
+			}else{
+				/*response.setTransactionStatusCode(returnValue.substring(5,7));
+				response.setCurrencyCode(returnValue.substring(6,9));
+				response.setBranchCode(returnValue.substring(9,12));
+				response.setAccountId(returnValue.substring(12,22));
+				response.setAccountStatus(returnValue.substring(22,24));
+				response.setCustomerShortName(returnValue.substring(24,37));
+				response.setCurrentBalance(returnValue.substring(37,60));
+				response.setDepositTerm(returnValue.substring(60,67)); //length: 4?
+				response.setInterestRate(returnValue.substring(67,77));//length: 10?
+				response.setAccruedInterest(returnValue.substring(77,100)); //length: 23?
+				response.setDateOpened(returnValue.substring(100,108));
+				response.setProductCode(returnValue.substring(108,111));
+				response.setEmployeeAccount(returnValue.substring(111,112));
+				response.setJointAccount(returnValue.substring(112,115));*/
+			}
+			command.close();
+		} catch (JagacyException e) {
+			response.setErrorCode("99");
+			response.setReplyText("Error in connecting to mainframe. More INFO: " + e.getMessage());
+		}
+		return response;
 	}
 }

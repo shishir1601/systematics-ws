@@ -23,8 +23,23 @@ public class AccountDetailsMessageTDResponse extends InteractionBase {
 	private String replyText;
 	private String messageCode;
 	private String messageText;
+	private String employeeAccount;
+	private String jointAccount;
 	
-	public String getMessageCode() {
+	public String getEmployeeAccount() {
+		return employeeAccount;
+	}
+	public void setEmployeeAccount(String employeeAccount) {
+		this.employeeAccount = employeeAccount;
+	}
+	public String getJointAccount() {
+		return jointAccount;
+	}
+	public void setJointAccount(String jointAccount) {
+		this.jointAccount = jointAccount;
+	}
+	
+		public String getMessageCode() {
 		return messageCode;
 	}
 	public void setMessageCode(String messageCode) {

@@ -15,7 +15,7 @@ public class AccountDetailsInqLoanResponse extends InteractionBase{
 	private String currentPrincipalBalance;
 	private String totalOverdueAmount;
 	private String accountStatus;
-	private String acruedStatus;
+	private String pastDueDate;
 	private String originalLoanAmt;
 	private String originalProceed;
 	private String customerShortName;
@@ -96,11 +96,11 @@ public class AccountDetailsInqLoanResponse extends InteractionBase{
 	public void setAccountStatus(String accountStatus) {
 		this.accountStatus = accountStatus;
 	}
-	public String getAcruedStatus() {
-		return acruedStatus;
+	public String getPastDueDate() {
+		return pastDueDate;
 	}
-	public void setAcruedStatus(String acruedStatus) {
-		this.acruedStatus = acruedStatus;
+	public void setPastDueDate(String pastDueDate) {
+		this.pastDueDate = pastDueDate;
 	}
 	public String getOriginalLoanAmt() {
 		return originalLoanAmt;
