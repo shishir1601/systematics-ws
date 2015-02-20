@@ -13,13 +13,28 @@ public class AccountDetailsInqLoanResponse extends InteractionBase{
 	private String currentTerm;
 	private String currentMaturityDate;
 	private String currentPrincipalBalance;
-	private String totalOVerdueAmount;
+	private String totalOverdueAmount;
 	private String accountStatus;
 	private String acruedStatus;
 	private String originalLoanAmt;
 	private String originalProceed;
 	private String customerShortName;
-	private String transactionStatusCode;
+	private String transactionStatusCode;	
+	private String errorCode;
+	private String replyText;
+	
+	public String getErrorCode() {
+		return errorCode;
+	}
+	public void setErrorCode(String errorCode) {
+		this.errorCode = errorCode;
+	}
+	public String getReplyText() {
+		return replyText;
+	}
+	public void setReplyText(String replyText) {
+		this.replyText = replyText;
+	}
 
 	public String getTransactionStatusCode() {
 		return transactionStatusCode;
@@ -69,11 +84,11 @@ public class AccountDetailsInqLoanResponse extends InteractionBase{
 	public void setCurrentPrincipalBalance(String currentPrincipalBalance) {
 		this.currentPrincipalBalance = currentPrincipalBalance;
 	}
-	public String getTotalOVerdueAmount() {
-		return totalOVerdueAmount;
+	public String getTotalOverdueAmount() {
+		return totalOverdueAmount;
 	}
-	public void setTotalOVerdueAmount(String totalOVerdueAmount) {
-		this.totalOVerdueAmount = totalOVerdueAmount;
+	public void setTotalOverdueAmount(String totalOverdueAmount) {
+		this.totalOverdueAmount = totalOverdueAmount;
 	}
 	public String getAccountStatus() {
 		return accountStatus;

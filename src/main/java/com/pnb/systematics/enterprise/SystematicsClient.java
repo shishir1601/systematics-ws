@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 import org.springframework.ws.soap.client.core.SoapActionCallback;
 
+import com.jagacy.util.JagacyException;
 import com.pnb.systematics.configuration.DateUtil;
 import com.pnb.systematics.schema.GetFromTTIB2InputProperties;
 import com.pnb.systematics.schema.GetFromTTIB2ProcessWS;
@@ -240,4 +241,55 @@ public class SystematicsClient extends WebServiceGatewaySupport{
 		return response;
 	}
 	
+	public String getTTIBAccountLoanTD(String currencyCode, String branchCode, String accountId) throws JagacyException{
+		String response = "";
+		String code = "WSP4";
+		String transId = "    ";
+		String seqNum = "001";
+		String currCode = currencyCode;
+		String branCode = branchCode;
+		String accntId = accountId;
+		String message = code + transId + seqNum + currCode + branCode + accntId;
+		logger.debug(message);
+	    CustomCommand conn = new CustomCommand();
+	    conn.open();
+	    response = conn.submitCommand(message);
+	    conn.close();
+		return response;
+	}
+	
+	public String getTTIBAccountLoanSA(String currencyCode, String branchCode, String accountId) throws JagacyException{
+		String response = "";
+		String code = "WSP5";
+		String transId = "    ";
+		String seqNum = "001";
+		String currCode = currencyCode;
+		String branCode = branchCode;
+		String accntId = accountId;
+		String message = code + transId + seqNum + currCode + branCode + accntId;
+		logger.debug(message);
+	    CustomCommand conn = new CustomCommand();
+	    conn.open();
+	    response = conn.submitCommand(message);
+	    conn.close();
+		return response;
+	}
+	
+	public String getTTIBAccountLoanCA(String currencyCode, String branchCode, String accountId) throws JagacyException{
+		String response = "";
+		String code = "WSP3";
+		String transId = "    ";
+		String seqNum = "001";
+		String currCode = currencyCode;
+		String branCode = branchCode;
+		String accntId = accountId;
+		String message = code + transId + seqNum + currCode + branCode + accntId;
+		logger.debug(message);
+	    CustomCommand conn = new CustomCommand();
+	    conn.open();
+	    response = conn.submitCommand(message);
+	    conn.close();
+		return response;
+	}
+
 }

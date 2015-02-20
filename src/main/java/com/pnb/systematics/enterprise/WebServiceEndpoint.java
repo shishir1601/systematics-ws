@@ -103,17 +103,17 @@ public class WebServiceEndpoint {
 	
 	@WebMethod(operationName = "WSAcctDetInqIM")
 	public AccountDetailsMessageIMResponse accountMessageIM(AccountDetailsMessageIMRequest request){
-		return null;
+		return systematicsBO.accountMessageIM(request);
 	}
 	
 	@WebMethod(operationName = "WSAcctDetInqST")
 	public AccountDetailsMessageSTResponse accountMessageST(AccountDetailsMessageSTRequest request){
-		return null;
+		return systematicsBO.accountMessageST(request);
 	}
 	
 	@WebMethod(operationName = "WSAcctDetInqTD")
 	public AccountDetailsMessageTDResponse accountMessageTD(AccountDetailsMessageTDRequest request){
-		return null;
+		return systematicsBO.accountMessageTD(request);
 	}
 	
 	@WebMethod(operationName = "WSTxHistoryCA")

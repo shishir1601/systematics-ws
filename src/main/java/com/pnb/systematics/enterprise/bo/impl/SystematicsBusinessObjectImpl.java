@@ -4,6 +4,7 @@ package com.pnb.systematics.enterprise.bo.impl;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
+import com.jagacy.util.JagacyException;
 import com.pnb.systematics.configuration.WebServiceUtil;
 import com.pnb.systematics.enterprise.SystematicsClient;
 import com.pnb.systematics.enterprise.SystematicsUtil;
@@ -43,7 +44,6 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 	
 	public BalanceInquiryResponse balanceInquirySA(BalanceInquiryRequest request) {
 		BalanceInquiryResponse response = new BalanceInquiryResponse();
-		//logger.debug("Entering: Balance Inquiry SA");
 		/*Sending the request*/
 		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBResponseSA(request.getAccountId(),request.getCurrencyCode(), request.getBranchCode());
 		/*Getting the result*/
@@ -66,14 +66,11 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 			response.setMemoBalance(SystematicsUtil.getRealBalance(SystematicsUtil.getWebServiceObject(returnMessage,"MEMO  BAL", 25)));
 			response.setFloatAmount(SystematicsUtil.getRealBalance(SystematicsUtil.getWebServiceObject(returnMessage, "FLOAT AMT", 25)));
 		}
-
-		//logger.debug("Exiting: Balance Inquiry SA");
 		return response;
 	}
 	
 	public BalanceInquiryResponse balanceInquiryCA(BalanceInquiryRequest request){
 		BalanceInquiryResponse response = new BalanceInquiryResponse();              
-		//logger.debug("Entering: Balance Inquiry CA");
 		/*Sending the request*/
 		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBResponseCA(request.getAccountId(), request.getCurrencyCode(), request.getBranchCode());
 		/*Getting the result*/
@@ -93,14 +90,12 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 			response.setCustomerShortName(SystematicsUtil.getWebServiceObject(returnMessage, "ACCT NAME", 21));
 			response.setTransactionStatusCode("00");
 		}
-		//logger.debug("Exiting: Balance Inquiry CA");
 		return response;
 	}
 
 
 	public ServiceChargeResponse debitCa(ServiceChargeRequest request) {
 		ServiceChargeResponse response = new ServiceChargeResponse();
-		//logger.debug("Entering Debit CA (Service Charge)");
 		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBServiceCharge(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId(), request.getTransactionAmount());
 		GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
 		if(prop.getErrorMessage().trim().length() != 0){
@@ -125,13 +120,11 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				logger.debug("Error in return: " + prop.getErrorMessage());
 			}
 		}
-		//logger.debug("Exiting Debit CA");
 		return response;
 	}
 	
 	public DebitMemoImResponse debitMemoIm(DebitMemoImRequest request) {
 		DebitMemoImResponse response = new DebitMemoImResponse();
-		//logger.debug("Entering Debit Memo IM (Service Charge) for SMS");
 		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBDebitMemoIm(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId(), request.getTransactionAmount());
 		GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
 		if(prop.getErrorMessage().trim().length() != 0){
@@ -155,13 +148,11 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				logger.debug("Error in return: " + prop.getErrorMessage());
 			}
 		}
-		//logger.debug("Exiting Debit Memo IM");
 		return response;
 	}
 	
 	public DebitMemoStResponse debitMemoSt(DebitMemoStRequest request) {
 		DebitMemoStResponse response = new DebitMemoStResponse();
-		//logger.debug("Entering Debit Memo IM (Service Charge) for SMS");
 		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBDebitMemoSt(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId(), request.getTransactionAmount());
 		GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
 		if(prop.getErrorMessage().trim().length() != 0){
@@ -185,13 +176,11 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				logger.debug("Error in return: " + prop.getErrorMessage());
 			}
 		}
-		//logger.debug("Exiting Debit Memo IM");
 		return response;
 	}
 
 	public FundTransferResponse fundTrSAtoCA(FundTransferRequest request) {
 		FundTransferResponse response = new FundTransferResponse();
-		//logger.debug("Entering Fund Transfer (SA to CA)");
 		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBFundTransferSAtoCA(request.getCurrencyCode(), request.getFromAccountId(), request.getFromBranchCode(), request.getToAccountId(), request.getToBranchCode(), request.getTransactionAmount());
 		GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
 		if(prop.getErrorMessage().trim().length() != 0){
@@ -215,13 +204,11 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				logger.debug("Error in return: " + prop.getErrorMessage());
 			}
 		}
-		//logger.debug("Exiting Fund Transfer (SA to CA)");
 		return response;
 	}
 
 	public FundTransferResponse fundTrCAtoSA(FundTransferRequest request) {
 	   	FundTransferResponse response = new FundTransferResponse();
-		//logger.debug("Entering Fund Transfer (CA to SA)");
 		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBFundTransferCAtoSA(request.getCurrencyCode(), request.getFromAccountId(), request.getFromBranchCode(), request.getToAccountId(), request.getToBranchCode(), request.getTransactionAmount());
 		GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
 		if(prop.getErrorMessage().trim().length() != 0){
@@ -245,13 +232,11 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				logger.debug("Error in return: " + prop.getErrorMessage());
 			}
 		}
-		//logger.debug("Exiting Fund Transfer (CA to SA)");
 		return response;
 	}
 	
 	public FundTransferResponse fundTrSAtoSA(FundTransferRequest request) {
 	   	FundTransferResponse response = new FundTransferResponse();
-		//logger.debug("Entering Fund Transfer (SA to SA)");
 		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBFundTransferSAtoSA(request.getCurrencyCode(), request.getFromAccountId(), request.getFromBranchCode(), request.getToAccountId(), request.getToBranchCode(), request.getTransactionAmount());
 		GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
 		if(prop.getErrorMessage().trim().length() != 0){
@@ -275,14 +260,12 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				logger.debug("Error in return: " + prop.getErrorMessage());
 			}
 		}
-		//logger.debug("Exiting Fund Transfer (SA to SA)");
 		return response;
 
 	}
 	
 	public FundTransferResponse fundTrCAtoCA(FundTransferRequest request) {
 	   	FundTransferResponse response = new FundTransferResponse();
-		//logger.debug("Entering Fund Transfer (CA to CA)");
 		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBFundTransferCAtoCA(request.getCurrencyCode(), request.getFromAccountId(), request.getFromBranchCode(), request.getToAccountId(), request.getToBranchCode(), request.getTransactionAmount());
 		GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
 		if(prop.getErrorMessage().trim().length() != 0){
@@ -306,14 +289,12 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				logger.debug("Error in return: " + prop.getErrorMessage());
 			}
 		}
-		//logger.debug("Exiting Fund Transfer (CA to CA)");
 		return response;
 
 	}
 	
 	public BillsPaymentResponse billPayfrSA(BillsPaymentRequest request) {
 		BillsPaymentResponse response = new BillsPaymentResponse();
-		//logger.debug("Entering Bills Payment (SA/CA)");
 		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBBillsPaymentSA(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId(), request.getMerchantID(), request.getSubscriberNumber(), request.getBillNo(), request.getPayeeName(), request.getTransactionAmount());
 		GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
 		if(prop.getErrorMessage().trim().length() != 0){
@@ -337,7 +318,6 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				logger.debug("Error in return: " + prop.getErrorMessage());
 			}
 		}
-		//logger.debug("Exiting Bills Payment SA/CA)");
 		return response;
 	}
 	
@@ -346,17 +326,106 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		return null;
 	}
 	public AccountDetailsMessageIMResponse accountMessageIM(AccountDetailsMessageIMRequest request){
-		return null;
+		AccountDetailsMessageIMResponse response = new AccountDetailsMessageIMResponse();
+		System.setProperty("jagacy.properties.dir","classpath");
+		try {
+			String returnValue = client.getTTIBAccountLoanCA(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId());
+			logger.debug(returnValue);
+			if(returnValue == ""){
+				response.setErrorCode("99");
+				response.setReplyText("Error in connecting to mainframe");
+			}else if(returnValue.contains("ERROR READING")){
+				response.setErrorCode("99");
+				response.setReplyText(returnValue.substring(7, 35));
+			}else{
+				response.setTransactionStatusCode("00");
+				response.setCurrencyCode(request.getCurrencyCode());
+				response.setAccountId(request.getAccountId());
+				response.setBranchCode(request.getBranchCode());
+				response.setAccountStatus(returnValue.substring(23, 25));
+				response.setCustomerShortName(returnValue.substring(25,38));
+				response.setCurrentBalance(returnValue.substring(38,61));
+				response.setDepositTerm(returnValue.substring(61, 67));
+				response.setInterestRate(returnValue.substring(67,78));
+				response.setAccruedInterest(returnValue.substring(78, 102));
+				response.setDateOpened(returnValue.substring(102,110));
+				response.setProductCode(returnValue.substring(110,113));
+			}
+		} catch (JagacyException e) {
+			response.setErrorCode("99");
+			response.setReplyText("Error in connecting to mainframe. More INFO: " + e.getMessage());
+		}
+		return response;
 	}
 	public AccountDetailsMessageSTResponse accountMessageST(AccountDetailsMessageSTRequest request){
-		return null;
+		AccountDetailsMessageSTResponse response = new AccountDetailsMessageSTResponse();
+		System.setProperty("jagacy.properties.dir","classpath");
+		try {
+			String returnValue = client.getTTIBAccountLoanSA(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId());
+			logger.debug(returnValue);
+			if(returnValue == ""){
+				response.setErrorCode("99");
+				response.setReplyText("Error in connecting to mainframe");
+			}else if(returnValue.contains("ERROR READING")){
+				response.setErrorCode("99");
+				response.setReplyText(returnValue.substring(7, 35));
+			}else{
+				response.setTransactionStatusCode("00");
+				response.setCurrencyCode(request.getCurrencyCode());
+				response.setAccountId(request.getAccountId());
+				response.setBranchCode(request.getBranchCode());
+				response.setAccountStatus(returnValue.substring(23, 25));
+				response.setCustomerShortName(returnValue.substring(25,38));
+				response.setCurrentBalance(returnValue.substring(38,61));
+				response.setDepositTerm(returnValue.substring(61, 67));
+				response.setInterestRate(returnValue.substring(67,78));
+				response.setAccruedInterest(returnValue.substring(78, 102));
+				response.setDateOpened(returnValue.substring(102,110));
+				response.setProductCode(returnValue.substring(110,113));
+			}
+		} catch (JagacyException e) {
+			response.setErrorCode("99");
+			response.setReplyText("Error in connecting to mainframe. More INFO: " + e.getMessage());
+		}
+		return response;
 	}
 	public AccountDetailsMessageTDResponse accountMessageTD(AccountDetailsMessageTDRequest request){
-		return null;
+		AccountDetailsMessageTDResponse response = new AccountDetailsMessageTDResponse();
+		System.setProperty("jagacy.properties.dir","classpath");
+		try {
+			String returnValue = client.getTTIBAccountLoanTD(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId());
+			logger.debug(returnValue);
+			if(returnValue == ""){
+				response.setErrorCode("99");
+				response.setReplyText("Error in connecting to mainframe");
+			}else if(returnValue.contains("ERROR READING")){
+				response.setErrorCode("99");
+				response.setReplyText(returnValue.substring(7, 35));
+			}else{
+				response.setTransactionStatusCode("00");
+				response.setCurrencyCode(request.getCurrencyCode());
+				response.setAccountId(request.getAccountId());
+				response.setBranchCode(request.getBranchCode());
+				response.setAccountStatus(returnValue.substring(23, 25));
+				response.setCustomerShortName(returnValue.substring(25,38));
+				response.setCurrentBalance(returnValue.substring(38,61));
+				response.setDepositTerm(returnValue.substring(61, 67));
+				response.setInterestRate(returnValue.substring(67,78));
+				response.setAccruedInterest(returnValue.substring(78, 102));
+				response.setDateOpened(returnValue.substring(102,110));
+				response.setProductCode(returnValue.substring(110,113));
+			}
+		} catch (JagacyException e) {
+			response.setErrorCode("99");
+			response.setReplyText("Error in connecting to mainframe. More INFO: " + e.getMessage());
+		}
+		return response;
 	}
+	
 	public TransactionHistoryCAResponse transactionHistoryCA(TransactionHistoryCARequest request){
 		return null;
 	}
+	
 	public TransactionHistorySAResponse transactionHistorySA(TransactionHistorySARequest request){
 		return null;
 	}

@@ -21,6 +21,22 @@ public class AccountDetailsMessageTDResponse extends InteractionBase {
 	private String productCode;
 	private String errorCode;
 	private String replyText;
+	private String messageCode;
+	private String messageText;
+	
+	public String getMessageCode() {
+		return messageCode;
+	}
+	public void setMessageCode(String messageCode) {
+		this.messageCode = messageCode;
+	}
+	public String getMessageText() {
+		return messageText;
+	}
+	public void setMessageText(String messageText) {
+		this.messageText = messageText;
+	}
+	
 	
 	public String getTransactionStatusCode() {
 		return transactionStatusCode;
@@ -112,6 +128,7 @@ public class AccountDetailsMessageTDResponse extends InteractionBase {
 	public void setReplyText(String replyText) {
 		this.replyText = replyText;
 	}
+
 	
 }
 
