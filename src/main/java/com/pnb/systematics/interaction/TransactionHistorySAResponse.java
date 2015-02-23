@@ -1,5 +1,7 @@
 package com.pnb.systematics.interaction;
 
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "TransactionHistorySAResponse")
@@ -15,18 +17,114 @@ public class TransactionHistorySAResponse extends InteractionBase {
 	private String productCode;
 	private String availableBalance;
 	private String openingDate;
-	private String listRecSeq;
-	private String listPostingDate;
-	private String listAmountInAccountCurrency;
-	private String listAmountInLocalCurrency;
-	private String listAmountInTransactionCurrency;
-	private String listTransactionAmount;
-	private String listCreditDebitFlag;
-	private String listChequeNumber;
-	private String listTxDesc;
-	private String listRunningTotal;
+	private List<TransactionHistoryResponseList> response;
 	private String errorCode;
 	private String replyText;
+	private String startDate;
+	private String endDate;
+	private String lastDataFlag;
+	private String numberOfRecords;
+	private String recordSequence;
+	private String postDate;
+	private String transAmount;
+	private String debitCreditFlag;
+	private String checkNumber;
+	private String transactionDesc;
+	private String runningTotal;
+	private String filler;
+	private String lastKeyUsed;
+	private String tranId;
+	private String recordSequense;
+	
+	
+	public void setResponse(List<TransactionHistoryResponseList> response) {
+		this.response = response;
+	}
+	public String getTranId() {
+		return tranId;
+	}
+	public void setTranId(String tranId) {
+		this.tranId = tranId;
+	}
+	public String getLastDataFlag() {
+		return lastDataFlag;
+	}
+	public void setLastDataFlag(String lastDataFlag) {
+		this.lastDataFlag = lastDataFlag;
+	}
+	public String getNumberOfRecords() {
+		return numberOfRecords;
+	}
+	public void setNumberOfRecords(String numberOfRecords) {
+		this.numberOfRecords = numberOfRecords;
+	}
+	public String getRecordSequence() {
+		return recordSequence;
+	}
+	public void setRecordSequence(String recordSequence) {
+		this.recordSequence = recordSequence;
+	}
+	public String getPostDate() {
+		return postDate;
+	}
+	public void setPostDate(String postDate) {
+		this.postDate = postDate;
+	}
+	public String getTransAmount() {
+		return transAmount;
+	}
+	public void setTransAmount(String transAmount) {
+		this.transAmount = transAmount;
+	}
+	public String getDebitCreditFlag() {
+		return debitCreditFlag;
+	}
+	public void setDebitCreditFlag(String debitCreditFlag) {
+		this.debitCreditFlag = debitCreditFlag;
+	}
+	public String getCheckNumber() {
+		return checkNumber;
+	}
+	public void setCheckNumber(String checkNumber) {
+		this.checkNumber = checkNumber;
+	}
+	public String getTransactionDesc() {
+		return transactionDesc;
+	}
+	public void setTransactionDesc(String transactionDesc) {
+		this.transactionDesc = transactionDesc;
+	}
+	public String getRunningTotal() {
+		return runningTotal;
+	}
+	public void setRunningTotal(String runningTotal) {
+		this.runningTotal = runningTotal;
+	}
+	public String getFiller() {
+		return filler;
+	}
+	public void setFiller(String filler) {
+		this.filler = filler;
+	}
+	public String getLastKeyUsed() {
+		return lastKeyUsed;
+	}
+	public void setLastKeyUsed(String lastKeyUsed) {
+		this.lastKeyUsed = lastKeyUsed;
+	}
+	
+	public String getStartDate() {
+		return startDate;
+	}
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+	public String getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
 	
 	public String getErrorCode() {
 		return errorCode;
@@ -101,67 +199,14 @@ public class TransactionHistorySAResponse extends InteractionBase {
 	public void setOpeningDate(String openingDate) {
 		this.openingDate = openingDate;
 	}
-	public String getListRecSeq() {
-		return listRecSeq;
+	public List<TransactionHistoryResponseList> getResponse() {
+		return response;
 	}
-	public void setListRecSeq(String listRecSeq) {
-		this.listRecSeq = listRecSeq;
+	public String getRecordSequense() {
+		return recordSequense;
 	}
-	public String getListPostingDate() {
-		return listPostingDate;
+	public void setRecordSequense(String recordSequense) {
+		this.recordSequense = recordSequense;
 	}
-	public void setListPostingDate(String listPostingDate) {
-		this.listPostingDate = listPostingDate;
-	}
-	public String getListAmountInAccountCurrency() {
-		return listAmountInAccountCurrency;
-	}
-	public void setListAmountInAccountCurrency(String listAmountInAccountCurrency) {
-		this.listAmountInAccountCurrency = listAmountInAccountCurrency;
-	}
-	public String getListAmountInLocalCurrency() {
-		return listAmountInLocalCurrency;
-	}
-	public void setListAmountInLocalCurrency(String listAmountInLocalCurrency) {
-		this.listAmountInLocalCurrency = listAmountInLocalCurrency;
-	}
-	public String getListAmountInTransactionCurrency() {
-		return listAmountInTransactionCurrency;
-	}
-	public void setListAmountInTransactionCurrency(
-			String listAmountInTransactionCurrency) {
-		this.listAmountInTransactionCurrency = listAmountInTransactionCurrency;
-	}
-	public String getListTransactionAmount() {
-		return listTransactionAmount;
-	}
-	public void setListTransactionAmount(String listTransactionAmount) {
-		this.listTransactionAmount = listTransactionAmount;
-	}
-	public String getListCreditDebitFlag() {
-		return listCreditDebitFlag;
-	}
-	public void setListCreditDebitFlag(String listCreditDebitFlag) {
-		this.listCreditDebitFlag = listCreditDebitFlag;
-	}
-	public String getListChequeNumber() {
-		return listChequeNumber;
-	}
-	public void setListChequeNumber(String listChequeNumber) {
-		this.listChequeNumber = listChequeNumber;
-	}
-	public String getListTxDesc() {
-		return listTxDesc;
-	}
-	public void setListTxDesc(String listTxDesc) {
-		this.listTxDesc = listTxDesc;
-	}
-	public String getListRunningTotal() {
-		return listRunningTotal;
-	}
-	public void setListRunningTotal(String listRunningTotal) {
-		this.listRunningTotal = listRunningTotal;
-	}
-		
 }
 

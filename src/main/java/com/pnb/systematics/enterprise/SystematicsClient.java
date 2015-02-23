@@ -292,15 +292,18 @@ public class SystematicsClient extends WebServiceGatewaySupport{
 		return response;
 	}
 	
-	public String getTransactionHistorySA(String currencyCode, String branchCode, String accountId) throws JagacyException{
+	public String getTransactionHistorySA(String currencyCode, String branchCode, String accountId, String startDate, String endDate) throws JagacyException{
 		String response = "";
 		String code = "WSP2";
 		String transId = "    ";
-		//String seqNum = "001";
+		String seqNum = "001";
 		String currCode = currencyCode;
 		String branCode = branchCode;
 		String accntId = accountId;
-		String message = code + transId + currCode + branCode + accntId + "001";
+		String nextRec = "001";
+		//String strDate = startDate;
+		//String eDate = endDate;
+		String message = code + transId + seqNum + currCode + branCode + accntId + nextRec;
 		logger.debug(message);
 	    CustomCommand conn = new CustomCommand();
 	    conn.open();
@@ -311,7 +314,7 @@ public class SystematicsClient extends WebServiceGatewaySupport{
 	
 	public String getTransactionHistoryCA(String currencyCode, String branchCode, String accountId) throws JagacyException{
 		String response = "";
-		String code = "WSP2";
+		String code = "WSP1";
 		String transId = "    ";
 		//String seqNum = "001";
 		String currCode = currencyCode;

@@ -22,6 +22,25 @@ public class TransactionHistorySARequest extends InteractionBase{
 	@XmlElement(name = "userReferenceNumber", required = true)
 	private String userReferenceNumber;
 	
+	@XmlElement(name = "startDate", required = true)
+	private String startDate;
+	
+	@XmlElement(name = "endDate", required = true)
+	private String endDate;
+	
+	public String getStartDate() {
+		return startDate;
+	}
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+	public String getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
 	public String getCurrencyCode() {
 		return currencyCode;
 	}

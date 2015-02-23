@@ -1,6 +1,8 @@
 package com.pnb.systematics.enterprise.bo.impl;
 
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
@@ -31,6 +33,7 @@ import com.pnb.systematics.interaction.ServiceChargeRequest;
 import com.pnb.systematics.interaction.ServiceChargeResponse;
 import com.pnb.systematics.interaction.TransactionHistoryCARequest;
 import com.pnb.systematics.interaction.TransactionHistoryCAResponse;
+import com.pnb.systematics.interaction.TransactionHistoryResponseList;
 import com.pnb.systematics.interaction.TransactionHistorySARequest;
 import com.pnb.systematics.interaction.TransactionHistorySAResponse;
 import com.pnb.systematics.schema.GetFromTTIB2OutputProperties;
@@ -374,22 +377,22 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				response.setReplyText("Error in connecting to mainframe");
 			}else if(returnValue.contains("ERROR READING")){
 				response.setErrorCode("99");
-				response.setReplyText(returnValue.substring(7, 35));
+				response.setReplyText(returnValue.substring(6,35));
 			}else{
-				response.setTransactionStatusCode(returnValue.substring(5,7));
-				response.setCurrencyCode(returnValue.substring(6,9));
-				response.setBranchCode(returnValue.substring(9,12));
-				response.setAccountId(returnValue.substring(12,22));
-				response.setAccountStatus(returnValue.substring(22,24));
-				response.setCustomerShortName(returnValue.substring(24,37));
-				response.setCurrentBalance(returnValue.substring(37,60));
-				response.setDepositTerm(returnValue.substring(60,67)); //length: 4? temporary
-				response.setInterestRate(returnValue.substring(67,77));//length: 10? temporary
-				response.setAccruedInterest(returnValue.substring(77,100)); //length: 23? temporary
-				response.setDateOpened(returnValue.substring(100,108));
-				response.setProductCode(returnValue.substring(108,111));
-				response.setEmployeeAccount(returnValue.substring(111,112));
-				response.setJointAccount(returnValue.substring(112,115));
+				response.setTransactionStatusCode(returnValue.substring(5,7)); //length:2
+				response.setCurrencyCode(returnValue.substring(6,9)); //length:3
+				response.setBranchCode(returnValue.substring(9,12)); //length:3
+				response.setAccountId(returnValue.substring(12,22)); //length:10
+				response.setAccountStatus(returnValue.substring(22,24)); //length:2
+				response.setCustomerShortName(returnValue.substring(24,37)); //length:13
+				response.setCurrentBalance(returnValue.substring(37,60)); //length:23
+				response.setDepositTerm(returnValue.substring(60,66)); //length:6
+				response.setInterestRate(returnValue.substring(66,77));////length:11
+				response.setAccruedInterest(returnValue.substring(77,100)); //length:23
+				response.setDateOpened(returnValue.substring(100,108)); //length:8
+				response.setProductCode(returnValue.substring(108,111)); //length:3
+				response.setEmployeeAccount(returnValue.substring(111,112)); //length:1
+				response.setJointAccount(returnValue.substring(112,115)); //length:3
 			}
 			command.close();
 		} catch (JagacyException e) {
@@ -411,22 +414,22 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				response.setReplyText("Error in connecting to mainframe");
 			}else if(returnValue.contains("ERROR READING")){
 				response.setErrorCode("99");
-				response.setReplyText(returnValue.substring(7, 35));
+				response.setReplyText(returnValue.substring(6,35));
 			}else{
-				response.setTransactionStatusCode(returnValue.substring(5,7));
-				response.setCurrencyCode(returnValue.substring(6,9));
-				response.setBranchCode(returnValue.substring(9,12));
-				response.setAccountId(returnValue.substring(12,22));
-				response.setAccountStatus(returnValue.substring(22,24));
-				response.setCustomerShortName(returnValue.substring(24,37));
-				response.setCurrentBalance(returnValue.substring(37,60));
-				response.setDepositTerm(returnValue.substring(60,67)); //length: 4? temporary
-				response.setInterestRate(returnValue.substring(67,77));//length: 10? temporary
-				response.setAccruedInterest(returnValue.substring(77,100)); //length: 23? temporary
-				response.setDateOpened(returnValue.substring(100,108));
-				response.setProductCode(returnValue.substring(108,111));
-				response.setEmployeeAccount(returnValue.substring(111,112));
-				response.setJointAccount(returnValue.substring(112,115));
+				response.setTransactionStatusCode(returnValue.substring(5,7)); //length:2
+				response.setCurrencyCode(returnValue.substring(6,9)); //length:3
+				response.setBranchCode(returnValue.substring(9,12)); //length:3
+				response.setAccountId(returnValue.substring(12,22)); //length:10
+				response.setAccountStatus(returnValue.substring(22,24)); //length:2
+				response.setCustomerShortName(returnValue.substring(24,37)); //length:13
+				response.setCurrentBalance(returnValue.substring(37,60)); //length:23
+				response.setDepositTerm(returnValue.substring(60,66)); //length:6
+				response.setInterestRate(returnValue.substring(66,77));////length:11
+				response.setAccruedInterest(returnValue.substring(77,100)); //length:23
+				response.setDateOpened(returnValue.substring(100,108)); //length:8
+				response.setProductCode(returnValue.substring(108,111)); //length:3
+				response.setEmployeeAccount(returnValue.substring(111,112)); //length:1
+				response.setJointAccount(returnValue.substring(112,115)); //length:3
 			}
 			command.close();
 		} catch (JagacyException e) {
@@ -448,22 +451,22 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				response.setReplyText("Error in connecting to mainframe");
 			}else if(returnValue.contains("ERROR READING")){
 				response.setErrorCode("99");
-				response.setReplyText(returnValue.substring(7, 35));
+				response.setReplyText(returnValue.substring(6,35));
 			}else{
-				response.setTransactionStatusCode(returnValue.substring(5,7));
-				response.setCurrencyCode(returnValue.substring(6,9));
-				response.setBranchCode(returnValue.substring(9,12));
-				response.setAccountId(returnValue.substring(12,22));
-				response.setAccountStatus(returnValue.substring(22,24));
-				response.setCustomerShortName(returnValue.substring(24,37));
-				response.setCurrentBalance(returnValue.substring(37,60));
-				response.setDepositTerm(returnValue.substring(60,67)); //length: 4? temporary
-				response.setInterestRate(returnValue.substring(67,77));//length: 10? temporary
-				response.setAccruedInterest(returnValue.substring(77,100)); //length: 23? temporary
-				response.setDateOpened(returnValue.substring(100,108));
-				response.setProductCode(returnValue.substring(108,111));
-				response.setEmployeeAccount(returnValue.substring(111,112));
-				response.setJointAccount(returnValue.substring(112,115));
+				response.setTransactionStatusCode(returnValue.substring(5,7)); //length:2
+				response.setCurrencyCode(returnValue.substring(6,9)); //length:3
+				response.setBranchCode(returnValue.substring(9,12)); //length:3
+				response.setAccountId(returnValue.substring(12,22)); //length:10
+				response.setAccountStatus(returnValue.substring(22,24)); //length:2
+				response.setCustomerShortName(returnValue.substring(24,37)); //length:13
+				response.setCurrentBalance(returnValue.substring(37,60)); //length:23
+				response.setDepositTerm(returnValue.substring(60,66)); //length:6
+				response.setInterestRate(returnValue.substring(66,77));////length:11
+				response.setAccruedInterest(returnValue.substring(77,100)); //length:23
+				response.setDateOpened(returnValue.substring(100,108)); //length:8
+				response.setProductCode(returnValue.substring(108,111)); //length:3
+				response.setEmployeeAccount(returnValue.substring(111,112)); //length:1
+				response.setJointAccount(returnValue.substring(112,115)); //length:3
 			}
 			command.close();
 		} catch (JagacyException e) {
@@ -483,29 +486,43 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		try {
 			LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
 			command.open();
-			String returnValue = client.getTransactionHistorySA(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId());
+			String returnValue = client.getTransactionHistorySA(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId(), request.getStartDate(), request.getEndDate());
 			logger.debug(returnValue);
 			if(returnValue == ""){
 				response.setErrorCode("99");
 				response.setReplyText("Error in connecting to mainframe");
 			}else if(returnValue.contains("ERROR READING")){
 				response.setErrorCode("99");
-				response.setReplyText(returnValue.substring(7, 35));
+				response.setReplyText(returnValue.substring(6,35));
 			}else{
-				/*response.setTransactionStatusCode(returnValue.substring(5,7));
-				response.setCurrencyCode(returnValue.substring(6,9));
-				response.setBranchCode(returnValue.substring(9,12));
-				response.setAccountId(returnValue.substring(12,22));
-				response.setAccountStatus(returnValue.substring(22,24));
-				response.setCustomerShortName(returnValue.substring(24,37));
-				response.setCurrentBalance(returnValue.substring(37,60));
-				response.setDepositTerm(returnValue.substring(60,67)); //length: 4?
-				response.setInterestRate(returnValue.substring(67,77));//length: 10?
-				response.setAccruedInterest(returnValue.substring(77,100)); //length: 23?
-				response.setDateOpened(returnValue.substring(100,108));
-				response.setProductCode(returnValue.substring(108,111));
-				response.setEmployeeAccount(returnValue.substring(111,112));
-				response.setJointAccount(returnValue.substring(112,115));*/
+				response.setTranId(returnValue.substring(0,4));
+				response.setTransactionStatusCode(returnValue.substring(4,6));
+				//to insert 0 value
+				response.setCurrencyCode(returnValue.substring(7,10));
+				response.setBranchCode(returnValue.substring(10,13));
+				response.setAccountId(returnValue.substring(13,23));
+				response.setAccountStatus(returnValue.substring(23,25));
+				response.setCurrentBalance(returnValue.substring(25,48));
+				response.setAvailableBalance(returnValue.substring(48,71));
+				response.setProductCode(returnValue.substring(71,74));
+				response.setOpeningDate(returnValue.substring(74,82));
+				response.setLastDataFlag(returnValue.substring(82,83));
+				response.setNumberOfRecords(returnValue.substring(83,85));
+				
+				/*
+				List<TransactionHistoryResponseList> responseList = response.getResponse();
+				//loop
+				int numOfHeadingChar=84;
+				int numOfChar=0;
+				//for(int ctr=0;ctr<15;ctr++){
+					TransactionHistoryResponseList th = new TransactionHistoryResponseList();
+					th.setRecordSequence(returnValue.substring(7+numOfChar+numOfHeadingChar,10+numOfChar+numOfHeadingChar));
+					responseList.add(th);
+					//numOfChar+=110;
+				//}
+				//end loop
+				 
+				 */
 			}
 			command.close();
 		} catch (JagacyException e) {
