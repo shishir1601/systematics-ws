@@ -1,11 +1,15 @@
 package com.pnb.systematics.enterprise.bo.impl;
 
 
+import java.beans.XMLEncoder;
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
+import com.jagacy.Seconds;
 import com.jagacy.util.JagacyException;
 import com.pnb.systematics.configuration.WebServiceUtil;
 import com.pnb.systematics.enterprise.SystematicsClient;
@@ -34,6 +38,7 @@ import com.pnb.systematics.interaction.ServiceChargeResponse;
 import com.pnb.systematics.interaction.TransactionHistoryCARequest;
 import com.pnb.systematics.interaction.TransactionHistoryCAResponse;
 import com.pnb.systematics.interaction.TransactionHistoryResponseList;
+import com.pnb.systematics.interaction.TransactionHistoryResponseListMain;
 import com.pnb.systematics.interaction.TransactionHistorySARequest;
 import com.pnb.systematics.interaction.TransactionHistorySAResponse;
 import com.pnb.systematics.schema.GetFromTTIB2OutputProperties;
@@ -46,9 +51,12 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 	private static final SystematicsClient client = WebServiceUtil.systematicsClient();
 	private static Logger logger = Logger.getLogger(SystematicsBusinessObjectImpl.class);
 	
+	String nullField;
+	
 	public BalanceInquiryResponse balanceInquirySA(BalanceInquiryRequest request) {
 		BalanceInquiryResponse response = new BalanceInquiryResponse();
 		/*Sending the request*/
+	
 		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBResponseSA(request.getAccountId(),request.getCurrencyCode(), request.getBranchCode());
 		/*Getting the result*/
 		GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
@@ -370,6 +378,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		try {
 			LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
 			command.open();
+			
 			String returnValue = client.getTTIBAccountLoanCA(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId());
 			logger.debug(returnValue);
 			if(returnValue == ""){
@@ -476,12 +485,317 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		return response;
 	}
 	
+	//collection used to store all the records before response
+	List<TransactionHistoryResponseList> responseList;
+	int nextRecordNumber;
+	String lastDataFlag;
 	public TransactionHistoryCAResponse transactionHistoryCA(TransactionHistoryCARequest request){
-		return null;
+		TransactionHistoryCAResponse response = new TransactionHistoryCAResponse();
+		System.setProperty("jagacy.properties.dir","classpath");
+		responseList = new ArrayList<TransactionHistoryResponseList>();
+		nextRecordNumber=1;
+		try {
+			LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
+			command.open();
+			//check if request has null field/s
+			if(!request.getCurrencyCode().equals("") && !request.getBranchCode().equals("") && !request.getAccountId().equals("")  && !request.getStartDate().equals("") && !request.getEndDate().equals("")){
+			//if(request.getCurrencyCode()!=null){
+					String requestValue="First Request:WSP1" + "    " + request.getCurrencyCode()+request.getBranchCode()+request.getAccountId()+SystematicsUtil.getNextRecordNumber(nextRecordNumber)+request.getStartDate()+request.getEndDate();
+					logger.debug(requestValue);
+					String returnValue = client.getTransactionHistoryCA(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId(), request.getStartDate(), request.getEndDate(), SystematicsUtil.getNextRecordNumber(nextRecordNumber), "");
+					System.out.println("Return: "+returnValue);
+					logger.debug(returnValue);
+					if(returnValue == ""){
+						response.setErrorCode("99");
+						response.setReplyText("Error in connecting to mainframe");
+					}else if(returnValue.contains("ERROR READING")){
+						response.setErrorCode("99");
+						response.setReplyText(returnValue.substring(6,35));
+					}else{
+						
+						response.setTranId(returnValue.substring(0,4));
+						response.setTransactionStatusCode(returnValue.substring(4,6));
+						//to insert 0 value
+						response.setCurrencyCode(returnValue.substring(6,9));
+						response.setBranchCode(returnValue.substring(9,12));
+						response.setAccountId(returnValue.substring(12,22));
+						response.setAccountStatus(returnValue.substring(22,24));
+						response.setCurrentBalance(returnValue.substring(24,47));
+						response.setAvailableBalance(returnValue.substring(47,70));
+						response.setProductCode(returnValue.substring(70,73));
+						response.setOpeningDate(returnValue.substring(73,81));
+						response.setLastDataFlag(returnValue.substring(81,82));
+						response.setNumberOfRecords(returnValue.substring(82,84));
+						
+						////get the number of records
+						String recordCount=response.getNumberOfRecords().trim();
+						
+						int recordNumber=Integer.parseInt(recordCount);
+					
+						//List<TransactionHistoryResponseList> responseList = response.getResponse();
+						
+						//loop
+						int numOfHeadingChar=85;
+						int numOfChar=0;
+						
+						for(int ctr=0;ctr<recordNumber;ctr++){
+							TransactionHistoryResponseList th = new TransactionHistoryResponseList();
+							th.setRecordSequence(returnValue.substring(numOfHeadingChar+numOfChar,3+numOfHeadingChar+numOfChar));
+							th.setPostingDate(returnValue.substring(3+numOfHeadingChar+numOfChar,11+numOfHeadingChar+numOfChar));
+							th.setTransAmount(returnValue.substring(11+numOfHeadingChar+numOfChar,34+numOfHeadingChar+numOfChar));
+							th.setDebitCreditFlag(returnValue.substring(34+numOfHeadingChar+numOfChar,35+numOfHeadingChar+numOfChar));
+							th.setCheckNumber(returnValue.substring(35+numOfHeadingChar+numOfChar,45+numOfHeadingChar+numOfChar));
+							th.setTransactionDecs(returnValue.substring(45+numOfHeadingChar+numOfChar,75+numOfHeadingChar+numOfChar));
+							th.setRunningTotal(returnValue.substring(75+numOfHeadingChar+numOfChar,98+numOfHeadingChar+numOfChar));
+							responseList.add(th);
+							
+							numOfChar+=99;
+						}
+						nextRecordNumber+=responseList.size();
+						String lastKeyUsed=returnValue.substring(1571,1601);
+						//yes or no character
+						//String datxaFlag=returnValue.substring(response);
+						//check if data flag yes or no
+						//response.setResponse(responseList);	
+						lastDataFlag=response.getLastDataFlag();
+						
+						while((lastDataFlag.equals("Y") || responseList.size()!=500)  && !lastKeyUsed.equalsIgnoreCase("") ){
+							if(!lastKeyUsed.equals("")){
+								String requestNextValue="Second Request:WSP1" + "    " +request.getCurrencyCode()+request.getBranchCode()+request.getAccountId()+SystematicsUtil.getNextRecordNumber(nextRecordNumber)+request.getStartDate()+request.getEndDate() +lastKeyUsed;
+								logger.debug(requestNextValue);
+								String returnSecondValue = client.getTransactionHistoryCA(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId(), request.getStartDate(), request.getEndDate(), SystematicsUtil.getNextRecordNumber(nextRecordNumber), lastKeyUsed);
+								logger.debug(returnSecondValue);
+								lastKeyUsed=settransactionHistoryCAResponse(response,  returnSecondValue);
+
+							}
+						}
+						
+						response.setResponse(responseList);	
+						//responseList.clear();
+					   // response.setRecordSequence(responseList.);
+				       // end loop
+						 
+					}
+					
+					ByteArrayOutputStream baos=new ByteArrayOutputStream();
+					XMLEncoder xmlEncoder=new XMLEncoder(baos);
+					xmlEncoder.writeObject(response);
+					xmlEncoder.close();
+					String responseLog=baos.toString();
+					if(!responseLog.equals("")){
+						responseLog=responseLog.replaceAll("\n", "").replaceAll("\\<\\?xml(.+?)\\?\\>", "").replaceAll("\\<java(.+?)\\>", "").replaceAll("\\<object(.+?)\\>", "");
+						logger.debug(responseLog);
+					}
+					
+				
+					command.close();
+					
+			}else{
+				response.setErrorCode("99");
+				response.setReplyText("Please complete all the required fields.");
+				logger.debug(response);
+			}
+			
+			
+		} catch (JagacyException e) {
+			//e.printStackTrace();
+			response.setErrorCode("99");
+			response.setReplyText("Error in connecting to mainframe. More INFO: " + e.getMessage());
+		}
+		return response;
+	}
+	
+	///set the response before send
+	public String settransactionHistoryCAResponse(TransactionHistoryCAResponse response, String returnValue){
+		String lastKeyUsed="";
+		try{
+		//logger.debug(returnValue);
+		if(returnValue.equals("") ){
+			System.out.println("empty return");
+			response.setErrorCode("99");
+			response.setReplyText("Error in connecting to mainframe");
+		}else if(returnValue.contains("ERROR READING")){
+			response.setErrorCode("99");
+			response.setReplyText(returnValue.substring(6,35));
+			}else{
+				
+				/*response.setTranId(returnValue.substring(0,4));
+				response.setTransactionStatusCode(returnValue.substring(4,6));
+				//to insert 0 value
+				response.setCurrencyCode(returnValue.substring(6,9));
+				response.setBranchCode(returnValue.substring(9,12));
+				response.setAccountId(returnValue.substring(12,22));
+				response.setAccountStatus(returnValue.substring(22,24));
+				response.setCurrentBalance(returnValue.substring(24,47));
+				response.setAvailableBalance(returnValue.substring(47,70));
+				response.setProductCode(returnValue.substring(70,73));
+				response.setOpeningDate(returnValue.substring(73,81));*/
+				//response.setLastDataFlag(returnValue.substring(81,82));
+				//response.setNumberOfRecords(returnValue.substring(82,84));
+				
+				////get the number of records
+				String recordCount=returnValue.substring(82,84);
+				lastDataFlag=returnValue.substring(81,82);
+				int recordNumber=Integer.parseInt(recordCount);
+			
+				//List<TransactionHistoryResponseList> responseList = response.getResponse();
+				
+				//loop
+				int numOfHeadingChar=85;
+				int numOfChar=0;
+				int numberOfRecords=0;
+				for(int ctr=0;ctr<recordNumber;ctr++){
+					TransactionHistoryResponseList th = new TransactionHistoryResponseList();
+					th.setRecordSequence(returnValue.substring(numOfHeadingChar+numOfChar,3+numOfHeadingChar+numOfChar));
+					th.setPostingDate(returnValue.substring(3+numOfHeadingChar+numOfChar,11+numOfHeadingChar+numOfChar));
+					th.setTransAmount(returnValue.substring(11+numOfHeadingChar+numOfChar,34+numOfHeadingChar+numOfChar));
+					th.setDebitCreditFlag(returnValue.substring(34+numOfHeadingChar+numOfChar,35+numOfHeadingChar+numOfChar));
+					th.setCheckNumber(returnValue.substring(35+numOfHeadingChar+numOfChar,45+numOfHeadingChar+numOfChar));
+					th.setTransactionDecs(returnValue.substring(45+numOfHeadingChar+numOfChar,75+numOfHeadingChar+numOfChar));
+					th.setRunningTotal(returnValue.substring(75+numOfHeadingChar+numOfChar,98+numOfHeadingChar+numOfChar));
+					responseList.add(th);
+					numberOfRecords++;
+					numOfChar+=99;
+				}
+				nextRecordNumber+=numberOfRecords;
+				System.out.println("number of records:"+numberOfRecords);
+				 lastKeyUsed=returnValue.substring(1571,1601);
+				//yes or no character
+				//String dataFlag=returnValue.substring(response);
+				//check if data flag yes or no
+				//response.setResponse(responseList);	
+			}
+		
+		}
+		catch(Exception e){
+			
+		}finally{
+			return lastKeyUsed;	
+		}
+		
+	
 	}
 	
 	public TransactionHistorySAResponse transactionHistorySA(TransactionHistorySARequest request){
 		TransactionHistorySAResponse response = new TransactionHistorySAResponse();
+		System.setProperty("jagacy.properties.dir","classpath");
+		responseList = new ArrayList<TransactionHistoryResponseList>();
+		nextRecordNumber=1;
+		try {
+			LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
+			command.open();
+			//check if request has null field/s
+			if(!request.getCurrencyCode().equals("") && !request.getBranchCode().equals("") && !request.getAccountId().equals("")  && !request.getStartDate().equals("") && !request.getEndDate().equals("")){
+			//if(request.getCurrencyCode()!=null){
+					String requestValue="First Request:WSP2" + "    " + request.getCurrencyCode()+request.getBranchCode()+request.getAccountId()+SystematicsUtil.getNextRecordNumber(nextRecordNumber)+request.getStartDate()+request.getEndDate();
+					logger.debug(requestValue);
+					String returnValue = client.getTransactionHistorySA(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId(), request.getStartDate(), request.getEndDate(), SystematicsUtil.getNextRecordNumber(nextRecordNumber), "");
+					System.out.println("Return: "+returnValue);
+					logger.debug(returnValue);
+					if(returnValue == ""){
+						response.setErrorCode("99");
+						response.setReplyText("Error in connecting to mainframe");
+					}else if(returnValue.contains("ERROR READING")){
+						response.setErrorCode("99");
+						response.setReplyText(returnValue.substring(6,35));
+					}else{
+						
+						response.setTranId(returnValue.substring(0,4));
+						response.setTransactionStatusCode(returnValue.substring(4,6));
+						//to insert 0 value
+						response.setCurrencyCode(returnValue.substring(6,9));
+						response.setBranchCode(returnValue.substring(9,12));
+						response.setAccountId(returnValue.substring(12,22));
+						response.setAccountStatus(returnValue.substring(22,24));
+						response.setCurrentBalance(returnValue.substring(24,47));
+						response.setAvailableBalance(returnValue.substring(47,70));
+						response.setProductCode(returnValue.substring(70,73));
+						response.setOpeningDate(returnValue.substring(73,81));
+						response.setLastDataFlag(returnValue.substring(81,82));
+						response.setNumberOfRecords(returnValue.substring(82,84));
+						
+						////get the number of records
+						String recordCount=response.getNumberOfRecords().trim();
+						
+						int recordNumber=Integer.parseInt(recordCount);
+					
+						//List<TransactionHistoryResponseList> responseList = response.getResponse();
+						
+						//loop
+						int numOfHeadingChar=85;
+						int numOfChar=0;
+						
+						for(int ctr=0;ctr<recordNumber;ctr++){
+							TransactionHistoryResponseList th = new TransactionHistoryResponseList();
+							th.setRecordSequence(returnValue.substring(numOfHeadingChar+numOfChar,3+numOfHeadingChar+numOfChar));
+							th.setPostingDate(returnValue.substring(3+numOfHeadingChar+numOfChar,11+numOfHeadingChar+numOfChar));
+							th.setTransAmount(returnValue.substring(11+numOfHeadingChar+numOfChar,34+numOfHeadingChar+numOfChar));
+							th.setDebitCreditFlag(returnValue.substring(34+numOfHeadingChar+numOfChar,35+numOfHeadingChar+numOfChar));
+							th.setCheckNumber(returnValue.substring(35+numOfHeadingChar+numOfChar,45+numOfHeadingChar+numOfChar));
+							th.setTransactionDecs(returnValue.substring(45+numOfHeadingChar+numOfChar,75+numOfHeadingChar+numOfChar));
+							th.setRunningTotal(returnValue.substring(75+numOfHeadingChar+numOfChar,98+numOfHeadingChar+numOfChar));
+							responseList.add(th);
+							
+							numOfChar+=99;
+						}
+						nextRecordNumber+=responseList.size();
+						String lastKeyUsed=returnValue.substring(1571,1601);
+						//yes or no character
+						//String datxaFlag=returnValue.substring(response);
+						//check if data flag yes or no
+						//response.setResponse(responseList);	
+						lastDataFlag=response.getLastDataFlag();
+						
+						while((lastDataFlag.equals("Y") || responseList.size()!=500)  && !lastKeyUsed.equalsIgnoreCase("") ){
+							if(!lastKeyUsed.equals("")){
+								String requestNextValue="Second Request:WSP2" + "    " +request.getCurrencyCode()+request.getBranchCode()+request.getAccountId()+SystematicsUtil.getNextRecordNumber(nextRecordNumber)+request.getStartDate()+request.getEndDate() +lastKeyUsed;
+								logger.debug(requestNextValue);
+								String returnSecondValue = client.getTransactionHistorySA(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId(), request.getStartDate(), request.getEndDate(), SystematicsUtil.getNextRecordNumber(nextRecordNumber), lastKeyUsed);
+								logger.debug(returnSecondValue);
+								lastKeyUsed=settransactionHistorySAResponse(response,  returnSecondValue);
+
+							}
+						}
+						
+						response.setResponse(responseList);	
+						//responseList.clear();
+					   // response.setRecordSequence(responseList.);
+				       // end loop
+						 
+					}
+					
+					ByteArrayOutputStream baos=new ByteArrayOutputStream();
+					XMLEncoder xmlEncoder=new XMLEncoder(baos);
+					xmlEncoder.writeObject(response);
+					xmlEncoder.close();
+					String responseLog=baos.toString();
+					if(!responseLog.equals("")){
+						responseLog=responseLog.replaceAll("\n", "").replaceAll("\\<\\?xml(.+?)\\?\\>", "").replaceAll("\\<java(.+?)\\>", "").replaceAll("\\<object(.+?)\\>", "");
+						logger.debug(responseLog);
+					}
+					
+				
+					command.close();
+					
+			}else{
+				response.setErrorCode("99");
+				response.setReplyText("Please complete all the required fields.");
+				logger.debug(response);
+			}
+			
+			
+		} catch (JagacyException e) {
+			//e.printStackTrace();
+			response.setErrorCode("99");
+			response.setReplyText("Error in connecting to mainframe. More INFO: " + e.getMessage());
+		}
+		return response;
+		
+		
+		
+		
+		
+		/*TransactionHistorySAResponse response = new TransactionHistorySAResponse();
 		System.setProperty("jagacy.properties.dir","classpath");
 		try {
 			LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
@@ -510,25 +824,102 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				response.setNumberOfRecords(returnValue.substring(83,85));
 				
 				/*
-				List<TransactionHistoryResponseList> responseList = response.getResponse();
+				//List<TransactionHistoryResponseList> responseList = response.getResponse();
+				List<TransactionHistoryResponseList> responseList = new ArrayList<TransactionHistoryResponseList>();
+				
 				//loop
 				int numOfHeadingChar=84;
 				int numOfChar=0;
-				//for(int ctr=0;ctr<15;ctr++){
+				for(int ctr=0;ctr<15;ctr++){
 					TransactionHistoryResponseList th = new TransactionHistoryResponseList();
 					th.setRecordSequence(returnValue.substring(7+numOfChar+numOfHeadingChar,10+numOfChar+numOfHeadingChar));
+					//th.setPostingDate(returnValue.substring(7+numOfChar+numOfHeadingChar,10+numOfChar+numOfHeadingChar));
 					responseList.add(th);
-					//numOfChar+=110;
-				//}
+					numOfChar+=110;
+				}
+				System.out.println(responseList.size());
+			   // response.setRecordSequence(responseList.);
 				//end loop
 				 
-				 */
+				 
 			}
 			command.close();
 		} catch (JagacyException e) {
 			response.setErrorCode("99");
 			response.setReplyText("Error in connecting to mainframe. More INFO: " + e.getMessage());
 		}
-		return response;
+		return response;*/
 	}
+	
+	///set the response of SA before send
+		public String settransactionHistorySAResponse(TransactionHistorySAResponse response, String returnValue){
+			String lastKeyUsed="";
+			try{
+			//logger.debug(returnValue);
+			if(returnValue.equals("") ){
+				System.out.println("empty return");
+				response.setErrorCode("99");
+				response.setReplyText("Error in connecting to mainframe");
+			}else if(returnValue.contains("ERROR READING")){
+				response.setErrorCode("99");
+				response.setReplyText(returnValue.substring(6,35));
+				}else{
+					
+					/*response.setTranId(returnValue.substring(0,4));
+					response.setTransactionStatusCode(returnValue.substring(4,6));
+					//to insert 0 value
+					response.setCurrencyCode(returnValue.substring(6,9));
+					response.setBranchCode(returnValue.substring(9,12));
+					response.setAccountId(returnValue.substring(12,22));
+					response.setAccountStatus(returnValue.substring(22,24));
+					response.setCurrentBalance(returnValue.substring(24,47));
+					response.setAvailableBalance(returnValue.substring(47,70));
+					response.setProductCode(returnValue.substring(70,73));
+					response.setOpeningDate(returnValue.substring(73,81));*/
+					//response.setLastDataFlag(returnValue.substring(81,82));
+					//response.setNumberOfRecords(returnValue.substring(82,84));
+					
+					////get the number of records
+					String recordCount=returnValue.substring(82,84);
+					lastDataFlag=returnValue.substring(81,82);
+					int recordNumber=Integer.parseInt(recordCount);
+				
+					//List<TransactionHistoryResponseList> responseList = response.getResponse();
+					
+					//loop
+					int numOfHeadingChar=85;
+					int numOfChar=0;
+					int numberOfRecords=0;
+					for(int ctr=0;ctr<recordNumber;ctr++){
+						TransactionHistoryResponseList th = new TransactionHistoryResponseList();
+						th.setRecordSequence(returnValue.substring(numOfHeadingChar+numOfChar,3+numOfHeadingChar+numOfChar));
+						th.setPostingDate(returnValue.substring(3+numOfHeadingChar+numOfChar,11+numOfHeadingChar+numOfChar));
+						th.setTransAmount(returnValue.substring(11+numOfHeadingChar+numOfChar,34+numOfHeadingChar+numOfChar));
+						th.setDebitCreditFlag(returnValue.substring(34+numOfHeadingChar+numOfChar,35+numOfHeadingChar+numOfChar));
+						th.setCheckNumber(returnValue.substring(35+numOfHeadingChar+numOfChar,45+numOfHeadingChar+numOfChar));
+						th.setTransactionDecs(returnValue.substring(45+numOfHeadingChar+numOfChar,75+numOfHeadingChar+numOfChar));
+						th.setRunningTotal(returnValue.substring(75+numOfHeadingChar+numOfChar,98+numOfHeadingChar+numOfChar));
+						responseList.add(th);
+						numberOfRecords++;
+						numOfChar+=99;
+					}
+					nextRecordNumber+=numberOfRecords;
+					System.out.println("number of records:"+numberOfRecords);
+					 lastKeyUsed=returnValue.substring(1571,1601);
+					//yes or no character
+					//String dataFlag=returnValue.substring(response);
+					//check if data flag yes or no
+					//response.setResponse(responseList);	
+				}
+			
+			}
+			catch(Exception e){
+				
+			}finally{
+				return lastKeyUsed;	
+			}
+			
+		
+		}
+	
 }

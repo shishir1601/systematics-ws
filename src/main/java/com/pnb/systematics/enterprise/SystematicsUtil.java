@@ -14,6 +14,16 @@ public abstract class SystematicsUtil {
 		}
 	}
 	
+	public static String getNextRecordNumber(int n){
+		if((""+n).length()==1){
+			return "00"+n;
+		}else if((""+n).length()==2){
+			return "0"+n;
+		}else{
+			return ""+n;
+		}
+	}
+	
 	public static String getError(String input){
 		String errorMessage = "";
 		int index = input.indexOf("F:");

@@ -292,7 +292,8 @@ public class SystematicsClient extends WebServiceGatewaySupport{
 		return response;
 	}
 	
-	public String getTransactionHistorySA(String currencyCode, String branchCode, String accountId, String startDate, String endDate) throws JagacyException{
+	public String getTransactionHistorySA(String currencyCode, String branchCode, String accountId, String startDate, String endDate, String nextRecordNumber, String lastKeyUsed)  throws JagacyException{
+		System.out.println(nextRecordNumber);
 		String response = "";
 		String code = "WSP2";
 		String transId = "    ";
@@ -300,30 +301,36 @@ public class SystematicsClient extends WebServiceGatewaySupport{
 		String currCode = currencyCode;
 		String branCode = branchCode;
 		String accntId = accountId;
-		String nextRec = "001";
-		//String strDate = startDate;
-		//String eDate = endDate;
-		String message = code + transId + seqNum + currCode + branCode + accntId + nextRec;
+		String strDate = startDate;
+		String eDate = endDate;
+		String message = code + transId + seqNum + currCode + branCode + accntId + nextRecordNumber+strDate+eDate +"**"+lastKeyUsed+"**";
+		
 		logger.debug(message);
 	    CustomCommand conn = new CustomCommand();
 	    conn.open();
+	    
 	    response = conn.submitCommand(message);
 	    conn.close();
 		return response;
 	}
 	
-	public String getTransactionHistoryCA(String currencyCode, String branchCode, String accountId) throws JagacyException{
+	public String getTransactionHistoryCA(String currencyCode, String branchCode, String accountId, String startDate, String endDate, String nextRecordNumber, String lastKeyUsed) throws JagacyException{
+		System.out.println(nextRecordNumber);
 		String response = "";
 		String code = "WSP1";
 		String transId = "    ";
-		//String seqNum = "001";
+		String seqNum = "001";
 		String currCode = currencyCode;
 		String branCode = branchCode;
 		String accntId = accountId;
-		String message = code + transId + currCode + branCode + accntId + "001";
+		String strDate = startDate;
+		String eDate = endDate;
+		String message = code + transId + seqNum + currCode + branCode + accntId + nextRecordNumber+strDate+eDate +"**"+lastKeyUsed+"**";
+		
 		logger.debug(message);
 	    CustomCommand conn = new CustomCommand();
 	    conn.open();
+	    
 	    response = conn.submitCommand(message);
 	    conn.close();
 		return response;

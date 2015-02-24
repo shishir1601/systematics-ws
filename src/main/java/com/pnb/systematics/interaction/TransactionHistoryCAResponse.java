@@ -1,5 +1,6 @@
 package com.pnb.systematics.interaction;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -17,12 +18,134 @@ public class TransactionHistoryCAResponse extends InteractionBase {
 	private String productCode;
 	private String availableBalance;
 	private String openingDate;
-	private List<TransactionHistoryResponseList> response;
+	private List<TransactionHistoryResponseList> response=new ArrayList<TransactionHistoryResponseList>();
 	private String listRunningTotal;
 	private String errorCode;
 	private String replyText;
 	private String startDate;
 	private String endDate;
+	private String lastDataFlag;
+	private String numberOfRecords;
+	private String recordSequence;
+	private String postDate;
+	private String transAmount;
+	private String debitCreditFlag;
+	private String checkNumber;
+	private String transactionDesc;
+	private String runningTotal;
+	private String filler;
+	private String lastKeyUsed;
+	private String tranId;
+	private String recordSequense;
+	
+	public String getLastDataFlag() {
+		return lastDataFlag;
+	}
+
+	public void setLastDataFlag(String lastDataFlag) {
+		this.lastDataFlag = lastDataFlag;
+	}
+
+	public String getNumberOfRecords() {
+		return numberOfRecords;
+	}
+
+	public void setNumberOfRecords(String numberOfRecords) {
+		this.numberOfRecords = numberOfRecords;
+	}
+
+	public String getRecordSequence() {
+		return recordSequence;
+	}
+
+	public void setRecordSequence(String recordSequence) {
+		this.recordSequence = recordSequence;
+	}
+
+	public String getPostDate() {
+		return postDate;
+	}
+
+	public void setPostDate(String postDate) {
+		this.postDate = postDate;
+	}
+
+	public String getTransAmount() {
+		return transAmount;
+	}
+
+	public void setTransAmount(String transAmount) {
+		this.transAmount = transAmount;
+	}
+
+	public String getDebitCreditFlag() {
+		return debitCreditFlag;
+	}
+
+	public void setDebitCreditFlag(String debitCreditFlag) {
+		this.debitCreditFlag = debitCreditFlag;
+	}
+
+	public String getCheckNumber() {
+		return checkNumber;
+	}
+
+	public void setCheckNumber(String checkNumber) {
+		this.checkNumber = checkNumber;
+	}
+
+	public String getTransactionDesc() {
+		return transactionDesc;
+	}
+
+	public void setTransactionDesc(String transactionDesc) {
+		this.transactionDesc = transactionDesc;
+	}
+
+	public String getRunningTotal() {
+		return runningTotal;
+	}
+
+	public void setRunningTotal(String runningTotal) {
+		this.runningTotal = runningTotal;
+	}
+
+	public String getFiller() {
+		return filler;
+	}
+
+	public void setFiller(String filler) {
+		this.filler = filler;
+	}
+
+	public String getLastKeyUsed() {
+		return lastKeyUsed;
+	}
+
+	public void setLastKeyUsed(String lastKeyUsed) {
+		this.lastKeyUsed = lastKeyUsed;
+	}
+
+	public String getTranId() {
+		return tranId;
+	}
+
+	public void setTranId(String tranId) {
+		this.tranId = tranId;
+	}
+
+	public String getRecordSequense() {
+		return recordSequense;
+	}
+
+	public void setRecordSequense(String recordSequense) {
+		this.recordSequense = recordSequense;
+	}
+
+	public void setResponse(List<TransactionHistoryResponseList> response) {
+		this.response = response;
+	}
+
 
 	public String getStartDate() {
 		return startDate;

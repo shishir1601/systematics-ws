@@ -62,7 +62,7 @@ public class CustomCommand extends Session3270 {
         	writeKey(Key.ENTER);
          }
      	if (!waitForPosition("logon.wait", "logon.timeout.seconds")) {
-         	String[] output = readScreen();
+     		String[] output = readScreen();
          	for(int index = 0; index < output.length; ++index){
          		returnString += output[index];
          	}
