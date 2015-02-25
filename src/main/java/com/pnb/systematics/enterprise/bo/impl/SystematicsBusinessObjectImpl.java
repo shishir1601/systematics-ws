@@ -58,26 +58,35 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		/*Sending the request*/
 	
 		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBResponseSA(request.getAccountId(),request.getCurrencyCode(), request.getBranchCode());
-		/*Getting the result*/
-		GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
-		if(prop.getErrorMessage().trim().length() != 0){
-			response.setTransactionStatusCode("99");
-			response.setErrorCode("TS0304");
-			response.setReplyText("ACCOUNT NOT FOUND");
-			logger.debug("Error in return: " + prop.getErrorMessage());
+		if(!request.getAccountId().equals("") && !request.getCurrencyCode().equals("") && !request.getBranchCode().equals("")){
+			
+			/*Getting the result*/
+			GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
+			if(prop.getErrorMessage().trim().length() != 0){
+				response.setTransactionStatusCode("99");
+				response.setErrorCode("TS0304");
+				response.setReplyText("ACCOUNT NOT FOUND");
+				logger.debug("Error in return: " + prop.getErrorMessage());
+			}else{
+				String returnMessage = prop.getReturnMessage();
+				logger.debug("TTIB return message" + returnMessage);
+				response.setAccountId(request.getAccountId());
+				response.setUserReferenceNumber(request.getUserReferenceNumber());
+				response.setBalanceOnHold(SystematicsUtil.getRealBalance(SystematicsUtil.getWebServiceObject(returnMessage,"HOLD  AMT", 25)));
+				response.setPleadgeAmount(SystematicsUtil.getRealBalance(SystematicsUtil.getWebServiceObject(returnMessage, "PLDGE AMT", 25)));
+				response.setAccountStatus(SystematicsUtil.getWebServiceObject(returnMessage, "STATUS", 25));
+				response.setCustomerShortName(returnMessage.substring(357,373));
+				response.setTransactionStatusCode("00");
+				response.setMemoBalance(SystematicsUtil.getRealBalance(SystematicsUtil.getWebServiceObject(returnMessage,"MEMO  BAL", 25)));
+				response.setFloatAmount(SystematicsUtil.getRealBalance(SystematicsUtil.getWebServiceObject(returnMessage, "FLOAT AMT", 25)));
+			}
+		
 		}else{
-			String returnMessage = prop.getReturnMessage();
-			logger.debug("TTIB return message" + returnMessage);
-			response.setAccountId(request.getAccountId());
-			response.setUserReferenceNumber(request.getUserReferenceNumber());
-			response.setBalanceOnHold(SystematicsUtil.getRealBalance(SystematicsUtil.getWebServiceObject(returnMessage,"HOLD  AMT", 25)));
-			response.setPleadgeAmount(SystematicsUtil.getRealBalance(SystematicsUtil.getWebServiceObject(returnMessage, "PLDGE AMT", 25)));
-			response.setAccountStatus(SystematicsUtil.getWebServiceObject(returnMessage, "STATUS", 25));
-			response.setCustomerShortName(returnMessage.substring(357,373));
-			response.setTransactionStatusCode("00");
-			response.setMemoBalance(SystematicsUtil.getRealBalance(SystematicsUtil.getWebServiceObject(returnMessage,"MEMO  BAL", 25)));
-			response.setFloatAmount(SystematicsUtil.getRealBalance(SystematicsUtil.getWebServiceObject(returnMessage, "FLOAT AMT", 25)));
+			response.setErrorCode("99");
+			response.setReplyText("Please complete all the required fields.");
+			logger.debug(response);
 		}
+		
 		return response;
 	}
 	
@@ -85,23 +94,31 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		BalanceInquiryResponse response = new BalanceInquiryResponse();              
 		/*Sending the request*/
 		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBResponseCA(request.getAccountId(), request.getCurrencyCode(), request.getBranchCode());
-		/*Getting the result*/
-		GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
-		if(prop.getErrorMessage().trim().length() != 0){
-			response.setTransactionStatusCode("99");
-			response.setErrorCode("TS0304");
-			response.setReplyText("ACCOUNT NOT FOUND");
+		
+		if(!request.getAccountId().equals("") && !request.getCurrencyCode().equals("") && !request.getBranchCode().equals("")){
+			/*Getting the result*/
+			GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
+			if(prop.getErrorMessage().trim().length() != 0){
+				response.setTransactionStatusCode("99");
+				response.setErrorCode("TS0304");
+				response.setReplyText("ACCOUNT NOT FOUND");
+			}else{
+				String returnMessage = prop.getReturnMessage();
+				logger.debug("TTIB return message: " + returnMessage);
+				response.setAccountId(request.getAccountId());
+				response.setUserReferenceNumber(request.getUserReferenceNumber());
+				response.setAvailableBalance(SystematicsUtil.getRealBalance(SystematicsUtil.getWebServiceObject(returnMessage, "AVAIL BAL", 29)));
+				response.setUnavailableBalance(SystematicsUtil.getRealBalance(SystematicsUtil.getWebServiceObject(returnMessage, "UNAVAIL    AMT", 24)));
+				response.setAccountStatus(SystematicsUtil.getWebServiceObject(returnMessage, "ACCT STATUS", 24));
+				response.setCustomerShortName(SystematicsUtil.getWebServiceObject(returnMessage, "ACCT NAME", 21));
+				response.setTransactionStatusCode("00");
+			}
 		}else{
-			String returnMessage = prop.getReturnMessage();
-			logger.debug("TTIB return message: " + returnMessage);
-			response.setAccountId(request.getAccountId());
-			response.setUserReferenceNumber(request.getUserReferenceNumber());
-			response.setAvailableBalance(SystematicsUtil.getRealBalance(SystematicsUtil.getWebServiceObject(returnMessage, "AVAIL BAL", 29)));
-			response.setUnavailableBalance(SystematicsUtil.getRealBalance(SystematicsUtil.getWebServiceObject(returnMessage, "UNAVAIL    AMT", 24)));
-			response.setAccountStatus(SystematicsUtil.getWebServiceObject(returnMessage, "ACCT STATUS", 24));
-			response.setCustomerShortName(SystematicsUtil.getWebServiceObject(returnMessage, "ACCT NAME", 21));
-			response.setTransactionStatusCode("00");
+			response.setErrorCode("99");
+			response.setReplyText("Please complete all the required fields.");
+			logger.debug(response);
 		}
+		
 		return response;
 	}
 
@@ -109,28 +126,34 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 	public ServiceChargeResponse debitCa(ServiceChargeRequest request) {
 		ServiceChargeResponse response = new ServiceChargeResponse();
 		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBServiceCharge(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId(), request.getTransactionAmount());
-		GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
-		if(prop.getErrorMessage().trim().length() != 0){
-			String[] errorResponse = SystematicsUtil.checkForError(prop.getErrorMessage()).split("\\|");
-			logger.debug("Error Response: " + errorResponse);
-			response.setErrorCode(errorResponse[1]);
-			response.setReplyText(errorResponse[0]);
-			logger.debug("Error in return: " + prop.getErrorMessage());
-		}else{
-			String returnMessage = prop.getReturnMessage();
-			String errorMessage = SystematicsUtil.checkForError(returnMessage);
-			if(errorMessage.trim().length() == 0){
-				response.setTransactionStatusCode("00");
-				response.setMessageCode("I");
-				response.setMessageText("PROCESS COMPLETE");
-				response.setUserReferenceNumber(request.getUserReferenceNumber());
-			}else{
-				logger.debug("TTIB Response: " + returnMessage);
-				String[] errorResponse = errorMessage.split("\\|");
+		if(!request.getCurrencyCode().equals("") && !request.getBranchCode().equals("") && !request.getAccountId().equals("") && !request.getTransactionAmount().equals("")){
+			GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
+			if(prop.getErrorMessage().trim().length() != 0){
+				String[] errorResponse = SystematicsUtil.checkForError(prop.getErrorMessage()).split("\\|");
+				logger.debug("Error Response: " + errorResponse);
 				response.setErrorCode(errorResponse[1]);
 				response.setReplyText(errorResponse[0]);
 				logger.debug("Error in return: " + prop.getErrorMessage());
+			}else{
+				String returnMessage = prop.getReturnMessage();
+				String errorMessage = SystematicsUtil.checkForError(returnMessage);
+				if(errorMessage.trim().length() == 0){
+					response.setTransactionStatusCode("00");
+					response.setMessageCode("I");
+					response.setMessageText("PROCESS COMPLETE");
+					response.setUserReferenceNumber(request.getUserReferenceNumber());
+				}else{
+					logger.debug("TTIB Response: " + returnMessage);
+					String[] errorResponse = errorMessage.split("\\|");
+					response.setErrorCode(errorResponse[1]);
+					response.setReplyText(errorResponse[0]);
+					logger.debug("Error in return: " + prop.getErrorMessage());
+				}
 			}
+		}else{
+			response.setErrorCode("99");
+			response.setReplyText("Please complete all the required fields.");
+			logger.debug(response);
 		}
 		return response;
 	}
@@ -138,27 +161,33 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 	public DebitMemoImResponse debitMemoIm(DebitMemoImRequest request) {
 		DebitMemoImResponse response = new DebitMemoImResponse();
 		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBDebitMemoIm(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId(), request.getTransactionAmount());
-		GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
-		if(prop.getErrorMessage().trim().length() != 0){
-			String[] errorResponse = SystematicsUtil.checkForError(prop.getErrorMessage()).split("\\|");
-			response.setErrorCode(errorResponse[1]);
-			response.setReplyText(errorResponse[0]);
-			logger.debug("Error in return: " + prop.getErrorMessage());
-		}else{
-			String returnMessage = prop.getReturnMessage();
-			String errorMessage = SystematicsUtil.checkForError(returnMessage);
-			logger.debug("TTIB response: " + returnMessage);
-			if(errorMessage.trim().length() == 0){
-				response.setTransactionStatusCode("00");
-				response.setMessageCode("I");
-				response.setMessageText("PROCESS COMPLETE");
-				response.setUserReferenceNumber(request.getUserReferenceNumber());
-			}else{
-				String[] errorResponse = errorMessage.split("\\|");
+		if(!request.getCurrencyCode().equals("") && !request.getBranchCode().equals("") && !request.getAccountId().equals("") && !request.getTransactionAmount().equals("")){
+			GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
+			if(prop.getErrorMessage().trim().length() != 0){
+				String[] errorResponse = SystematicsUtil.checkForError(prop.getErrorMessage()).split("\\|");
 				response.setErrorCode(errorResponse[1]);
 				response.setReplyText(errorResponse[0]);
 				logger.debug("Error in return: " + prop.getErrorMessage());
+			}else{
+				String returnMessage = prop.getReturnMessage();
+				String errorMessage = SystematicsUtil.checkForError(returnMessage);
+				logger.debug("TTIB response: " + returnMessage);
+				if(errorMessage.trim().length() == 0){
+					response.setTransactionStatusCode("00");
+					response.setMessageCode("I");
+					response.setMessageText("PROCESS COMPLETE");
+					response.setUserReferenceNumber(request.getUserReferenceNumber());
+				}else{
+					String[] errorResponse = errorMessage.split("\\|");
+					response.setErrorCode(errorResponse[1]);
+					response.setReplyText(errorResponse[0]);
+					logger.debug("Error in return: " + prop.getErrorMessage());
+				}
 			}
+		}else{
+			response.setErrorCode("99");
+			response.setReplyText("Please complete all the required fields.");
+			logger.debug(response);
 		}
 		return response;
 	}
@@ -166,27 +195,33 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 	public DebitMemoStResponse debitMemoSt(DebitMemoStRequest request) {
 		DebitMemoStResponse response = new DebitMemoStResponse();
 		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBDebitMemoSt(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId(), request.getTransactionAmount());
-		GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
-		if(prop.getErrorMessage().trim().length() != 0){
-			String[] errorResponse = SystematicsUtil.checkForError(prop.getErrorMessage()).split("\\|");
-			response.setErrorCode(errorResponse[1]);
-			response.setReplyText(errorResponse[0]);
-			logger.debug("Error in return: " + prop.getErrorMessage());
-		}else{
-			String returnMessage = prop.getReturnMessage();
-			String errorMessage = SystematicsUtil.checkForError(returnMessage);
-			logger.debug("TTIB response: " + returnMessage);
-			if(errorMessage.trim().length() == 0){
-				response.setTransactionStatusCode("00");
-				response.setMessageCode("I");
-				response.setMessageText("PROCESS COMPLETE");
-				response.setUserReferenceNumber(request.getUserReferenceNumber());
-			}else{
-				String[] errorResponse = errorMessage.split("\\|");
+		if(!request.getCurrencyCode().equals("") && !request.getBranchCode().equals("") && !request.getAccountId().equals("") && !request.getTransactionAmount().equals("")){
+			GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
+			if(prop.getErrorMessage().trim().length() != 0){
+				String[] errorResponse = SystematicsUtil.checkForError(prop.getErrorMessage()).split("\\|");
 				response.setErrorCode(errorResponse[1]);
 				response.setReplyText(errorResponse[0]);
 				logger.debug("Error in return: " + prop.getErrorMessage());
+			}else{
+				String returnMessage = prop.getReturnMessage();
+				String errorMessage = SystematicsUtil.checkForError(returnMessage);
+				logger.debug("TTIB response: " + returnMessage);
+				if(errorMessage.trim().length() == 0){
+					response.setTransactionStatusCode("00");
+					response.setMessageCode("I");
+					response.setMessageText("PROCESS COMPLETE");
+					response.setUserReferenceNumber(request.getUserReferenceNumber());
+				}else{
+					String[] errorResponse = errorMessage.split("\\|");
+					response.setErrorCode(errorResponse[1]);
+					response.setReplyText(errorResponse[0]);
+					logger.debug("Error in return: " + prop.getErrorMessage());
+				}
 			}
+		}else{
+			response.setErrorCode("99");
+			response.setReplyText("Please complete all the required fields.");
+			logger.debug(response);
 		}
 		return response;
 	}
@@ -194,27 +229,33 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 	public FundTransferResponse fundTrSAtoCA(FundTransferRequest request) {
 		FundTransferResponse response = new FundTransferResponse();
 		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBFundTransferSAtoCA(request.getCurrencyCode(), request.getFromAccountId(), request.getFromBranchCode(), request.getToAccountId(), request.getToBranchCode(), request.getTransactionAmount());
-		GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
-		if(prop.getErrorMessage().trim().length() != 0){
-			String[] errorResponse = SystematicsUtil.checkForError(prop.getErrorMessage()).split("\\|");
-			response.setErrorCode(errorResponse[1]);
-			response.setReplyText(errorResponse[0]);
-			logger.debug("Error in return: " + prop.getErrorMessage());
-		}else{
-			String returnMessage = prop.getReturnMessage();
-			String errorMessage = SystematicsUtil.checkForError(returnMessage);
-			logger.debug("TTIB response: " + returnMessage);
-			if(errorMessage.trim().length() == 0){
-				response.setTransactionStatusCode("00");
-				response.setMessageCode("I");
-				response.setMessageText("PROCESS COMPLETE");
-				response.setUserReferenceNumber(request.getUserReferenceNumber());
-			}else{
-				String[] errorResponse = errorMessage.split("\\|");
+		if(!request.getCurrencyCode().equals("") && !request.getFromAccountId().equals("") && !request.getFromBranchCode().equals("") && !request.getToAccountId().equals("") && !request.getToBranchCode().equals("") && !request.getTransactionAmount().equals("")){
+			GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
+			if(prop.getErrorMessage().trim().length() != 0){
+				String[] errorResponse = SystematicsUtil.checkForError(prop.getErrorMessage()).split("\\|");
 				response.setErrorCode(errorResponse[1]);
 				response.setReplyText(errorResponse[0]);
 				logger.debug("Error in return: " + prop.getErrorMessage());
+			}else{
+				String returnMessage = prop.getReturnMessage();
+				String errorMessage = SystematicsUtil.checkForError(returnMessage);
+				logger.debug("TTIB response: " + returnMessage);
+				if(errorMessage.trim().length() == 0){
+					response.setTransactionStatusCode("00");
+					response.setMessageCode("I");
+					response.setMessageText("PROCESS COMPLETE");
+					response.setUserReferenceNumber(request.getUserReferenceNumber());
+				}else{
+					String[] errorResponse = errorMessage.split("\\|");
+					response.setErrorCode(errorResponse[1]);
+					response.setReplyText(errorResponse[0]);
+					logger.debug("Error in return: " + prop.getErrorMessage());
+				}
 			}
+		}else{
+			response.setErrorCode("99");
+			response.setReplyText("Please complete all the required fields.");
+			logger.debug(response);
 		}
 		return response;
 	}
@@ -222,27 +263,33 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 	public FundTransferResponse fundTrCAtoSA(FundTransferRequest request) {
 	   	FundTransferResponse response = new FundTransferResponse();
 		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBFundTransferCAtoSA(request.getCurrencyCode(), request.getFromAccountId(), request.getFromBranchCode(), request.getToAccountId(), request.getToBranchCode(), request.getTransactionAmount());
-		GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
-		if(prop.getErrorMessage().trim().length() != 0){
-			String[] errorResponse = SystematicsUtil.checkForError(prop.getErrorMessage()).split("\\|");
-			response.setErrorCode(errorResponse[1]);
-			response.setReplyText(errorResponse[0]);
-			logger.debug("Error in return: " + prop.getErrorMessage());
-		}else{
-			String returnMessage = prop.getReturnMessage();
-			String errorMessage = SystematicsUtil.checkForError(returnMessage);
-			logger.debug("TTIB response: " + returnMessage);
-			if(errorMessage.trim().length() == 0){
-				response.setTransactionStatusCode("00");
-				response.setMessageCode("I");
-				response.setMessageText("PROCESS COMPLETE");
-				response.setUserReferenceNumber(request.getUserReferenceNumber());
-			}else{
-				String[] errorResponse = errorMessage.split("\\|");
+		if(!request.getCurrencyCode().equals("") && !request.getFromAccountId().equals("") && !request.getFromBranchCode().equals("") && !request.getToAccountId().equals("") && !request.getToBranchCode().equals("") && !request.getTransactionAmount().equals("")){
+			GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
+			if(prop.getErrorMessage().trim().length() != 0){
+				String[] errorResponse = SystematicsUtil.checkForError(prop.getErrorMessage()).split("\\|");
 				response.setErrorCode(errorResponse[1]);
 				response.setReplyText(errorResponse[0]);
 				logger.debug("Error in return: " + prop.getErrorMessage());
+			}else{
+				String returnMessage = prop.getReturnMessage();
+				String errorMessage = SystematicsUtil.checkForError(returnMessage);
+				logger.debug("TTIB response: " + returnMessage);
+				if(errorMessage.trim().length() == 0){
+					response.setTransactionStatusCode("00");
+					response.setMessageCode("I");
+					response.setMessageText("PROCESS COMPLETE");
+					response.setUserReferenceNumber(request.getUserReferenceNumber());
+				}else{
+					String[] errorResponse = errorMessage.split("\\|");
+					response.setErrorCode(errorResponse[1]);
+					response.setReplyText(errorResponse[0]);
+					logger.debug("Error in return: " + prop.getErrorMessage());
+				}
 			}
+		}else{
+			response.setErrorCode("99");
+			response.setReplyText("Please complete all the required fields.");
+			logger.debug(response);
 		}
 		return response;
 	}
@@ -250,27 +297,33 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 	public FundTransferResponse fundTrSAtoSA(FundTransferRequest request) {
 	   	FundTransferResponse response = new FundTransferResponse();
 		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBFundTransferSAtoSA(request.getCurrencyCode(), request.getFromAccountId(), request.getFromBranchCode(), request.getToAccountId(), request.getToBranchCode(), request.getTransactionAmount());
-		GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
-		if(prop.getErrorMessage().trim().length() != 0){
-			String[] errorResponse = SystematicsUtil.checkForError(prop.getErrorMessage()).split("\\|");
-			response.setErrorCode(errorResponse[1]);
-			response.setReplyText(errorResponse[0]);
-			logger.debug("Error in return: " + prop.getErrorMessage());
-		}else{
-			String returnMessage = prop.getReturnMessage();
-			String errorMessage = SystematicsUtil.checkForError(returnMessage);
-			logger.debug("TTIB response: " + returnMessage);
-			if(errorMessage.trim().length() == 0){
-				response.setTransactionStatusCode("00");
-				response.setMessageCode("I");
-				response.setMessageText("PROCESS COMPLETE");
-				response.setUserReferenceNumber(request.getUserReferenceNumber());
-			}else{
-				String[] errorResponse = errorMessage.split("\\|");
+		if(!request.getCurrencyCode().equals("") && !request.getFromAccountId().equals("") && !request.getFromBranchCode().equals("") && !request.getToAccountId().equals("") && !request.getToBranchCode().equals("") && !request.getTransactionAmount().equals("")){
+			GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
+			if(prop.getErrorMessage().trim().length() != 0){
+				String[] errorResponse = SystematicsUtil.checkForError(prop.getErrorMessage()).split("\\|");
 				response.setErrorCode(errorResponse[1]);
 				response.setReplyText(errorResponse[0]);
 				logger.debug("Error in return: " + prop.getErrorMessage());
+			}else{
+				String returnMessage = prop.getReturnMessage();
+				String errorMessage = SystematicsUtil.checkForError(returnMessage);
+				logger.debug("TTIB response: " + returnMessage);
+				if(errorMessage.trim().length() == 0){
+					response.setTransactionStatusCode("00");
+					response.setMessageCode("I");
+					response.setMessageText("PROCESS COMPLETE");
+					response.setUserReferenceNumber(request.getUserReferenceNumber());
+				}else{
+					String[] errorResponse = errorMessage.split("\\|");
+					response.setErrorCode(errorResponse[1]);
+					response.setReplyText(errorResponse[0]);
+					logger.debug("Error in return: " + prop.getErrorMessage());
+				}
 			}
+		}else{
+			response.setErrorCode("99");
+			response.setReplyText("Please complete all the required fields.");
+			logger.debug(response);
 		}
 		return response;
 
@@ -279,27 +332,33 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 	public FundTransferResponse fundTrCAtoCA(FundTransferRequest request) {
 	   	FundTransferResponse response = new FundTransferResponse();
 		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBFundTransferCAtoCA(request.getCurrencyCode(), request.getFromAccountId(), request.getFromBranchCode(), request.getToAccountId(), request.getToBranchCode(), request.getTransactionAmount());
-		GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
-		if(prop.getErrorMessage().trim().length() != 0){
-			String[] errorResponse = SystematicsUtil.checkForError(prop.getErrorMessage()).split("\\|");
-			response.setErrorCode(errorResponse[1]);
-			response.setReplyText(errorResponse[0]);
-			logger.debug("Error in return: " + prop.getErrorMessage());
-		}else{
-			String returnMessage = prop.getReturnMessage();
-			String errorMessage = SystematicsUtil.checkForError(returnMessage);
-			logger.debug("TTIB response: " + returnMessage);
-			if(errorMessage.trim().length() == 0){
-				response.setTransactionStatusCode("00");
-				response.setMessageCode("I");
-				response.setMessageText("PROCESS COMPLETE");
-				response.setUserReferenceNumber(request.getUserReferenceNumber());
-			}else{
-				String[] errorResponse = errorMessage.split("\\|");
+		if(!request.getCurrencyCode().equals("") && !request.getFromAccountId().equals("") && !request.getFromBranchCode().equals("") && !request.getToAccountId().equals("") && !request.getToBranchCode().equals("") && !request.getTransactionAmount().equals("")){
+			GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
+			if(prop.getErrorMessage().trim().length() != 0){
+				String[] errorResponse = SystematicsUtil.checkForError(prop.getErrorMessage()).split("\\|");
 				response.setErrorCode(errorResponse[1]);
 				response.setReplyText(errorResponse[0]);
 				logger.debug("Error in return: " + prop.getErrorMessage());
+			}else{
+				String returnMessage = prop.getReturnMessage();
+				String errorMessage = SystematicsUtil.checkForError(returnMessage);
+				logger.debug("TTIB response: " + returnMessage);
+				if(errorMessage.trim().length() == 0){
+					response.setTransactionStatusCode("00");
+					response.setMessageCode("I");
+					response.setMessageText("PROCESS COMPLETE");
+					response.setUserReferenceNumber(request.getUserReferenceNumber());
+				}else{
+					String[] errorResponse = errorMessage.split("\\|");
+					response.setErrorCode(errorResponse[1]);
+					response.setReplyText(errorResponse[0]);
+					logger.debug("Error in return: " + prop.getErrorMessage());
+				}
 			}
+		}else{
+			response.setErrorCode("99");
+			response.setReplyText("Please complete all the required fields.");
+			logger.debug(response);
 		}
 		return response;
 
@@ -308,27 +367,33 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 	public BillsPaymentResponse billPayfrSA(BillsPaymentRequest request) {
 		BillsPaymentResponse response = new BillsPaymentResponse();
 		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBBillsPaymentSA(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId(), request.getMerchantID(), request.getSubscriberNumber(), request.getBillNo(), request.getPayeeName(), request.getTransactionAmount());
-		GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
-		if(prop.getErrorMessage().trim().length() != 0){
-			String[] errorResponse = SystematicsUtil.checkForError(prop.getErrorMessage()).split("\\|");
-			response.setErrorCode(errorResponse[1]);
-			response.setReplyText(errorResponse[0]);
-			logger.debug("Error in return: " + prop.getErrorMessage());
-		}else{
-			String returnMessage = prop.getReturnMessage();
-			String errorMessage = SystematicsUtil.checkForError(returnMessage);
-			logger.debug("TTIB response: " + returnMessage);
-			if(errorMessage.trim().length() == 0){
-				response.setTransactionStatusCode("00");
-				response.setMessageCode("I");
-				response.setMessageText("PROCESS COMPLETE");
-				response.setUserReferenceNumber(request.getUserReferenceNumber());
-			}else{
-				String[] errorResponse = errorMessage.split("\\|");
+		if(!request.getCurrencyCode().equals("") && !request.getBranchCode().equals("") && !request.getAccountId().equals("") && !request.getMerchantID().equals("") && !request.getSubscriberNumber().equals("") && !request.getBillNo().equals("") && !request.getPayeeName().equals("") && !request.getTransactionAmount().equals("")){
+			GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
+			if(prop.getErrorMessage().trim().length() != 0){
+				String[] errorResponse = SystematicsUtil.checkForError(prop.getErrorMessage()).split("\\|");
 				response.setErrorCode(errorResponse[1]);
 				response.setReplyText(errorResponse[0]);
 				logger.debug("Error in return: " + prop.getErrorMessage());
+			}else{
+				String returnMessage = prop.getReturnMessage();
+				String errorMessage = SystematicsUtil.checkForError(returnMessage);
+				logger.debug("TTIB response: " + returnMessage);
+				if(errorMessage.trim().length() == 0){
+					response.setTransactionStatusCode("00");
+					response.setMessageCode("I");
+					response.setMessageText("PROCESS COMPLETE");
+					response.setUserReferenceNumber(request.getUserReferenceNumber());
+				}else{
+					String[] errorResponse = errorMessage.split("\\|");
+					response.setErrorCode(errorResponse[1]);
+					response.setReplyText(errorResponse[0]);
+					logger.debug("Error in return: " + prop.getErrorMessage());
+				}
 			}
+		}else{
+			response.setErrorCode("99");
+			response.setReplyText("Please complete all the required fields.");
+			logger.debug(response);
 		}
 		return response;
 	}
@@ -340,31 +405,37 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		try {
 			LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
 			command.open();
-			String returnValue = command.submitCommand(request.getAccountId());
-			logger.debug(returnValue);
-			if(returnValue == ""){
-				response.setErrorCode("99");
-				response.setReplyText("Error in connecting to mainframe. More INFO: ");
-			}else if(returnValue.contains("F:")){
-				response.setErrorCode("99");
-				response.setReplyText("Account Not Found");
+			if(!request.getCurrencyCode().equals("") && !request.getBranchCode().equals("") && !request.getAccountId().equals("") && !request.getUserReferenceNumber().equals("")){
+				String returnValue = command.submitCommand(request.getAccountId());
+				logger.debug(returnValue);
+				if(returnValue == ""){
+					response.setErrorCode("99");
+					response.setReplyText("Error in connecting to mainframe. More INFO: ");
+				}else if(returnValue.contains("F:")){
+					response.setErrorCode("99");
+					response.setReplyText("Account Not Found");
+				}else{
+					response.setTransactionStatusCode("00");
+					response.setUserReferenceNumber(request.getUserReferenceNumber());
+					response.setProductType(returnValue.substring(547,560));
+					response.setEffectiveDate(returnValue.substring(226,240));
+					response.setCurrentRate(returnValue.substring(521,535));
+					response.setCurrentTerm(returnValue.substring(947,960));
+					response.setCurrentMaturityDate(returnValue.substring(925,935));
+					response.setCurrentPrincipalBalance(returnValue.substring(814,828));
+					response.setTotalOverdueAmount(returnValue.substring(1134,1148));
+					response.setAccountStatus(returnValue.substring(297,320));
+					response.setPastDueDate(returnValue.substring(1165,1175));
+					response.setOriginalLoanAmt(returnValue.substring(495,508));
+					response.setOriginalProceed(returnValue.substring(575,588));
+					response.setCustomerShortName(returnValue.substring(1361,1417));
+				}
+				command.close();
 			}else{
-				response.setTransactionStatusCode("00");
-				response.setUserReferenceNumber(request.getUserReferenceNumber());
-				response.setProductType(returnValue.substring(547,560));
-				response.setEffectiveDate(returnValue.substring(226,240));
-				response.setCurrentRate(returnValue.substring(521,535));
-				response.setCurrentTerm(returnValue.substring(947,960));
-				response.setCurrentMaturityDate(returnValue.substring(925,935));
-				response.setCurrentPrincipalBalance(returnValue.substring(814,828));
-				response.setTotalOverdueAmount(returnValue.substring(1134,1148));
-				response.setAccountStatus(returnValue.substring(297,320));
-				response.setPastDueDate(returnValue.substring(1165,1175));
-				response.setOriginalLoanAmt(returnValue.substring(495,508));
-				response.setOriginalProceed(returnValue.substring(575,588));
-				response.setCustomerShortName(returnValue.substring(1361,1417));
+				response.setErrorCode("99");
+				response.setReplyText("Please complete all the required fields.");
+				logger.debug(response);
 			}
-			command.close();
 		} catch (JagacyException e) {
 			response.setErrorCode("99");
 			response.setReplyText("Error in connecting to mainframe. More INFO: " + e.getMessage());
@@ -378,32 +449,37 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		try {
 			LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
 			command.open();
-			
-			String returnValue = client.getTTIBAccountLoanCA(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId());
-			logger.debug(returnValue);
-			if(returnValue == ""){
-				response.setErrorCode("99");
-				response.setReplyText("Error in connecting to mainframe");
-			}else if(returnValue.contains("ERROR READING")){
-				response.setErrorCode("99");
-				response.setReplyText(returnValue.substring(6,35));
+			if(!request.getCurrencyCode().equals("") && !request.getBranchCode().equals("") && !request.getAccountId().equals("") && !request.getUserReferenceNumber().equals("")){
+				String returnValue = client.getTTIBAccountLoanCA(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId());
+				logger.debug(returnValue);
+				if(returnValue == ""){
+					response.setErrorCode("99");
+					response.setReplyText("Error in connecting to mainframe");
+				}else if(returnValue.contains("ERROR READING")){
+					response.setErrorCode("99");
+					response.setReplyText(returnValue.substring(6,35));
+				}else{
+					response.setTransactionStatusCode(returnValue.substring(5,7)); //length:2
+					response.setCurrencyCode(returnValue.substring(6,9)); //length:3
+					response.setBranchCode(returnValue.substring(9,12)); //length:3
+					response.setAccountId(returnValue.substring(12,22)); //length:10
+					response.setAccountStatus(returnValue.substring(22,24)); //length:2
+					response.setCustomerShortName(returnValue.substring(24,37)); //length:13
+					response.setCurrentBalance(returnValue.substring(37,60)); //length:23
+					response.setDepositTerm(returnValue.substring(60,66)); //length:6
+					response.setInterestRate(returnValue.substring(66,77));////length:11
+					response.setAccruedInterest(returnValue.substring(77,100)); //length:23
+					response.setDateOpened(returnValue.substring(100,108)); //length:8
+					response.setProductCode(returnValue.substring(108,111)); //length:3
+					response.setEmployeeAccount(returnValue.substring(111,112)); //length:1
+					response.setJointAccount(returnValue.substring(112,115)); //length:3
+				}
+				command.close();
 			}else{
-				response.setTransactionStatusCode(returnValue.substring(5,7)); //length:2
-				response.setCurrencyCode(returnValue.substring(6,9)); //length:3
-				response.setBranchCode(returnValue.substring(9,12)); //length:3
-				response.setAccountId(returnValue.substring(12,22)); //length:10
-				response.setAccountStatus(returnValue.substring(22,24)); //length:2
-				response.setCustomerShortName(returnValue.substring(24,37)); //length:13
-				response.setCurrentBalance(returnValue.substring(37,60)); //length:23
-				response.setDepositTerm(returnValue.substring(60,66)); //length:6
-				response.setInterestRate(returnValue.substring(66,77));////length:11
-				response.setAccruedInterest(returnValue.substring(77,100)); //length:23
-				response.setDateOpened(returnValue.substring(100,108)); //length:8
-				response.setProductCode(returnValue.substring(108,111)); //length:3
-				response.setEmployeeAccount(returnValue.substring(111,112)); //length:1
-				response.setJointAccount(returnValue.substring(112,115)); //length:3
+				response.setErrorCode("99");
+				response.setReplyText("Please complete all the required fields.");
+				logger.debug(response);
 			}
-			command.close();
 		} catch (JagacyException e) {
 			response.setErrorCode("99");
 			response.setReplyText("Error in connecting to mainframe. More INFO: " + e.getMessage());
@@ -416,31 +492,37 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		try {
 			LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
 			command.open();
-			String returnValue = client.getTTIBAccountLoanSA(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId());
-			logger.debug(returnValue);
-			if(returnValue == ""){
-				response.setErrorCode("99");
-				response.setReplyText("Error in connecting to mainframe");
-			}else if(returnValue.contains("ERROR READING")){
-				response.setErrorCode("99");
-				response.setReplyText(returnValue.substring(6,35));
-			}else{
-				response.setTransactionStatusCode(returnValue.substring(5,7)); //length:2
-				response.setCurrencyCode(returnValue.substring(6,9)); //length:3
-				response.setBranchCode(returnValue.substring(9,12)); //length:3
-				response.setAccountId(returnValue.substring(12,22)); //length:10
-				response.setAccountStatus(returnValue.substring(22,24)); //length:2
-				response.setCustomerShortName(returnValue.substring(24,37)); //length:13
-				response.setCurrentBalance(returnValue.substring(37,60)); //length:23
-				response.setDepositTerm(returnValue.substring(60,66)); //length:6
-				response.setInterestRate(returnValue.substring(66,77));////length:11
-				response.setAccruedInterest(returnValue.substring(77,100)); //length:23
-				response.setDateOpened(returnValue.substring(100,108)); //length:8
-				response.setProductCode(returnValue.substring(108,111)); //length:3
-				response.setEmployeeAccount(returnValue.substring(111,112)); //length:1
-				response.setJointAccount(returnValue.substring(112,115)); //length:3
-			}
-			command.close();
+			if(!request.getCurrencyCode().equals("") && !request.getBranchCode().equals("") && !request.getAccountId().equals("") && !request.getUserReferenceNumber().equals("")){
+				String returnValue = client.getTTIBAccountLoanSA(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId());
+				logger.debug(returnValue);
+				if(returnValue == ""){
+					response.setErrorCode("99");
+					response.setReplyText("Error in connecting to mainframe");
+				}else if(returnValue.contains("ERROR READING")){
+					response.setErrorCode("99");
+					response.setReplyText(returnValue.substring(6,35));
+				}else{
+					response.setTransactionStatusCode(returnValue.substring(5,7)); //length:2
+					response.setCurrencyCode(returnValue.substring(6,9)); //length:3
+					response.setBranchCode(returnValue.substring(9,12)); //length:3
+					response.setAccountId(returnValue.substring(12,22)); //length:10
+					response.setAccountStatus(returnValue.substring(22,24)); //length:2
+					response.setCustomerShortName(returnValue.substring(24,37)); //length:13
+					response.setCurrentBalance(returnValue.substring(37,60)); //length:23
+					response.setDepositTerm(returnValue.substring(60,66)); //length:6
+					response.setInterestRate(returnValue.substring(66,77));////length:11
+					response.setAccruedInterest(returnValue.substring(77,100)); //length:23
+					response.setDateOpened(returnValue.substring(100,108)); //length:8
+					response.setProductCode(returnValue.substring(108,111)); //length:3
+					response.setEmployeeAccount(returnValue.substring(111,112)); //length:1
+					response.setJointAccount(returnValue.substring(112,115)); //length:3
+				}
+				command.close();
+				}else{
+					response.setErrorCode("99");
+					response.setReplyText("Please complete all the required fields.");
+					logger.debug(response);
+				}
 		} catch (JagacyException e) {
 			response.setErrorCode("99");
 			response.setReplyText("Error in connecting to mainframe. More INFO: " + e.getMessage());
@@ -453,31 +535,37 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		try {
 			LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
 			command.open();
-			String returnValue = client.getTTIBAccountLoanTD(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId());
-			logger.debug(returnValue);
-			if(returnValue == ""){
-				response.setErrorCode("99");
-				response.setReplyText("Error in connecting to mainframe");
-			}else if(returnValue.contains("ERROR READING")){
-				response.setErrorCode("99");
-				response.setReplyText(returnValue.substring(6,35));
+			if(!request.getCurrencyCode().equals("") && !request.getBranchCode().equals("") && !request.getAccountId().equals("") && !request.getUserReferenceNumber().equals("")){
+				String returnValue = client.getTTIBAccountLoanTD(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId());
+				logger.debug(returnValue);
+				if(returnValue == ""){
+					response.setErrorCode("99");
+					response.setReplyText("Error in connecting to mainframe");
+				}else if(returnValue.contains("ERROR READING")){
+					response.setErrorCode("99");
+					response.setReplyText(returnValue.substring(6,35));
+				}else{
+					response.setTransactionStatusCode(returnValue.substring(5,7)); //length:2
+					response.setCurrencyCode(returnValue.substring(6,9)); //length:3
+					response.setBranchCode(returnValue.substring(9,12)); //length:3
+					response.setAccountId(returnValue.substring(12,22)); //length:10
+					response.setAccountStatus(returnValue.substring(22,24)); //length:2
+					response.setCustomerShortName(returnValue.substring(24,37)); //length:13
+					response.setCurrentBalance(returnValue.substring(37,60)); //length:23
+					response.setDepositTerm(returnValue.substring(60,66)); //length:6
+					response.setInterestRate(returnValue.substring(66,77));////length:11
+					response.setAccruedInterest(returnValue.substring(77,100)); //length:23
+					response.setDateOpened(returnValue.substring(100,108)); //length:8
+					response.setProductCode(returnValue.substring(108,111)); //length:3
+					response.setEmployeeAccount(returnValue.substring(111,112)); //length:1
+					response.setJointAccount(returnValue.substring(112,115)); //length:3
+				}
+				command.close();
 			}else{
-				response.setTransactionStatusCode(returnValue.substring(5,7)); //length:2
-				response.setCurrencyCode(returnValue.substring(6,9)); //length:3
-				response.setBranchCode(returnValue.substring(9,12)); //length:3
-				response.setAccountId(returnValue.substring(12,22)); //length:10
-				response.setAccountStatus(returnValue.substring(22,24)); //length:2
-				response.setCustomerShortName(returnValue.substring(24,37)); //length:13
-				response.setCurrentBalance(returnValue.substring(37,60)); //length:23
-				response.setDepositTerm(returnValue.substring(60,66)); //length:6
-				response.setInterestRate(returnValue.substring(66,77));////length:11
-				response.setAccruedInterest(returnValue.substring(77,100)); //length:23
-				response.setDateOpened(returnValue.substring(100,108)); //length:8
-				response.setProductCode(returnValue.substring(108,111)); //length:3
-				response.setEmployeeAccount(returnValue.substring(111,112)); //length:1
-				response.setJointAccount(returnValue.substring(112,115)); //length:3
+				response.setErrorCode("99");
+				response.setReplyText("Please complete all the required fields.");
+				logger.debug(response);
 			}
-			command.close();
 		} catch (JagacyException e) {
 			response.setErrorCode("99");
 			response.setReplyText("Error in connecting to mainframe. More INFO: " + e.getMessage());
@@ -559,7 +647,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 						//response.setResponse(responseList);	
 						lastDataFlag=response.getLastDataFlag();
 						
-						while((lastDataFlag.equals("Y") || responseList.size()!=500)  && !lastKeyUsed.equalsIgnoreCase("") ){
+						while((lastDataFlag.equals("Y") && responseList.size()<=500)  && !lastKeyUsed.equalsIgnoreCase("") ){
 							if(!lastKeyUsed.equals("")){
 								String requestNextValue="Second Request:WSP1" + "    " +request.getCurrencyCode()+request.getBranchCode()+request.getAccountId()+SystematicsUtil.getNextRecordNumber(nextRecordNumber)+request.getStartDate()+request.getEndDate() +lastKeyUsed;
 								logger.debug(requestNextValue);
@@ -746,7 +834,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 						//response.setResponse(responseList);	
 						lastDataFlag=response.getLastDataFlag();
 						
-						while((lastDataFlag.equals("Y") || responseList.size()!=500)  && !lastKeyUsed.equalsIgnoreCase("") ){
+						while((lastDataFlag.equals("Y") && responseList.size()<=500)  && !lastKeyUsed.equalsIgnoreCase("") ){
 							if(!lastKeyUsed.equals("")){
 								String requestNextValue="Second Request:WSP2" + "    " +request.getCurrencyCode()+request.getBranchCode()+request.getAccountId()+SystematicsUtil.getNextRecordNumber(nextRecordNumber)+request.getStartDate()+request.getEndDate() +lastKeyUsed;
 								logger.debug(requestNextValue);
