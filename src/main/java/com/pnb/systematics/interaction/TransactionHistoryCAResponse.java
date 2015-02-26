@@ -24,7 +24,6 @@ public class TransactionHistoryCAResponse extends InteractionBase {
 	private String replyText;
 	private String startDate;
 	private String endDate;
-	private String lastDataFlag;
 	private String numberOfRecords;
 	private String recordSequence;
 	private String postDate;
@@ -45,14 +44,6 @@ public class TransactionHistoryCAResponse extends InteractionBase {
 
 	public void setHasMoreRecord(String hasMoreRecord) {
 		this.hasMoreRecord = hasMoreRecord;
-	}
-
-	public String getLastDataFlag() {
-		return lastDataFlag;
-	}
-
-	public void setLastDataFlag(String lastDataFlag) {
-		this.lastDataFlag = lastDataFlag;
 	}
 
 	public String getNumberOfRecords() {

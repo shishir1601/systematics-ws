@@ -27,6 +27,17 @@ public class TransactionHistoryCARequest extends InteractionBase {
 	@XmlElement(name = "endDate", required = true)
 	private String endDate;
 	
+	@XmlElement(name = "startingRecord", required = true)
+	private String startingRecord;
+	
+
+	
+	public String getStartingRecord() {
+		return startingRecord;
+	}
+	public void setStartingRecord(String startingRecord) {
+		this.startingRecord = startingRecord;
+	}
 	public String getStartDate() {
 		return startDate;
 	}

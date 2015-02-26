@@ -578,18 +578,22 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 	List<TransactionHistoryResponseList> responseList;
 	int nextRecordNumber;
 	String lastDataFlag;
+	boolean responseHasMoreRecord;
+	int numberOfResponse=500;
 	public TransactionHistoryCAResponse transactionHistoryCA(TransactionHistoryCARequest request){
 		TransactionHistoryCAResponse response = new TransactionHistoryCAResponse();
 		System.setProperty("jagacy.properties.dir","classpath");
 		responseList = new ArrayList<TransactionHistoryResponseList>();
-		nextRecordNumber=1;
+		
+		responseHasMoreRecord=false;
 		try {
 			LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
 			command.open();
 			//check if request has null field/s
-			if(!request.getCurrencyCode().equals("") && !request.getBranchCode().equals("") && !request.getAccountId().equals("")  && !request.getStartDate().equals("") && !request.getEndDate().equals("")){
+			if(!request.getCurrencyCode().equals("") && !request.getBranchCode().equals("") && !request.getAccountId().equals("")  && !request.getStartDate().equals("") && !request.getEndDate().equals("") && !request.getStartingRecord().equals("")){
 			//if(request.getCurrencyCode()!=null){
-					String requestValue="First Request:WSP1" + "    " + request.getCurrencyCode()+request.getBranchCode()+request.getAccountId()+SystematicsUtil.getNextRecordNumber(nextRecordNumber)+request.getStartDate()+request.getEndDate();
+				nextRecordNumber=Integer.parseInt(request.getStartingRecord());	
+				String requestValue="First Request:WSP1" + "    " + request.getCurrencyCode()+request.getBranchCode()+request.getAccountId()+SystematicsUtil.getNextRecordNumber(nextRecordNumber)+request.getStartDate()+request.getEndDate();
 					logger.debug(requestValue);
 					String returnValue = client.getTransactionHistoryCA(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId(), request.getStartDate(), request.getEndDate(), SystematicsUtil.getNextRecordNumber(nextRecordNumber), "");
 					System.out.println("Return: "+returnValue);
@@ -613,8 +617,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 						response.setAvailableBalance(returnValue.substring(47,70));
 						response.setProductCode(returnValue.substring(70,73));
 						response.setOpeningDate(returnValue.substring(73,81));
-						response.setHasMoreRecord("N");
-						response.setLastDataFlag(returnValue.substring(81,82));
+						//response.setLastDataFlag(returnValue.substring(81,82));
 						response.setNumberOfRecords(returnValue.substring(82,84));
 						
 						
@@ -649,9 +652,9 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 						//String datxaFlag=returnValue.substring(response);
 						//check if data flag yes or no
 						//response.setResponse(responseList);	
-						lastDataFlag=response.getLastDataFlag();
+						lastDataFlag=returnValue.substring(81,82);
 						
-						while((lastDataFlag.equals("Y") && responseList.size()<=500)  && !lastKeyUsed.equalsIgnoreCase("") ){
+						while((lastDataFlag.equals("Y") && responseList.size()<numberOfResponse)  && !lastKeyUsed.equalsIgnoreCase("") ){
 							if(!lastKeyUsed.equals("")){
 								String requestNextValue="Second Request:WSP1" + "    " +request.getCurrencyCode()+request.getBranchCode()+request.getAccountId()+SystematicsUtil.getNextRecordNumber(nextRecordNumber)+request.getStartDate()+request.getEndDate() +lastKeyUsed;
 								logger.debug(requestNextValue);
@@ -661,24 +664,31 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 
 							}
 						}
-						
-						
+						response.setHasMoreRecord("N");
+						if(responseHasMoreRecord){
+							response.setHasMoreRecord("Y");
+						}
+					
+						response.setNumberOfRecords(""+responseList.size());
 						response.setResponse(responseList);	
+						//System.out.println("Number of records:"+responseList.size());
 						//responseList.clear();
 					   // response.setRecordSequence(responseList.);
 				       // end loop
+						
+						ByteArrayOutputStream baos=new ByteArrayOutputStream();
+						XMLEncoder xmlEncoder=new XMLEncoder(baos);
+						xmlEncoder.writeObject(response);
+						xmlEncoder.close();
+						String responseLog=baos.toString();
+						if(!responseLog.equals("")){
+							responseLog=responseLog.replaceAll("\n", "").replaceAll("\\<\\?xml(.+?)\\?\\>", "").replaceAll("\\<java(.+?)\\>", "").replaceAll("\\<object(.+?)\\>", "");
+							logger.debug(responseLog);
+						}
+						
 						 
 					}
 					
-					ByteArrayOutputStream baos=new ByteArrayOutputStream();
-					XMLEncoder xmlEncoder=new XMLEncoder(baos);
-					xmlEncoder.writeObject(response);
-					xmlEncoder.close();
-					String responseLog=baos.toString();
-					if(!responseLog.equals("")){
-						responseLog=responseLog.replaceAll("\n", "").replaceAll("\\<\\?xml(.+?)\\?\\>", "").replaceAll("\\<java(.+?)\\>", "").replaceAll("\\<object(.+?)\\>", "");
-						logger.debug(responseLog);
-					}
 					
 				
 					command.close();
@@ -694,6 +704,10 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 			//e.printStackTrace();
 			response.setErrorCode("99");
 			response.setReplyText("Error in connecting to mainframe. More INFO: " + e.getMessage());
+		}catch (Exception e) {
+			//e.printStackTrace();
+			response.setErrorCode("99");
+			response.setReplyText("Parsing error: Please check if the data is valid" + e.getMessage());
 		}
 		return response;
 	}
@@ -738,20 +752,27 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				int numOfChar=0;
 				int numberOfRecords=0;
 				for(int ctr=0;ctr<recordNumber;ctr++){
-					TransactionHistoryResponseList th = new TransactionHistoryResponseList();
-					th.setRecordSequence(returnValue.substring(numOfHeadingChar+numOfChar,3+numOfHeadingChar+numOfChar));
-					th.setPostingDate(returnValue.substring(3+numOfHeadingChar+numOfChar,11+numOfHeadingChar+numOfChar));
-					th.setTransAmount(returnValue.substring(11+numOfHeadingChar+numOfChar,34+numOfHeadingChar+numOfChar));
-					th.setDebitCreditFlag(returnValue.substring(34+numOfHeadingChar+numOfChar,35+numOfHeadingChar+numOfChar));
-					th.setCheckNumber(returnValue.substring(35+numOfHeadingChar+numOfChar,45+numOfHeadingChar+numOfChar));
-					th.setTransactionDecs(returnValue.substring(45+numOfHeadingChar+numOfChar,75+numOfHeadingChar+numOfChar));
-					th.setRunningTotal(returnValue.substring(75+numOfHeadingChar+numOfChar,98+numOfHeadingChar+numOfChar));
-					responseList.add(th);
-					numberOfRecords++;
-					numOfChar+=99;
+					if(responseList.size()<numberOfResponse){
+						TransactionHistoryResponseList th = new TransactionHistoryResponseList();
+						th.setRecordSequence(returnValue.substring(numOfHeadingChar+numOfChar,3+numOfHeadingChar+numOfChar));
+						th.setPostingDate(returnValue.substring(3+numOfHeadingChar+numOfChar,11+numOfHeadingChar+numOfChar));
+						th.setTransAmount(returnValue.substring(11+numOfHeadingChar+numOfChar,34+numOfHeadingChar+numOfChar));
+						th.setDebitCreditFlag(returnValue.substring(34+numOfHeadingChar+numOfChar,35+numOfHeadingChar+numOfChar));
+						th.setCheckNumber(returnValue.substring(35+numOfHeadingChar+numOfChar,45+numOfHeadingChar+numOfChar));
+						th.setTransactionDecs(returnValue.substring(45+numOfHeadingChar+numOfChar,75+numOfHeadingChar+numOfChar));
+						th.setRunningTotal(returnValue.substring(75+numOfHeadingChar+numOfChar,98+numOfHeadingChar+numOfChar));
+						responseList.add(th);
+						numberOfRecords++;
+						numOfChar+=99;
+					}else{
+						System.out.println("Last break :"+returnValue.substring(35+numOfHeadingChar+numOfChar,45+numOfHeadingChar+numOfChar));
+						responseHasMoreRecord=true;
+						break;
+					}
+					
 				}
 				nextRecordNumber+=numberOfRecords;
-				System.out.println("number of records:"+numberOfRecords);
+				//System.out.println("number of records:"+numberOfRecords);
 				 lastKeyUsed=returnValue.substring(1571,1607);
 				//yes or no character
 				//String dataFlag=returnValue.substring(response);
@@ -773,13 +794,16 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		TransactionHistorySAResponse response = new TransactionHistorySAResponse();
 		System.setProperty("jagacy.properties.dir","classpath");
 		responseList = new ArrayList<TransactionHistoryResponseList>();
-		nextRecordNumber=1;
+		responseHasMoreRecord=false;
 		try {
 			LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
 			command.open();
 			//check if request has null field/s
-			if(!request.getCurrencyCode().equals("") && !request.getBranchCode().equals("") && !request.getAccountId().equals("")  && !request.getStartDate().equals("") && !request.getEndDate().equals("")){
+			if(!request.getCurrencyCode().equals("") && !request.getBranchCode().equals("") && !request.getAccountId().equals("")  && !request.getStartDate().equals("") && !request.getEndDate().equals("") && !request.getStartingRecord().equals("")){
 			//if(request.getCurrencyCode()!=null){
+				
+					nextRecordNumber=Integer.parseInt(request.getStartingRecord());
+					System.out.println("First record:"+nextRecordNumber);
 					String requestValue="First Request:WSP2" + "    " + request.getCurrencyCode()+request.getBranchCode()+request.getAccountId()+SystematicsUtil.getNextRecordNumber(nextRecordNumber)+request.getStartDate()+request.getEndDate();
 					logger.debug(requestValue);
 					String returnValue = client.getTransactionHistorySA(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId(), request.getStartDate(), request.getEndDate(), SystematicsUtil.getNextRecordNumber(nextRecordNumber), "");
@@ -803,9 +827,9 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 						response.setAvailableBalance(returnValue.substring(47,70));
 						response.setProductCode(returnValue.substring(70,73));
 						response.setOpeningDate(returnValue.substring(73,81));
-						response.setHasMoreRecord("N");
-						response.setLastDataFlag(returnValue.substring(81,82));
 						response.setNumberOfRecords(returnValue.substring(82,84));
+						//response.setLastDataFlag(returnValue.substring(81,82));
+						
 
 						
 						////get the number of records
@@ -839,9 +863,9 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 						//String datxaFlag=returnValue.substring(response);
 						//check if data flag yes or no
 						//response.setResponse(responseList);	
-						lastDataFlag=response.getLastDataFlag();
+						lastDataFlag=returnValue.substring(81,82);
 						
-						while((lastDataFlag.equals("Y") && responseList.size()<=500)  && !lastKeyUsed.equalsIgnoreCase("") ){
+						while((lastDataFlag.equals("Y") && responseList.size()<numberOfResponse)  && !lastKeyUsed.equalsIgnoreCase("") ){
 							if(!lastKeyUsed.equals("")){
 								String requestNextValue="Second Request:WSP2" + "    " +request.getCurrencyCode()+request.getBranchCode()+request.getAccountId()+SystematicsUtil.getNextRecordNumber(nextRecordNumber)+request.getStartDate()+request.getEndDate() +lastKeyUsed;
 								logger.debug(requestNextValue);
@@ -852,19 +876,28 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 							}
 						}
 						
+						response.setHasMoreRecord("N");
+						if(responseHasMoreRecord){
+							response.setHasMoreRecord("Y");
+						}
+
+						response.setNumberOfRecords(""+responseList.size());
 						response.setResponse(responseList);	
+						//System.out.println("Number of records:"+responseList.size());
+						
+						ByteArrayOutputStream baos=new ByteArrayOutputStream();
+						XMLEncoder xmlEncoder=new XMLEncoder(baos);
+						xmlEncoder.writeObject(response);
+						xmlEncoder.close();
+						String responseLog=baos.toString();
+						if(!responseLog.equals("")){
+							responseLog=responseLog.replaceAll("\n", "").replaceAll("\\<\\?xml(.+?)\\?\\>", "").replaceAll("\\<java(.+?)\\>", "").replaceAll("\\<object(.+?)\\>", "");
+							logger.debug(responseLog);
+						}
+						
 						
 					}
 					
-					ByteArrayOutputStream baos=new ByteArrayOutputStream();
-					XMLEncoder xmlEncoder=new XMLEncoder(baos);
-					xmlEncoder.writeObject(response);
-					xmlEncoder.close();
-					String responseLog=baos.toString();
-					if(!responseLog.equals("")){
-						responseLog=responseLog.replaceAll("\n", "").replaceAll("\\<\\?xml(.+?)\\?\\>", "").replaceAll("\\<java(.+?)\\>", "").replaceAll("\\<object(.+?)\\>", "");
-						logger.debug(responseLog);
-					}
 					
 				
 					command.close();
@@ -880,6 +913,10 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 			//e.printStackTrace();
 			response.setErrorCode("99");
 			response.setReplyText("Error in connecting to mainframe. More INFO: " + e.getMessage());
+		}catch (Exception e) {
+			//e.printStackTrace();
+			response.setErrorCode("99");
+			response.setReplyText("Parsing error: Please check if the data is valid " + e.getMessage());
 		}
 		return response;
 		
@@ -983,20 +1020,27 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 					int numOfChar=0;
 					int numberOfRecords=0;
 					for(int ctr=0;ctr<recordNumber;ctr++){
-						TransactionHistoryResponseList th = new TransactionHistoryResponseList();
-						th.setRecordSequence(returnValue.substring(numOfHeadingChar+numOfChar,3+numOfHeadingChar+numOfChar));
-						th.setPostingDate(returnValue.substring(3+numOfHeadingChar+numOfChar,11+numOfHeadingChar+numOfChar));
-						th.setTransAmount(returnValue.substring(11+numOfHeadingChar+numOfChar,34+numOfHeadingChar+numOfChar));
-						th.setDebitCreditFlag(returnValue.substring(34+numOfHeadingChar+numOfChar,35+numOfHeadingChar+numOfChar));
-						th.setCheckNumber(returnValue.substring(35+numOfHeadingChar+numOfChar,45+numOfHeadingChar+numOfChar));
-						th.setTransactionDecs(returnValue.substring(45+numOfHeadingChar+numOfChar,75+numOfHeadingChar+numOfChar));
-						th.setRunningTotal(returnValue.substring(75+numOfHeadingChar+numOfChar,98+numOfHeadingChar+numOfChar));
-						responseList.add(th);
-						numberOfRecords++;
-						numOfChar+=99;
+						if(responseList.size()<numberOfResponse){
+							TransactionHistoryResponseList th = new TransactionHistoryResponseList();
+							th.setRecordSequence(returnValue.substring(numOfHeadingChar+numOfChar,3+numOfHeadingChar+numOfChar));
+							th.setPostingDate(returnValue.substring(3+numOfHeadingChar+numOfChar,11+numOfHeadingChar+numOfChar));
+							th.setTransAmount(returnValue.substring(11+numOfHeadingChar+numOfChar,34+numOfHeadingChar+numOfChar));
+							th.setDebitCreditFlag(returnValue.substring(34+numOfHeadingChar+numOfChar,35+numOfHeadingChar+numOfChar));
+							th.setCheckNumber(returnValue.substring(35+numOfHeadingChar+numOfChar,45+numOfHeadingChar+numOfChar));
+							th.setTransactionDecs(returnValue.substring(45+numOfHeadingChar+numOfChar,75+numOfHeadingChar+numOfChar));
+							th.setRunningTotal(returnValue.substring(75+numOfHeadingChar+numOfChar,98+numOfHeadingChar+numOfChar));
+							responseList.add(th);
+							numberOfRecords++;
+							numOfChar+=99;
+						}else{
+							//System.out.println("break already last "+returnValue.substring(75+numOfHeadingChar+numOfChar,98+numOfHeadingChar+numOfChar));
+							responseHasMoreRecord=true;
+							break;
+						}
+						
 					}
 					nextRecordNumber+=numberOfRecords;
-					System.out.println("number of records:"+numberOfRecords);
+				//	System.out.println("number of records:"+numberOfRecords);
 					 lastKeyUsed=returnValue.substring(1571,1607);
 					//yes or no character
 					//String dataFlag=returnValue.substring(response);
