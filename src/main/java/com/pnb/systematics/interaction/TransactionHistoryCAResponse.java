@@ -37,7 +37,16 @@ public class TransactionHistoryCAResponse extends InteractionBase {
 	private String lastKeyUsed;
 	private String tranId;
 	private String recordSequense;
+	private String hasMoreRecord;
 	
+	public String getHasMoreRecord() {
+		return hasMoreRecord;
+	}
+
+	public void setHasMoreRecord(String hasMoreRecord) {
+		this.hasMoreRecord = hasMoreRecord;
+	}
+
 	public String getLastDataFlag() {
 		return lastDataFlag;
 	}

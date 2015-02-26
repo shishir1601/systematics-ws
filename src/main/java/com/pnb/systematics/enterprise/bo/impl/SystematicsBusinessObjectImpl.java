@@ -398,7 +398,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		return response;
 	}
 	
-	
+
 	public AccountDetailsInqLoanResponse accountLoan(AccountDetailsInqLoanRequest request){
 		AccountDetailsInqLoanResponse response = new AccountDetailsInqLoanResponse();
 		System.setProperty("jagacy.properties.dir","classpath");
@@ -529,6 +529,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		}
 		return response;
 	}
+	
 	public AccountDetailsMessageTDResponse accountMessageTD(AccountDetailsMessageTDRequest request){
 		AccountDetailsMessageTDResponse response = new AccountDetailsMessageTDResponse();
 		System.setProperty("jagacy.properties.dir","classpath");
@@ -612,8 +613,10 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 						response.setAvailableBalance(returnValue.substring(47,70));
 						response.setProductCode(returnValue.substring(70,73));
 						response.setOpeningDate(returnValue.substring(73,81));
+						response.setHasMoreRecord("N");
 						response.setLastDataFlag(returnValue.substring(81,82));
 						response.setNumberOfRecords(returnValue.substring(82,84));
+						
 						
 						////get the number of records
 						String recordCount=response.getNumberOfRecords().trim();
@@ -640,7 +643,8 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 							numOfChar+=99;
 						}
 						nextRecordNumber+=responseList.size();
-						String lastKeyUsed=returnValue.substring(1571,1601);
+						String lastKeyUsed=returnValue.substring(1571,1607);
+						System.out.println("last key: " + lastKeyUsed);
 						//yes or no character
 						//String datxaFlag=returnValue.substring(response);
 						//check if data flag yes or no
@@ -657,6 +661,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 
 							}
 						}
+						
 						
 						response.setResponse(responseList);	
 						//responseList.clear();
@@ -697,14 +702,14 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 	public String settransactionHistoryCAResponse(TransactionHistoryCAResponse response, String returnValue){
 		String lastKeyUsed="";
 		try{
-		//logger.debug(returnValue);
-		if(returnValue.equals("") ){
-			System.out.println("empty return");
-			response.setErrorCode("99");
-			response.setReplyText("Error in connecting to mainframe");
-		}else if(returnValue.contains("ERROR READING")){
-			response.setErrorCode("99");
-			response.setReplyText(returnValue.substring(6,35));
+			//logger.debug(returnValue);
+			if(returnValue.equals("") ){
+				System.out.println("empty return");
+				response.setErrorCode("99");
+				response.setReplyText("Error in connecting to mainframe");
+			}else if(returnValue.contains("ERROR READING")){
+				response.setErrorCode("99");
+				response.setReplyText(returnValue.substring(6,35));
 			}else{
 				
 				/*response.setTranId(returnValue.substring(0,4));
@@ -747,7 +752,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				}
 				nextRecordNumber+=numberOfRecords;
 				System.out.println("number of records:"+numberOfRecords);
-				 lastKeyUsed=returnValue.substring(1571,1601);
+				 lastKeyUsed=returnValue.substring(1571,1607);
 				//yes or no character
 				//String dataFlag=returnValue.substring(response);
 				//check if data flag yes or no
@@ -787,7 +792,6 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 						response.setErrorCode("99");
 						response.setReplyText(returnValue.substring(6,35));
 					}else{
-						
 						response.setTranId(returnValue.substring(0,4));
 						response.setTransactionStatusCode(returnValue.substring(4,6));
 						//to insert 0 value
@@ -799,8 +803,10 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 						response.setAvailableBalance(returnValue.substring(47,70));
 						response.setProductCode(returnValue.substring(70,73));
 						response.setOpeningDate(returnValue.substring(73,81));
+						response.setHasMoreRecord("N");
 						response.setLastDataFlag(returnValue.substring(81,82));
 						response.setNumberOfRecords(returnValue.substring(82,84));
+
 						
 						////get the number of records
 						String recordCount=response.getNumberOfRecords().trim();
@@ -827,7 +833,8 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 							numOfChar+=99;
 						}
 						nextRecordNumber+=responseList.size();
-						String lastKeyUsed=returnValue.substring(1571,1601);
+						String lastKeyUsed=returnValue.substring(1571,1607);
+						System.out.println("last key: " + lastKeyUsed);
 						//yes or no character
 						//String datxaFlag=returnValue.substring(response);
 						//check if data flag yes or no
@@ -846,10 +853,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 						}
 						
 						response.setResponse(responseList);	
-						//responseList.clear();
-					   // response.setRecordSequence(responseList.);
-				       // end loop
-						 
+						
 					}
 					
 					ByteArrayOutputStream baos=new ByteArrayOutputStream();
@@ -940,7 +944,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 	}
 	
 	///set the response of SA before send
-		public String settransactionHistorySAResponse(TransactionHistorySAResponse response, String returnValue){
+	public String settransactionHistorySAResponse(TransactionHistorySAResponse response, String returnValue){
 			String lastKeyUsed="";
 			try{
 			//logger.debug(returnValue);
@@ -993,7 +997,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 					}
 					nextRecordNumber+=numberOfRecords;
 					System.out.println("number of records:"+numberOfRecords);
-					 lastKeyUsed=returnValue.substring(1571,1601);
+					 lastKeyUsed=returnValue.substring(1571,1607);
 					//yes or no character
 					//String dataFlag=returnValue.substring(response);
 					//check if data flag yes or no
