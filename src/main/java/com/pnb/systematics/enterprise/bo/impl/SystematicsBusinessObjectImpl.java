@@ -50,6 +50,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 
 	private static final SystematicsClient client = WebServiceUtil.systematicsClient();
 	private static Logger logger = Logger.getLogger(SystematicsBusinessObjectImpl.class);
+	private String nullError;
 	
 	String nullField;
 	
@@ -82,11 +83,18 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 			}
 		
 		}else{
+			nullError="";
+			nullError=nullError + ((request.getAccountId().equals("")) ? "Account ID \t" : "");
+			nullError=nullError + ((request.getCurrencyCode().equals("")) ? "Currency Code \t" : "");
+			nullError=nullError + ((request.getBranchCode().equals("")) ? "Branch Code \t" : "");
+			System.out.println(request.getAccountId());
 			response.setErrorCode("99");
-			response.setReplyText("Please complete all the required fields.");
+			response.setReplyText("Required fields: " + nullError);
 			logger.debug(response);
 		}
-		
+		if(response!=null){
+			 SystematicsUtil.logRequestResponse(response, "BalanceInquiryResponse response");
+		 }
 		return response;
 	}
 	
@@ -114,10 +122,18 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				response.setTransactionStatusCode("00");
 			}
 		}else{
+			nullError="";
+			nullError=nullError + ((request.getAccountId().equals("")) ? "Account ID \t" : "");
+			nullError=nullError + ((request.getCurrencyCode().equals("")) ? "Currency Code \t" : "");
+			nullError=nullError + ((request.getBranchCode().equals("")) ? "Branch Code \t" : "");
+			System.out.println(request.getAccountId());
 			response.setErrorCode("99");
-			response.setReplyText("Please complete all the required fields.");
+			response.setReplyText("Required fields: " + nullError);
 			logger.debug(response);
 		}
+		if(response!=null){
+			 SystematicsUtil.logRequestResponse(response, "BalanceInquiryResponse response");
+		 }
 		
 		return response;
 	}
@@ -151,10 +167,19 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				}
 			}
 		}else{
+			nullError="";
+			nullError=nullError + ((request.getAccountId().equals("")) ? "Account ID \t" : "");
+			nullError=nullError + ((request.getCurrencyCode().equals("")) ? "Currency Code \t" : "");
+			nullError=nullError + ((request.getBranchCode().equals("")) ? "Branch Code \t" : "");
+			nullError=nullError + ((request.getTransactionAmount().equals("")) ? "Transaction Amount \t" : "");
+			System.out.println(request.getAccountId());
 			response.setErrorCode("99");
-			response.setReplyText("Please complete all the required fields.");
+			response.setReplyText("Required fields: " + nullError);
 			logger.debug(response);
 		}
+		if(response!=null){
+			 SystematicsUtil.logRequestResponse(response, "ServiceChargeResponse response");
+		 }
 		return response;
 	}
 	
@@ -185,10 +210,19 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				}
 			}
 		}else{
+			nullError="";
+			nullError=nullError + ((request.getAccountId().equals("")) ? "Account ID \t" : "");
+			nullError=nullError + ((request.getCurrencyCode().equals("")) ? "Currency Code \t" : "");
+			nullError=nullError + ((request.getBranchCode().equals("")) ? "Branch Code \t" : "");
+			nullError=nullError + ((request.getTransactionAmount().equals("")) ? "Transaction Amount \t" : "");
+			System.out.println(request.getAccountId());
 			response.setErrorCode("99");
-			response.setReplyText("Please complete all the required fields.");
+			response.setReplyText("Required fields: " + nullError);
 			logger.debug(response);
 		}
+		if(response!=null){
+			 SystematicsUtil.logRequestResponse(response, "DebitMemoImResponse response");
+		 }
 		return response;
 	}
 	
@@ -219,10 +253,20 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				}
 			}
 		}else{
+			nullError="";
+			nullError=nullError + ((request.getAccountId().equals("")) ? "Account ID \t" : "");
+			nullError=nullError + ((request.getCurrencyCode().equals("")) ? "Currency Code \t" : "");
+			nullError=nullError + ((request.getBranchCode().equals("")) ? "Branch Code \t" : "");
+			nullError=nullError + ((request.getTransactionAmount().equals("")) ? "Transaction Amount \t" : "");
+			System.out.println(request.getAccountId());
 			response.setErrorCode("99");
-			response.setReplyText("Please complete all the required fields.");
+			response.setReplyText("Required fields: " + nullError);
 			logger.debug(response);
 		}
+		
+		if(response!=null){
+			 SystematicsUtil.logRequestResponse(response, "DebitMemoStResponse response");
+		 }
 		return response;
 	}
 
@@ -253,10 +297,22 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				}
 			}
 		}else{
+			nullError="";
+			nullError=nullError + ((request.getCurrencyCode().equals("")) ? "Currency Code \t" : "");
+			nullError=nullError + ((request.getFromAccountId().equals("")) ? "From Account ID \t" : "");
+			nullError=nullError + ((request.getFromBranchCode().equals("")) ? "From Branch Code \t" : "");
+			nullError=nullError + ((request.getToAccountId().equals("")) ? "To Account ID \t" : "");
+			nullError=nullError + ((request.getToBranchCode().equals("")) ? "To Branch Code \t" : "");
+			nullError=nullError + ((request.getTransactionAmount().equals("")) ? "Transaction Amount \t" : "");
+			
 			response.setErrorCode("99");
-			response.setReplyText("Please complete all the required fields.");
+			response.setReplyText("Required fields: " + nullError);
 			logger.debug(response);
 		}
+		
+		if(response!=null){
+			 SystematicsUtil.logRequestResponse(response, "FundTransferResponse SAtoCA response");
+		 }
 		return response;
 	}
 
@@ -287,10 +343,22 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				}
 			}
 		}else{
+			nullError="";
+			nullError=nullError + ((request.getCurrencyCode().equals("")) ? "Currency Code \t" : "");
+			nullError=nullError + ((request.getFromAccountId().equals("")) ? "From Account ID \t" : "");
+			nullError=nullError + ((request.getFromBranchCode().equals("")) ? "From Branch Code \t" : "");
+			nullError=nullError + ((request.getToAccountId().equals("")) ? "To Account ID \t" : "");
+			nullError=nullError + ((request.getToBranchCode().equals("")) ? "To Branch Code \t" : "");
+			nullError=nullError + ((request.getTransactionAmount().equals("")) ? "Transaction Amount \t" : "");
+			
 			response.setErrorCode("99");
-			response.setReplyText("Please complete all the required fields.");
+			response.setReplyText("Required fields: " + nullError);
 			logger.debug(response);
 		}
+		
+		if(response!=null){
+			 SystematicsUtil.logRequestResponse(response, "FundTransferResponse CAtoSA response");
+		 }
 		return response;
 	}
 	
@@ -321,10 +389,22 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				}
 			}
 		}else{
+			nullError="";
+			nullError=nullError + ((request.getCurrencyCode().equals("")) ? "Currency Code \t" : "");
+			nullError=nullError + ((request.getFromAccountId().equals("")) ? "From Account ID \t" : "");
+			nullError=nullError + ((request.getFromBranchCode().equals("")) ? "From Branch Code \t" : "");
+			nullError=nullError + ((request.getToAccountId().equals("")) ? "To Account ID \t" : "");
+			nullError=nullError + ((request.getToBranchCode().equals("")) ? "To Branch Code \t" : "");
+			nullError=nullError + ((request.getTransactionAmount().equals("")) ? "Transaction Amount \t" : "");
+			
 			response.setErrorCode("99");
-			response.setReplyText("Please complete all the required fields.");
+			response.setReplyText("Required fields: " + nullError);
 			logger.debug(response);
 		}
+		
+		if(response!=null){
+			 SystematicsUtil.logRequestResponse(response, "FundTransferResponse SAtoSA response");
+		 }
 		return response;
 
 	}
@@ -356,10 +436,22 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				}
 			}
 		}else{
+			nullError="";
+			nullError=nullError + ((request.getCurrencyCode().equals("")) ? "Currency Code \t" : "");
+			nullError=nullError + ((request.getFromAccountId().equals("")) ? "From Account ID \t" : "");
+			nullError=nullError + ((request.getFromBranchCode().equals("")) ? "From Branch Code \t" : "");
+			nullError=nullError + ((request.getToAccountId().equals("")) ? "To Account ID \t" : "");
+			nullError=nullError + ((request.getToBranchCode().equals("")) ? "To Branch Code \t" : "");
+			nullError=nullError + ((request.getTransactionAmount().equals("")) ? "Transaction Amount \t" : "");
+			
 			response.setErrorCode("99");
-			response.setReplyText("Please complete all the required fields.");
+			response.setReplyText("Required fields: " + nullError);
 			logger.debug(response);
 		}
+		
+		if(response!=null){
+			 SystematicsUtil.logRequestResponse(response, "FundTransferResponse CAtoCA response");
+		 }
 		return response;
 
 	}
@@ -391,10 +483,23 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				}
 			}
 		}else{
+			nullError="";
+			nullError=nullError + ((request.getCurrencyCode().equals("")) ? "Currency Code \t" : "");
+			nullError=nullError + ((request.getBranchCode().equals("")) ? "Branch Code \t" : "");
+			nullError=nullError + ((request.getAccountId().equals("")) ? "Account ID \t" : "");
+			nullError=nullError + ((request.getMerchantID().equals("")) ? "Merchant ID \t" : "");
+			nullError=nullError + ((request.getSubscriberNumber().equals("")) ? "Subscriber Number \t" : "");
+			nullError=nullError + ((request.getBillNo().equals("")) ? "Bill Number \t" : "");
+			nullError=nullError + ((request.getPayeeName().equals("")) ? "Payee Name \t" : "");
+			nullError=nullError + ((request.getTransactionAmount().equals("")) ? "Transaction Amount \t" : "");
 			response.setErrorCode("99");
-			response.setReplyText("Please complete all the required fields.");
+			response.setReplyText("Required fields: " + nullError);
 			logger.debug(response);
 		}
+		if(response!=null){
+			 SystematicsUtil.logRequestResponse(response, "BillsPaymentResponse response");
+		 }
+		
 		return response;
 	}
 	
@@ -432,8 +537,13 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				}
 				command.close();
 			}else{
+				nullError="";
+				nullError=nullError + ((request.getCurrencyCode().equals("")) ? "Currency Code \t" : "");
+				nullError=nullError + ((request.getBranchCode().equals("")) ? "Branch Code \t" : "");
+				nullError=nullError + ((request.getAccountId().equals("")) ? "Account ID \t" : "");
+				nullError=nullError + ((request.getUserReferenceNumber().equals("")) ? "Reference Number \t" : "");
 				response.setErrorCode("99");
-				response.setReplyText("Please complete all the required fields.");
+				response.setReplyText("Required fields: " + nullError);
 				logger.debug(response);
 			}
 		} catch (JagacyException e) {
@@ -441,6 +551,9 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 			response.setReplyText("Error in connecting to mainframe. More INFO: " + e.getMessage());
 		}
 		
+		if(response!=null){
+			 SystematicsUtil.logRequestResponse(response, "AccountDetailsInqLoanResponse response");
+		 }
 		return response;
 	}
 	public AccountDetailsMessageIMResponse accountMessageIM(AccountDetailsMessageIMRequest request){
@@ -476,14 +589,23 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				}
 				command.close();
 			}else{
+				nullError="";
+				nullError=nullError + ((request.getCurrencyCode().equals("")) ? "Currency Code \t" : "");
+				nullError=nullError + ((request.getBranchCode().equals("")) ? "Branch Code \t" : "");
+				nullError=nullError + ((request.getAccountId().equals("")) ? "Account ID \t" : "");
+				nullError=nullError + ((request.getUserReferenceNumber().equals("")) ? "Reference Number \t" : "");
 				response.setErrorCode("99");
-				response.setReplyText("Please complete all the required fields.");
+				response.setReplyText("Required fields: " + nullError);
 				logger.debug(response);
 			}
 		} catch (JagacyException e) {
 			response.setErrorCode("99");
 			response.setReplyText("Error in connecting to mainframe. More INFO: " + e.getMessage());
 		}
+		
+		if(response!=null){
+			 SystematicsUtil.logRequestResponse(response, "AccountDetailsMessageIMResponse response");
+		 }
 		return response;
 	}
 	public AccountDetailsMessageSTResponse accountMessageST(AccountDetailsMessageSTRequest request){
@@ -519,14 +641,23 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				}
 				command.close();
 				}else{
+					nullError="";
+					nullError=nullError + ((request.getCurrencyCode().equals("")) ? "Currency Code \t" : "");
+					nullError=nullError + ((request.getBranchCode().equals("")) ? "Branch Code \t" : "");
+					nullError=nullError + ((request.getAccountId().equals("")) ? "Account ID \t" : "");
+					nullError=nullError + ((request.getUserReferenceNumber().equals("")) ? "Reference Number \t" : "");
 					response.setErrorCode("99");
-					response.setReplyText("Please complete all the required fields.");
+					response.setReplyText("Required fields: " + nullError);
 					logger.debug(response);
 				}
 		} catch (JagacyException e) {
 			response.setErrorCode("99");
 			response.setReplyText("Error in connecting to mainframe. More INFO: " + e.getMessage());
 		}
+		
+		if(response!=null){
+			 SystematicsUtil.logRequestResponse(response, "AccountDetailsMessageSTResponse response");
+		 }
 		return response;
 	}
 	
@@ -563,14 +694,23 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				}
 				command.close();
 			}else{
+				nullError="";
+				nullError=nullError + ((request.getCurrencyCode().equals("")) ? "Currency Code \t" : "");
+				nullError=nullError + ((request.getBranchCode().equals("")) ? "Branch Code \t" : "");
+				nullError=nullError + ((request.getAccountId().equals("")) ? "Account ID \t" : "");
+				nullError=nullError + ((request.getUserReferenceNumber().equals("")) ? "Reference Number \t" : "");
 				response.setErrorCode("99");
-				response.setReplyText("Please complete all the required fields.");
+				response.setReplyText("Required fields: " + nullError);
 				logger.debug(response);
 			}
 		} catch (JagacyException e) {
 			response.setErrorCode("99");
 			response.setReplyText("Error in connecting to mainframe. More INFO: " + e.getMessage());
 		}
+		
+		if(response!=null){
+			 SystematicsUtil.logRequestResponse(response, "AccountDetailsMessageTDResponse response");
+		 }
 		return response;
 	}
 	
@@ -579,23 +719,30 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 	int nextRecordNumber;
 	String lastDataFlag;
 	boolean responseHasMoreRecord;
-	int numberOfResponse=500;
+	private int numberOfResponse=500;
+	int seqNumber;
 	public TransactionHistoryCAResponse transactionHistoryCA(TransactionHistoryCARequest request){
 		TransactionHistoryCAResponse response = new TransactionHistoryCAResponse();
 		System.setProperty("jagacy.properties.dir","classpath");
 		responseList = new ArrayList<TransactionHistoryResponseList>();
 		
 		responseHasMoreRecord=false;
+		seqNumber=1;
+		String returnValue="";
+	
 		try {
+			//String requestValue="First Request:WSP1" + "    " + request.getCurrencyCode()+request.getBranchCode()+request.getAccountId()+SystematicsUtil.getNextRecordNumber(nextRecordNumber)+request.getStartDate()+request.getEndDate();
+			//logger.debug(requestValue);
+			
+			
 			LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
 			command.open();
 			//check if request has null field/s
-			if(!request.getCurrencyCode().equals("") && !request.getBranchCode().equals("") && !request.getAccountId().equals("")  && !request.getStartDate().equals("") && !request.getEndDate().equals("") && !request.getStartingRecord().equals("")){
+			
+			if(!SystematicsUtil.getNotNullString(request.getCurrencyCode()).equals("") && !SystematicsUtil.getNotNullString(request.getBranchCode()).equals("") && !SystematicsUtil.getNotNullString(request.getAccountId()).equals("")  && !SystematicsUtil.getNotNullString(request.getStartDate()).equals("") && !SystematicsUtil.getNotNullString(request.getEndDate()).equals("") && !SystematicsUtil.getNotNullString(request.getStartingRecord()).equals("")){
 			//if(request.getCurrencyCode()!=null){
 				nextRecordNumber=Integer.parseInt(request.getStartingRecord());	
-				String requestValue="First Request:WSP1" + "    " + request.getCurrencyCode()+request.getBranchCode()+request.getAccountId()+SystematicsUtil.getNextRecordNumber(nextRecordNumber)+request.getStartDate()+request.getEndDate();
-					logger.debug(requestValue);
-					String returnValue = client.getTransactionHistoryCA(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId(), request.getStartDate(), request.getEndDate(), SystematicsUtil.getNextRecordNumber(nextRecordNumber), "");
+					returnValue = client.getTransactionHistoryCA(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId(), request.getStartDate(), request.getEndDate(), SystematicsUtil.getNextRecordNumber(nextRecordNumber), "");
 					System.out.println("Return: "+returnValue);
 					logger.debug(returnValue);
 					if(returnValue == ""){
@@ -676,15 +823,9 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 					   // response.setRecordSequence(responseList.);
 				       // end loop
 						
-						ByteArrayOutputStream baos=new ByteArrayOutputStream();
-						XMLEncoder xmlEncoder=new XMLEncoder(baos);
-						xmlEncoder.writeObject(response);
-						xmlEncoder.close();
-						String responseLog=baos.toString();
-						if(!responseLog.equals("")){
-							responseLog=responseLog.replaceAll("\n", "").replaceAll("\\<\\?xml(.+?)\\?\\>", "").replaceAll("\\<java(.+?)\\>", "").replaceAll("\\<object(.+?)\\>", "");
-							logger.debug(responseLog);
-						}
+						if(response!=null){
+							 SystematicsUtil.logRequestResponse(response, "TransactionHistoryCAResponse response");
+						 }
 						
 						 
 					}
@@ -694,8 +835,15 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 					command.close();
 					
 			}else{
+				nullError="";
+				nullError=nullError + ((SystematicsUtil.getNotNullString(request.getCurrencyCode()).equals("")) ? "Currency Code \t" : "");
+				nullError=nullError + ((SystematicsUtil.getNotNullString(request.getBranchCode()).equals("")) ? "Branch Code \t" : "");
+				nullError=nullError + ((SystematicsUtil.getNotNullString(request.getAccountId()).equals("")) ? "Account ID \t" : "");
+				nullError=nullError + ((SystematicsUtil.getNotNullString(request.getStartDate()).equals("")) ? "Start Date \t" : "");
+				nullError=nullError + ((SystematicsUtil.getNotNullString(request.getEndDate()).equals("")) ? "End Date \t" : "");
+				nullError=nullError + ((SystematicsUtil.getNotNullString(request.getStartingRecord()).equals("")) ? "Starting Record \t" : "");
 				response.setErrorCode("99");
-				response.setReplyText("Please complete all the required fields.");
+				response.setReplyText("Required fields: " + nullError);
 				logger.debug(response);
 			}
 			
@@ -704,10 +852,12 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 			//e.printStackTrace();
 			response.setErrorCode("99");
 			response.setReplyText("Error in connecting to mainframe. More INFO: " + e.getMessage());
+			logger.debug("Error in connecting to mainframe. More INFO: " + e.getMessage());
 		}catch (Exception e) {
 			//e.printStackTrace();
 			response.setErrorCode("99");
-			response.setReplyText("Parsing error: Please check if the data is valid" + e.getMessage());
+			response.setReplyText("Response error: " + returnValue);
+			logger.debug("Response error: " + returnValue);
 		}
 		return response;
 	}
@@ -718,7 +868,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		try{
 			//logger.debug(returnValue);
 			if(returnValue.equals("") ){
-				System.out.println("empty return");
+				//System.out.println("empty return");
 				response.setErrorCode("99");
 				response.setReplyText("Error in connecting to mainframe");
 			}else if(returnValue.contains("ERROR READING")){
@@ -774,6 +924,11 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				nextRecordNumber+=numberOfRecords;
 				//System.out.println("number of records:"+numberOfRecords);
 				 lastKeyUsed=returnValue.substring(1571,1607);
+				 if(lastDataFlag.equals("Y")){
+					 responseHasMoreRecord=true;
+				 }else{
+					 responseHasMoreRecord=false;
+				 }
 				//yes or no character
 				//String dataFlag=returnValue.substring(response);
 				//check if data flag yes or no
@@ -795,18 +950,39 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		System.setProperty("jagacy.properties.dir","classpath");
 		responseList = new ArrayList<TransactionHistoryResponseList>();
 		responseHasMoreRecord=false;
+		String returnValue="";
+		
+		ByteArrayOutputStream baos=null;
+		XMLEncoder xmlEncoder=null;
+		String responseLog="";
 		try {
+			//log first     currCode + branCode + accntId + nextRecordNumber+strDate+eDate +"**"+lastKeyUsed+"**";
+			/*
+			 * String response = "";
+		String code = "WSP2";
+		String transId = "    ";
+		String seqNum = "001";
+		String currCode = currencyCode;
+		String branCode = branchCode;
+		String accntId = accountId;
+		String strDate = startDate;
+		String eDate = endDate;
+			 * 
+			 */
+			
+			//String requestValue="First Request:WSP2" + "    " + "001" +request.getCurrencyCode()+request.getBranchCode()+request.getAccountId()+SystematicsUtil.getNextRecordNumber(nextRecordNumber)+request.getStartDate()+request.getEndDate();
+			//logger.debug(requestValue);
+			
+			 
 			LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
 			command.open();
 			//check if request has null field/s
-			if(!request.getCurrencyCode().equals("") && !request.getBranchCode().equals("") && !request.getAccountId().equals("")  && !request.getStartDate().equals("") && !request.getEndDate().equals("") && !request.getStartingRecord().equals("")){
+			if(!SystematicsUtil.getNotNullString(request.getCurrencyCode()).equals("") && !SystematicsUtil.getNotNullString(request.getBranchCode()).equals("") && !SystematicsUtil.getNotNullString(request.getAccountId()).equals("")  && !SystematicsUtil.getNotNullString(request.getStartDate()).equals("") && !SystematicsUtil.getNotNullString(request.getEndDate()).equals("") && !SystematicsUtil.getNotNullString(request.getStartingRecord()).equals("")){
 			//if(request.getCurrencyCode()!=null){
 				
 					nextRecordNumber=Integer.parseInt(request.getStartingRecord());
-					System.out.println("First record:"+nextRecordNumber);
-					String requestValue="First Request:WSP2" + "    " + request.getCurrencyCode()+request.getBranchCode()+request.getAccountId()+SystematicsUtil.getNextRecordNumber(nextRecordNumber)+request.getStartDate()+request.getEndDate();
-					logger.debug(requestValue);
-					String returnValue = client.getTransactionHistorySA(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId(), request.getStartDate(), request.getEndDate(), SystematicsUtil.getNextRecordNumber(nextRecordNumber), "");
+					//System.out.println("First record:"+nextRecordNumber);
+					returnValue = client.getTransactionHistorySA(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId(), request.getStartDate(), request.getEndDate(), SystematicsUtil.getNextRecordNumber(nextRecordNumber), "");
 					System.out.println("Return: "+returnValue);
 					logger.debug(returnValue);
 					if(returnValue == ""){
@@ -885,15 +1061,9 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 						response.setResponse(responseList);	
 						//System.out.println("Number of records:"+responseList.size());
 						
-						ByteArrayOutputStream baos=new ByteArrayOutputStream();
-						XMLEncoder xmlEncoder=new XMLEncoder(baos);
-						xmlEncoder.writeObject(response);
-						xmlEncoder.close();
-						String responseLog=baos.toString();
-						if(!responseLog.equals("")){
-							responseLog=responseLog.replaceAll("\n", "").replaceAll("\\<\\?xml(.+?)\\?\\>", "").replaceAll("\\<java(.+?)\\>", "").replaceAll("\\<object(.+?)\\>", "");
-							logger.debug(responseLog);
-						}
+						 if(response!=null){
+							 SystematicsUtil.logRequestResponse(response, "TransactionHistorySAResponse response");
+						 }
 						
 						
 					}
@@ -903,20 +1073,30 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 					command.close();
 					
 			}else{
+				nullError="";
+				nullError=nullError + ((SystematicsUtil.getNotNullString(request.getCurrencyCode()).equals("")) ? "Currency Code \t" : "");
+				nullError=nullError + ((SystematicsUtil.getNotNullString(request.getBranchCode()).equals("")) ? "Branch Code \t" : "");
+				nullError=nullError + ((SystematicsUtil.getNotNullString(request.getAccountId()).equals("")) ? "Account ID \t" : "");
+				nullError=nullError + ((SystematicsUtil.getNotNullString(request.getStartDate()).equals("")) ? "Start Date \t" : "");
+				nullError=nullError + ((SystematicsUtil.getNotNullString(request.getEndDate()).equals("")) ? "End Date \t" : "");
+				nullError=nullError + ((SystematicsUtil.getNotNullString(request.getStartingRecord()).equals("")) ? "Starting Record \t" : "");
 				response.setErrorCode("99");
-				response.setReplyText("Please complete all the required fields.");
+				response.setReplyText("Required fields: " + nullError);
 				logger.debug(response);
 			}
 			
 			
 		} catch (JagacyException e) {
+			
 			//e.printStackTrace();
 			response.setErrorCode("99");
 			response.setReplyText("Error in connecting to mainframe. More INFO: " + e.getMessage());
+			logger.debug("Error in connecting to mainframe. More INFO: " + e.getMessage());
 		}catch (Exception e) {
 			//e.printStackTrace();
 			response.setErrorCode("99");
-			response.setReplyText("Parsing error: Please check if the data is valid " + e.getMessage());
+			response.setReplyText("Response error:" +returnValue);
+			logger.debug("Response error: " + returnValue);
 		}
 		return response;
 		
@@ -1042,6 +1222,12 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 					nextRecordNumber+=numberOfRecords;
 				//	System.out.println("number of records:"+numberOfRecords);
 					 lastKeyUsed=returnValue.substring(1571,1607);
+					 
+					 if(lastDataFlag.equals("Y")){
+						 responseHasMoreRecord=true;
+					 }else{
+						 responseHasMoreRecord=false;
+					 }
 					//yes or no character
 					//String dataFlag=returnValue.substring(response);
 					//check if data flag yes or no

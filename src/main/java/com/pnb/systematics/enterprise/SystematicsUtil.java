@@ -1,5 +1,12 @@
 package com.pnb.systematics.enterprise;
 
+import java.beans.XMLEncoder;
+import java.io.ByteArrayOutputStream;
+
+import org.apache.log4j.Logger;
+
+import com.pnb.systematics.enterprise.bo.impl.SystematicsBusinessObjectImpl;
+
 
 public abstract class SystematicsUtil {
 
@@ -21,6 +28,14 @@ public abstract class SystematicsUtil {
 			return "0"+n;
 		}else{
 			return ""+n;
+		}
+	}
+	
+	public static String getNotNullString(String str){
+		if(str==null){
+			return "";
+		}else{
+			return str.trim();
 		}
 	}
 	
@@ -93,6 +108,29 @@ public abstract class SystematicsUtil {
 			returnValue = returnValue.substring(0,returnValue.length() - 2);
 		}
 		return returnValue;
+	}
+	
+	//log every request
+	public static void logRequestResponse(Object request, String reqResType){
+		ByteArrayOutputStream baos=null;
+		XMLEncoder xmlEncoder=null;
+		String responseLog="";
+		
+		if(request!=null){
+			
+			baos=new ByteArrayOutputStream();
+			 xmlEncoder=new XMLEncoder(baos);
+			xmlEncoder.writeObject(request);
+			xmlEncoder.close();
+			 responseLog=baos.toString();
+			if(!responseLog.equals("")){
+				 Logger logger = Logger.getLogger(SystematicsUtil.class);
+				responseLog=responseLog.replaceAll("\n", "").replaceAll("\\<\\?xml(.+?)\\?\\>", "").replaceAll("\\<java(.+?)\\>", "").replaceAll("\\<object(.+?)\\>", "");
+				logger.debug(reqResType+":"+responseLog);
+			}
+			
+		}
+		 
 	}
 	
 }

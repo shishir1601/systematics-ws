@@ -122,7 +122,7 @@ public class SystematicsClient extends WebServiceGatewaySupport{
 	public GetFromTTIB2ProcessWSResponse getTTIBFundTransferSAtoCA(String currencyCode, String fromAccountId, String fromBranchCode, String toAccountId, String toBranchCode, String transactionAmount){
 	    GetFromTTIB2ProcessWS ttib = new GetFromTTIB2ProcessWS();
 	    GetFromTTIB2InputProperties prop = new GetFromTTIB2InputProperties();
-	    String code = "0560";
+	    String code = "0564";
 		String tellerId = "997A";
         String overrideTellerId = "0000";
         String tranSeqNum = "000"; //temporary: transaction sequence number
@@ -145,7 +145,7 @@ public class SystematicsClient extends WebServiceGatewaySupport{
 	public GetFromTTIB2ProcessWSResponse getTTIBFundTransferCAtoSA(String currencyCode, String fromAccountId, String fromBranchCode, String toAccountId, String toBranchCode, String transactionAmount){
 	    GetFromTTIB2ProcessWS ttib = new GetFromTTIB2ProcessWS();
 	    GetFromTTIB2InputProperties prop = new GetFromTTIB2InputProperties();
-	    String code = "1560";
+	    String code = "1564";
 		String tellerId = "997A";
         String overrideTellerId = "0000";
         String tranSeqNum = "000"; //temporary: transaction sequence number
@@ -168,7 +168,7 @@ public class SystematicsClient extends WebServiceGatewaySupport{
 	public GetFromTTIB2ProcessWSResponse getTTIBFundTransferSAtoSA(String currencyCode, String fromAccountId, String fromBranchCode, String toAccountId, String toBranchCode, String transactionAmount){
 	    GetFromTTIB2ProcessWS ttib = new GetFromTTIB2ProcessWS();
 	    GetFromTTIB2InputProperties prop = new GetFromTTIB2InputProperties();
-	    String code = "0560";
+	    String code = "0564";
 		String tellerId = "997A";
         String overrideTellerId = "0000";
         String tranSeqNum = "000"; //temporary: transaction sequence number
@@ -191,7 +191,7 @@ public class SystematicsClient extends WebServiceGatewaySupport{
 	public GetFromTTIB2ProcessWSResponse getTTIBFundTransferCAtoCA(String currencyCode, String fromAccountId, String fromBranchCode, String toAccountId, String toBranchCode, String transactionAmount){
 	    GetFromTTIB2ProcessWS ttib = new GetFromTTIB2ProcessWS();
 	    GetFromTTIB2InputProperties prop = new GetFromTTIB2InputProperties();
-	    String code = "1560";
+	    String code = "1564";
 		String tellerId = "997A";
         String overrideTellerId = "0000";
         String tranSeqNum = "000"; //temporary: transaction sequence number
