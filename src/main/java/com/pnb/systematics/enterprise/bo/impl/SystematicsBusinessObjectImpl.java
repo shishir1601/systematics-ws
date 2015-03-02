@@ -843,7 +843,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				nullError=nullError + ((SystematicsUtil.getNotNullString(request.getEndDate()).equals("")) ? "End Date \t" : "");
 				nullError=nullError + ((SystematicsUtil.getNotNullString(request.getStartingRecord()).equals("")) ? "Starting Record \t" : "");
 				response.setErrorCode("99");
-				response.setReplyText("Required fields: " + nullError);
+				response.setReplyText("Please enter: " + nullError);
 				logger.debug(response);
 			}
 			
