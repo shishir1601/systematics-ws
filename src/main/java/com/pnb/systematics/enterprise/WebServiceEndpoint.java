@@ -46,65 +46,154 @@ public class WebServiceEndpoint {
 		this.systematicsBO = systematicsBO;
 	}
 	
-	@WebMethod(operationName = "WSBalInqSA")
+	@WebMethod(operationName = "WSBalInqSA1")
 	public BalanceInquiryResponse getBalanceInquirySa(BalanceInquiryRequest request){
 		SystematicsUtil.logRequestResponse(request, "BalanceInquiryRequest Request");
 		return systematicsBO.balanceInquirySA(request);
 	}
 	
-	@WebMethod(operationName = "WSBalInqCA")
+	/*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+	@WebMethod(operationName = "WSBalInqSA")
+	public BalanceInquiryResponse balanceInquirySAJagacy(BalanceInquiryRequest request){
+		SystematicsUtil.logRequestResponse(request,"TransactionHistorySARequest Request");
+		return systematicsBO.balanceInquirySAJagacy(request);
+	}
+	/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+	
+	@WebMethod(operationName = "WSBalInqCA1")
 	public BalanceInquiryResponse getBalanceInquiryCa(BalanceInquiryRequest request){
 		SystematicsUtil.logRequestResponse(request, "BalanceInquiryRequest Request");
 		return systematicsBO.balanceInquiryCA(request);
 	}
+	/*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+	@WebMethod(operationName = "WSBalInqCA")
+	public BalanceInquiryResponse getBalanceInquiryCaJagacy(BalanceInquiryRequest request){
+		SystematicsUtil.logRequestResponse(request, "BalanceInquiryRequest Request");
+		return systematicsBO.balanceInquiryCAJagacy(request);
+	}
+	/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 	
-	@WebMethod(operationName = "WSDebitCA")
+	
+	
+	@WebMethod(operationName = "WSDebitCA1")
 	public ServiceChargeResponse debitCa(ServiceChargeRequest request){
 		SystematicsUtil.logRequestResponse(request, "ServiceChargeRequest Request");
 		return systematicsBO.debitCa(request);
 	}
+/*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+	@WebMethod(operationName = "WSDebitCA")
+	public ServiceChargeResponse debitCaJagacy(ServiceChargeRequest request){
+		SystematicsUtil.logRequestResponse(request, "ServiceChargeRequest Request");
+		return systematicsBO.debitCaJagacy(request);
+	}
+	/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 	
-	@WebMethod(operationName = "WSFundTrSAtoCA")
+	
+	
+	@WebMethod(operationName = "WSFundTrSAtoCA1")
 	public FundTransferResponse fundTrSAtoCA(FundTransferRequest request){
 		SystematicsUtil.logRequestResponse(request, "FundTransferRequest Request");
 		return systematicsBO.fundTrSAtoCA(request);
 	}
+/*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+	@WebMethod(operationName = "WSFundTrSAtoCA")
+	public FundTransferResponse fundTrSAtoCAJagacy(FundTransferRequest request){
+		SystematicsUtil.logRequestResponse(request, "FundTransferRequest Request");
+		return systematicsBO.fundTrSAtoCAJagacy(request);
+	}
+	/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 	
-	@WebMethod(operationName = "WSFundTrCAtoSA")
+	
+	
+	@WebMethod(operationName = "WSFundTrCAtoSA1")
 	public FundTransferResponse fundTrCAtoSA(FundTransferRequest request){
 		SystematicsUtil.logRequestResponse(request, "FundTransferRequest Request");
 		return systematicsBO.fundTrCAtoSA(request);
 	}
+/*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+	@WebMethod(operationName = "WSFundTrCAtoSA")
+	public FundTransferResponse fundTrCAtoSAJagacy(FundTransferRequest request){
+		SystematicsUtil.logRequestResponse(request, "FundTransferRequest Request");
+		return systematicsBO.fundTrCAtoSAJagacy(request);
+	}
+	/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 	
-	@WebMethod(operationName = "WSFundTrSAtoSA")
+	
+	
+	@WebMethod(operationName = "WSFundTrSAtoSA1")
 	public FundTransferResponse fundTrSAtoSA(FundTransferRequest request){
 		SystematicsUtil.logRequestResponse(request, "FundTransferRequest Request");
 		return systematicsBO.fundTrSAtoSA(request);
 	}
+/*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+	@WebMethod(operationName = "WSFundTrSAtoSA")
+	public FundTransferResponse fundTrSAtoSAJagacy(FundTransferRequest request){
+		SystematicsUtil.logRequestResponse(request, "FundTransferRequest Request");
+		return systematicsBO.fundTrSAtoSAJagacy(request);
+	}
+	/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 	
-	@WebMethod(operationName = "WSFundTrCAtoCA")
+	
+	
+	@WebMethod(operationName = "WSFundTrCAtoCA1")
 	public FundTransferResponse fundTrCAtoCA(FundTransferRequest request){
 		SystematicsUtil.logRequestResponse(request, "FundTransferRequest Request");
 		return systematicsBO.fundTrCAtoCA(request);
 	}
+/*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+	@WebMethod(operationName = "WSFundTrCAtoCA")
+	public FundTransferResponse fundTrCAtoCAJagacy(FundTransferRequest request){
+		SystematicsUtil.logRequestResponse(request, "FundTransferRequest Request");
+		return systematicsBO.fundTrCAtoCAJagacy(request);
+	}
+	/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 	
-	@WebMethod(operationName = "WSBillPayIBS")
+	
+	
+	@WebMethod(operationName = "WSBillPayIBS1")
 	public BillsPaymentResponse billPayfrSA(BillsPaymentRequest request){
 		SystematicsUtil.logRequestResponse(request, "BillsPaymentRequest Request");
 		return systematicsBO.billPayfrSA(request);
 	}
+/*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+	@WebMethod(operationName = "WSBillPayIBS")
+	public BillsPaymentResponse billPayfrSAJagacy(BillsPaymentRequest request){
+		SystematicsUtil.logRequestResponse(request, "BillsPaymentRequest Request");
+		return systematicsBO.billPayfrSAJagacy(request);
+	}
+	/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+	
+	
 
-	@WebMethod(operationName = "WSDebitMemoIM")
+	@WebMethod(operationName = "WSDebitMemoIM1")
 	public DebitMemoImResponse debitMemoIm(DebitMemoImRequest request){
 		SystematicsUtil.logRequestResponse(request, "DebitMemoImRequest Request");
 		return systematicsBO.debitMemoIm(request);
 	}
+/*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+	@WebMethod(operationName = "WSDebitMemoIM")
+	public DebitMemoImResponse debitMemoImJagacy(DebitMemoImRequest request){
+		SystematicsUtil.logRequestResponse(request, "DebitMemoImRequest Request");
+		return systematicsBO.debitMemoImJagacy(request);
+	}
+	/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 	
-	@WebMethod(operationName = "WSDebitMemoST")
+	
+	
+	@WebMethod(operationName = "WSDebitMemoST1")
 	public DebitMemoStResponse debitMemoSt(DebitMemoStRequest request){
 		SystematicsUtil.logRequestResponse(request, "DebitMemoStRequest Request");
 		return systematicsBO.debitMemoSt(request);
 	}
+/*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+	@WebMethod(operationName = "WSDebitMemoST")
+	public DebitMemoStResponse debitMemoStJagacy(DebitMemoStRequest request){
+		SystematicsUtil.logRequestResponse(request, "DebitMemoStRequest Request");
+		return systematicsBO.debitMemoStJagacy(request);
+	}
+	/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+	
+	
 	
 	@WebMethod(operationName = "WSAcctDetInqLN")
 	public AccountDetailsInqLoanResponse accountLoan(AccountDetailsInqLoanRequest request){
@@ -140,7 +229,9 @@ public class WebServiceEndpoint {
 	public TransactionHistorySAResponse transactionHistorySA(TransactionHistorySARequest request){
 		SystematicsUtil.logRequestResponse(request,"TransactionHistorySARequest Request");
 		return systematicsBO.transactionHistorySA(request);
-	}
+	}						 
+	
+	
 	
 	
 }

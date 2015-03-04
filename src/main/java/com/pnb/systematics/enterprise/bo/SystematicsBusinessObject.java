@@ -27,15 +27,55 @@ import com.pnb.systematics.interaction.TransactionHistorySAResponse;
 
 public interface SystematicsBusinessObject {
 	public BalanceInquiryResponse balanceInquirySA(BalanceInquiryRequest request);
+	 /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+	public BalanceInquiryResponse balanceInquirySAJagacy(BalanceInquiryRequest request);
+	/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..*/
+	
 	public BalanceInquiryResponse balanceInquiryCA(BalanceInquiryRequest request);
+	 /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+	public BalanceInquiryResponse balanceInquiryCAJagacy(BalanceInquiryRequest request);
+	/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..*/
+	
 	public ServiceChargeResponse debitCa(ServiceChargeRequest request);
+	 /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+	public ServiceChargeResponse debitCaJagacy(ServiceChargeRequest request);
+	/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..*/
+		
 	public FundTransferResponse fundTrSAtoCA(FundTransferRequest request);
+	 /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+	public FundTransferResponse fundTrSAtoCAJagacy(FundTransferRequest request);
+		/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..*/
+	
 	public FundTransferResponse fundTrCAtoSA(FundTransferRequest request);
+	 /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+	public FundTransferResponse fundTrCAtoSAJagacy(FundTransferRequest request);
+		/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..*/
+	
 	public FundTransferResponse fundTrSAtoSA(FundTransferRequest request);
+	 /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+	public FundTransferResponse fundTrSAtoSAJagacy(FundTransferRequest request);
+		/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..*/
+	
 	public FundTransferResponse fundTrCAtoCA(FundTransferRequest request);
-	public BillsPaymentResponse billPayfrSA(BillsPaymentRequest request);	
+	 /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+	public FundTransferResponse fundTrCAtoCAJagacy(FundTransferRequest request);
+		/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..*/
+	
+	public BillsPaymentResponse billPayfrSA(BillsPaymentRequest request);
+	 /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+	public BillsPaymentResponse billPayfrSAJagacy(BillsPaymentRequest request);
+		/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..*/
+	
 	public DebitMemoImResponse debitMemoIm(DebitMemoImRequest request);
+	 /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+	public DebitMemoImResponse debitMemoImJagacy(DebitMemoImRequest request);
+		/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..*/
+	
 	public DebitMemoStResponse debitMemoSt(DebitMemoStRequest request);
+	 /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+	public DebitMemoStResponse debitMemoStJagacy(DebitMemoStRequest request);
+		/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..*/
+	
 	public AccountDetailsInqLoanResponse accountLoan(AccountDetailsInqLoanRequest request);
 	public AccountDetailsMessageIMResponse accountMessageIM(AccountDetailsMessageIMRequest request);
 	public AccountDetailsMessageSTResponse accountMessageST(AccountDetailsMessageSTRequest request);
@@ -43,4 +83,6 @@ public interface SystematicsBusinessObject {
     public TransactionHistoryCAResponse transactionHistoryCA(TransactionHistoryCARequest request);
     public TransactionHistorySAResponse transactionHistorySA(TransactionHistorySARequest request);
 
+    
+  
 }

@@ -59,7 +59,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		/*Sending the request*/
 	
 		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBResponseSA(request.getAccountId(),request.getCurrencyCode(), request.getBranchCode());
-		if(!request.getAccountId().equals("") && !request.getCurrencyCode().equals("") && !request.getBranchCode().equals("")){
+		if(!SystematicsUtil.getNotNullString(request.getAccountId()).equals("") && !SystematicsUtil.getNotNullString(request.getCurrencyCode()).equals("") && !SystematicsUtil.getNotNullString(request.getBranchCode()).equals("")){
 			
 			/*Getting the result*/
 			GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
@@ -70,7 +70,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				logger.debug("Error in return: " + prop.getErrorMessage());
 			}else{
 				String returnMessage = prop.getReturnMessage();
-				logger.debug("TTIB return message" + returnMessage);
+				logger.debug("TTIB return message: " + returnMessage);
 				response.setAccountId(request.getAccountId());
 				response.setUserReferenceNumber(request.getUserReferenceNumber());
 				response.setBalanceOnHold(SystematicsUtil.getRealBalance(SystematicsUtil.getWebServiceObject(returnMessage,"HOLD  AMT", 25)));
@@ -97,13 +97,67 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		 }
 		return response;
 	}
+	/*<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+	public BalanceInquiryResponse balanceInquirySAJagacy(BalanceInquiryRequest request){
+		BalanceInquiryResponse response = new BalanceInquiryResponse();
+		System.setProperty("jagacy.properties.dir","classpath");
+		try {
+			System.out.println("Jagacy balance inquiry");
+			//LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
+			//command.open();
+			if(!SystematicsUtil.getNotNullString(request.getAccountId()).equals("") && !SystematicsUtil.getNotNullString(request.getCurrencyCode()).equals("") && !SystematicsUtil.getNotNullString(request.getBranchCode()).equals("")){
+				String returnValue = client.getTTIBResponseSAJagacy(request.getAccountId(), request.getCurrencyCode(), request.getBranchCode());
+				//String returnValue = command.submitCommand(request.getAccountId());
+				logger.debug("TTIB BalanceInquiryResponse return message:"+ returnValue);
+				if(returnValue == ""){
+					response.setErrorCode("99");
+					response.setReplyText("Error in connecting to mainframe. More INFO: ");
+				}else if(returnValue.contains("F:")){
+					response.setErrorCode("99");
+					response.setReplyText("Account Not Found");
+				}else{
+					response.setAccountId(request.getAccountId());
+					response.setUserReferenceNumber(request.getUserReferenceNumber());
+					response.setBalanceOnHold(SystematicsUtil.getRealBalance(SystematicsUtil.getWebServiceObject(returnValue,"HOLD  AMT", 25)));
+					response.setPleadgeAmount(SystematicsUtil.getRealBalance(SystematicsUtil.getWebServiceObject(returnValue, "PLDGE AMT", 25)));
+					response.setAccountStatus(SystematicsUtil.getWebServiceObject(returnValue, "STATUS", 25));
+					response.setCustomerShortName(returnValue.substring(357,373));
+					response.setTransactionStatusCode("00");
+					response.setMemoBalance(SystematicsUtil.getRealBalance(SystematicsUtil.getWebServiceObject(returnValue,"MEMO  BAL", 25)));
+					response.setFloatAmount(SystematicsUtil.getRealBalance(SystematicsUtil.getWebServiceObject(returnValue, "FLOAT AMT", 25)));
+				}
+				//command.close();
+			}else{
+				nullError="";
+				nullError=nullError + ((request.getAccountId().equals("")) ? "Account ID \t" : "");
+				nullError=nullError + ((request.getCurrencyCode().equals("")) ? "Currency Code \t" : "");
+				nullError=nullError + ((request.getBranchCode().equals("")) ? "Branch Code \t" : "");
+				System.out.println(request.getAccountId());
+				response.setErrorCode("99");
+				response.setReplyText("Please enter: " + nullError);
+				logger.debug(response);
+			}
+		} catch (JagacyException e) {
+			response.setErrorCode("99");
+			response.setReplyText("Error in connecting to mainframe. More INFO: " + e.getMessage());
+		}
+		
+		if(response!=null){
+			 SystematicsUtil.logRequestResponse(response, "AccountDetailsInqLoanResponse response");
+		 }
+		return response;
+	}
+	
+	/*ddddddddddddddddddddddddddddddddddddddddddddddddddd*/
+	
+	
 	
 	public BalanceInquiryResponse balanceInquiryCA(BalanceInquiryRequest request){
 		BalanceInquiryResponse response = new BalanceInquiryResponse();              
 		/*Sending the request*/
 		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBResponseCA(request.getAccountId(), request.getCurrencyCode(), request.getBranchCode());
 		
-		if(!request.getAccountId().equals("") && !request.getCurrencyCode().equals("") && !request.getBranchCode().equals("")){
+		if(!SystematicsUtil.getNotNullString(request.getAccountId()).equals("") && !SystematicsUtil.getNotNullString(request.getCurrencyCode()).equals("") && !SystematicsUtil.getNotNullString(request.getBranchCode()).equals("")){
 			/*Getting the result*/
 			GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
 			if(prop.getErrorMessage().trim().length() != 0){
@@ -138,11 +192,66 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		return response;
 	}
 
+	/*<<<<<<<<<<<>>>>>>>>>>>>>>>>>balanceInquiryCAJagacy>>>>>>>>>>>>>>>>>>>>>>>>*/
+	public BalanceInquiryResponse balanceInquiryCAJagacy(BalanceInquiryRequest request){
+		BalanceInquiryResponse response = new BalanceInquiryResponse();     
+		System.setProperty("jagacy.properties.dir","classpath");
+		try {
+			System.out.println("Jagacy balance inquiry");
+			//LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
+			//command.open();
+			if(!SystematicsUtil.getNotNullString(request.getAccountId()).equals("") && !SystematicsUtil.getNotNullString(request.getCurrencyCode()).equals("") && !SystematicsUtil.getNotNullString(request.getBranchCode()).equals("")){
+				String returnValue = client.getTTIBResponseCAJagacy(request.getAccountId(), request.getCurrencyCode(), request.getBranchCode());
+				//String returnValue = command.submitCommand(request.getAccountId());
+				logger.debug("TTIB BalanceInquiryResponse return message: " +returnValue);
+				if(returnValue == ""){
+					response.setTransactionStatusCode("99");
+					response.setErrorCode("TS0304");
+					response.setReplyText("ACCOUNT NOT FOUND");
+				}else if(returnValue.contains("F:")){
+					response.setTransactionStatusCode("99");
+					response.setErrorCode("TS0304");
+					response.setReplyText("ACCOUNT NOT FOUND");
+				}else{
+				//	String returnMessage = prop.getReturnMessage();
+					//logger.debug("TTIB return message: " + returnValue);
+					response.setAccountId(request.getAccountId());
+					response.setUserReferenceNumber(request.getUserReferenceNumber());
+					response.setAvailableBalance(SystematicsUtil.getRealBalance(SystematicsUtil.getWebServiceObject(returnValue, "AVAIL BAL", 29)));
+					response.setUnavailableBalance(SystematicsUtil.getRealBalance(SystematicsUtil.getWebServiceObject(returnValue, "UNAVAIL    AMT", 24)));
+					response.setAccountStatus(SystematicsUtil.getWebServiceObject(returnValue, "ACCT STATUS", 24));
+					response.setCustomerShortName(SystematicsUtil.getWebServiceObject(returnValue, "ACCT NAME", 21));
+					response.setTransactionStatusCode("00");
+				}
+			}else{
+				nullError="";
+				nullError=nullError + ((request.getAccountId().equals("")) ? "Account ID \t" : "");
+				nullError=nullError + ((request.getCurrencyCode().equals("")) ? "Currency Code \t" : "");
+				nullError=nullError + ((request.getBranchCode().equals("")) ? "Branch Code \t" : "");
+				System.out.println(request.getAccountId());
+				response.setErrorCode("99");
+				response.setReplyText("Required fields: " + nullError);
+				logger.debug(response);
+			}
+		} catch (JagacyException e) {
+			response.setErrorCode("99");
+			response.setReplyText("Error in connecting to mainframe. More INFO: " + e.getMessage());
+		}
+		
+		if(response!=null){
+			 SystematicsUtil.logRequestResponse(response, "BalanceInquiryResponse response");
+		 }
+		return response;
+	}
+	
+	/*balanceInquiryCAJagacy*/
+	
+	
 
 	public ServiceChargeResponse debitCa(ServiceChargeRequest request) {
 		ServiceChargeResponse response = new ServiceChargeResponse();
 		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBServiceCharge(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId(), request.getTransactionAmount());
-		if(!request.getCurrencyCode().equals("") && !request.getBranchCode().equals("") && !request.getAccountId().equals("") && !request.getTransactionAmount().equals("")){
+		if(!SystematicsUtil.getNotNullString(request.getCurrencyCode()).equals("") && !SystematicsUtil.getNotNullString(request.getBranchCode()).equals("") && !SystematicsUtil.getNotNullString(request.getAccountId()).equals("") && !SystematicsUtil.getNotNullString(request.getTransactionAmount()).equals("")){
 			GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
 			if(prop.getErrorMessage().trim().length() != 0){
 				String[] errorResponse = SystematicsUtil.checkForError(prop.getErrorMessage()).split("\\|");
@@ -182,11 +291,70 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		 }
 		return response;
 	}
+	/*<<<<<<<<<<<>>>>>>>>>>>>>>>>>debitCaJagacy>>>>>>>>>>>>>>>>>>>>>>>>*/
+	public  ServiceChargeResponse debitCaJagacy(ServiceChargeRequest request) {
+		ServiceChargeResponse response = new ServiceChargeResponse();  
+		System.setProperty("jagacy.properties.dir","classpath");
+		try {
+			System.out.println("Jagacy balance inquiry");
+			//LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
+			//command.open();
+			if(!SystematicsUtil.getNotNullString(request.getCurrencyCode()).equals("") && !SystematicsUtil.getNotNullString(request.getBranchCode()).equals("") && !SystematicsUtil.getNotNullString(request.getAccountId()).equals("") && !SystematicsUtil.getNotNullString(request.getTransactionAmount()).equals("")){
+				String returnValue = client.getTTIBServiceChargeJagacy(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId(), request.getTransactionAmount());
+				//String returnValue = command.submitCommand(request.getAccountId());
+				logger.debug("TTIB ServiceChargeResponse return message: " +returnValue);
+				if(returnValue == ""){
+					response.setErrorCode("99");
+					response.setReplyText("Account Not Found");
+				}else if(returnValue.contains("F:")){
+					response.setErrorCode("99");
+					response.setReplyText("Account Not Found");
+				}else{
+					//String returnMessage = prop.getReturnMessage();
+					String errorMessage = SystematicsUtil.checkForError(returnValue);
+					if(errorMessage.trim().length() == 0){
+						response.setTransactionStatusCode("00");
+						response.setMessageCode("I");
+						response.setMessageText("PROCESS COMPLETE");
+						response.setUserReferenceNumber(request.getUserReferenceNumber());
+					}else{
+						//logger.debug("TTIB Response: " + returnValue);
+						String[] errorResponse = errorMessage.split("\\|");
+						response.setErrorCode(errorResponse[1]);
+						response.setReplyText(errorResponse[0]);
+						logger.debug("Error in return: " + errorResponse[1]+" ,"+errorResponse[1]);
+					}
+				}
+			}else{
+				nullError="";
+				nullError=nullError + ((request.getAccountId().equals("")) ? "Account ID \t" : "");
+				nullError=nullError + ((request.getCurrencyCode().equals("")) ? "Currency Code \t" : "");
+				nullError=nullError + ((request.getBranchCode().equals("")) ? "Branch Code \t" : "");
+				nullError=nullError + ((request.getTransactionAmount().equals("")) ? "Transaction Amount \t" : "");
+				System.out.println(request.getAccountId());
+				response.setErrorCode("99");
+				response.setReplyText("Required fields: " + nullError);
+				logger.debug(response);
+			}
+		} catch (JagacyException e) {
+			response.setErrorCode("99");
+			response.setReplyText("Error in connecting to mainframe. More INFO: " + e.getMessage());
+		}
+		
+		if(response!=null){
+			 SystematicsUtil.logRequestResponse(response, "ServiceChargeResponse response");
+		 }
+		return response;
+	}
+	
+	/*debitCaJagacy*/
+	
+	
 	
 	public DebitMemoImResponse debitMemoIm(DebitMemoImRequest request) {
 		DebitMemoImResponse response = new DebitMemoImResponse();
 		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBDebitMemoIm(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId(), request.getTransactionAmount());
-		if(!request.getCurrencyCode().equals("") && !request.getBranchCode().equals("") && !request.getAccountId().equals("") && !request.getTransactionAmount().equals("")){
+		if(!SystematicsUtil.getNotNullString(request.getCurrencyCode()).equals("") && !SystematicsUtil.getNotNullString(request.getBranchCode()).equals("") && !SystematicsUtil.getNotNullString(request.getAccountId()).equals("") && !SystematicsUtil.getNotNullString(request.getTransactionAmount()).equals("")){
 			GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
 			if(prop.getErrorMessage().trim().length() != 0){
 				String[] errorResponse = SystematicsUtil.checkForError(prop.getErrorMessage()).split("\\|");
@@ -225,11 +393,69 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		 }
 		return response;
 	}
+	/*<<<<<<<<<<<>>>>>>>>>>>>>>>>>debitMemoImJagacy>>>>>>>>>>>>>>>>>>>>>>>>*/
+	public   DebitMemoImResponse debitMemoImJagacy(DebitMemoImRequest request) {
+		DebitMemoImResponse response = new DebitMemoImResponse();
+		System.setProperty("jagacy.properties.dir","classpath");
+		try {
+			System.out.println("Jagacy balance inquiry");
+			//LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
+			//command.open();
+			if(!SystematicsUtil.getNotNullString(request.getCurrencyCode()).equals("") && !SystematicsUtil.getNotNullString(request.getBranchCode()).equals("") && !SystematicsUtil.getNotNullString(request.getAccountId()).equals("") && !SystematicsUtil.getNotNullString(request.getTransactionAmount()).equals("")){
+				String returnValue =  client.getTTIBDebitMemoImJagacy(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId(), request.getTransactionAmount());
+				//String returnValue = command.submitCommand(request.getAccountId());
+				logger.debug("TTIB DebitMemoImResponse return message: " +returnValue);
+				if(returnValue == ""){
+					response.setErrorCode("99");
+					response.setReplyText("Account Not Found");
+				}else if(returnValue.contains("F:")){
+					response.setErrorCode("99");
+					response.setReplyText("Account Not Found");
+				}else{
+					//String returnMessage = prop.getReturnMessage();
+					String errorMessage = SystematicsUtil.checkForError(returnValue);
+					//logger.debug("TTIB response: " + returnValue);
+					if(errorMessage.trim().length() == 0){
+						response.setTransactionStatusCode("00");
+						response.setMessageCode("I");
+						response.setMessageText("PROCESS COMPLETE");
+						response.setUserReferenceNumber(request.getUserReferenceNumber());
+					}else{
+						String[] errorResponse = errorMessage.split("\\|");
+						response.setErrorCode(errorResponse[1]);
+						response.setReplyText(errorResponse[0]);
+						logger.debug("Error in return: " + errorResponse[1]+" ,"+errorResponse[1]);
+					}
+				}
+			}else{
+				nullError="";
+				nullError=nullError + ((request.getAccountId().equals("")) ? "Account ID \t" : "");
+				nullError=nullError + ((request.getCurrencyCode().equals("")) ? "Currency Code \t" : "");
+				nullError=nullError + ((request.getBranchCode().equals("")) ? "Branch Code \t" : "");
+				nullError=nullError + ((request.getTransactionAmount().equals("")) ? "Transaction Amount \t" : "");
+				System.out.println(request.getAccountId());
+				response.setErrorCode("99");
+				response.setReplyText("Required fields: " + nullError);
+				logger.debug(response);
+			}
+		} catch (JagacyException e) {
+			response.setErrorCode("99");
+			response.setReplyText("Error in connecting to mainframe. More INFO: " + e.getMessage());
+		}
+		
+		if(response!=null){
+			 SystematicsUtil.logRequestResponse(response, "DebitMemoImResponse response");
+		 }
+		return response;
+	}
+	
+	/*debitMemoImJagacy*/
+	
 	
 	public DebitMemoStResponse debitMemoSt(DebitMemoStRequest request) {
 		DebitMemoStResponse response = new DebitMemoStResponse();
 		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBDebitMemoSt(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId(), request.getTransactionAmount());
-		if(!request.getCurrencyCode().equals("") && !request.getBranchCode().equals("") && !request.getAccountId().equals("") && !request.getTransactionAmount().equals("")){
+		if(!SystematicsUtil.getNotNullString(request.getCurrencyCode()).equals("") && !SystematicsUtil.getNotNullString(request.getBranchCode()).equals("") && !SystematicsUtil.getNotNullString(request.getAccountId()).equals("") && !SystematicsUtil.getNotNullString(request.getTransactionAmount()).equals("")){
 			GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
 			if(prop.getErrorMessage().trim().length() != 0){
 				String[] errorResponse = SystematicsUtil.checkForError(prop.getErrorMessage()).split("\\|");
@@ -269,11 +495,69 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		 }
 		return response;
 	}
+	/*<<<<<<<<<<<>>>>>>>>>>>>>>>>>debitMemoStJagacy>>>>>>>>>>>>>>>>>>>>>>>>*/
+	public  DebitMemoStResponse debitMemoStJagacy(DebitMemoStRequest request) {
+		DebitMemoStResponse response = new DebitMemoStResponse();
+		System.setProperty("jagacy.properties.dir","classpath");
+		try {
+			System.out.println("Jagacy  balance inquiry");
+			//LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
+			//command.open();
+			if(!SystematicsUtil.getNotNullString(request.getCurrencyCode()).equals("") && !SystematicsUtil.getNotNullString(request.getBranchCode()).equals("") && !SystematicsUtil.getNotNullString(request.getAccountId()).equals("") && !SystematicsUtil.getNotNullString(request.getTransactionAmount()).equals("")){
+				String returnValue =  client.getTTIBDebitMemoStJagacy(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId(), request.getTransactionAmount());
+				//String returnValue = command.submitCommand(request.getAccountId());
+				logger.debug("TTIB DebitMemoStResponse return message: " +returnValue);
+				if(returnValue == ""){
+					response.setErrorCode("99");
+					response.setReplyText("Account Not Found");
+				}else if(returnValue.contains("F:")){
+					response.setErrorCode("99");
+					response.setReplyText("Account Not Found");
+				}else{
+					//String returnMessage = prop.getReturnMessage();
+					String errorMessage = SystematicsUtil.checkForError(returnValue);
+					//logger.debug("TTIB response: " + returnValue);
+					if(errorMessage.trim().length() == 0){
+						response.setTransactionStatusCode("00");
+						response.setMessageCode("I");
+						response.setMessageText("PROCESS COMPLETE");
+						response.setUserReferenceNumber(request.getUserReferenceNumber());
+					}else{
+						String[] errorResponse = errorMessage.split("\\|");
+						response.setErrorCode(errorResponse[1]);
+						response.setReplyText(errorResponse[0]);
+						logger.debug("Error in return: " +errorResponse[1]+" ,"+errorResponse[1]);
+					}
+				}
+			}else{
+				nullError="";
+				nullError=nullError + ((request.getAccountId().equals("")) ? "Account ID \t" : "");
+				nullError=nullError + ((request.getCurrencyCode().equals("")) ? "Currency Code \t" : "");
+				nullError=nullError + ((request.getBranchCode().equals("")) ? "Branch Code \t" : "");
+				nullError=nullError + ((request.getTransactionAmount().equals("")) ? "Transaction Amount \t" : "");
+				System.out.println(request.getAccountId());
+				response.setErrorCode("99");
+				response.setReplyText("Required fields: " + nullError);
+				logger.debug(response);
+			}
+		} catch (JagacyException e) {
+			response.setErrorCode("99");
+			response.setReplyText("Error in connecting to mainframe. More INFO: " + e.getMessage());
+		}
+		
+		if(response!=null){
+			 SystematicsUtil.logRequestResponse(response, "DebitMemoStResponse response");
+		 }
+		return response;
+	}
+	
+	/*debitMemoStJagacy*/
+	
 
 	public FundTransferResponse fundTrSAtoCA(FundTransferRequest request) {
 		FundTransferResponse response = new FundTransferResponse();
 		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBFundTransferSAtoCA(request.getCurrencyCode(), request.getFromAccountId(), request.getFromBranchCode(), request.getToAccountId(), request.getToBranchCode(), request.getTransactionAmount());
-		if(!request.getCurrencyCode().equals("") && !request.getFromAccountId().equals("") && !request.getFromBranchCode().equals("") && !request.getToAccountId().equals("") && !request.getToBranchCode().equals("") && !request.getTransactionAmount().equals("")){
+		if(!SystematicsUtil.getNotNullString(request.getCurrencyCode()).equals("") && !SystematicsUtil.getNotNullString(request.getFromAccountId()).equals("") && !SystematicsUtil.getNotNullString(request.getFromBranchCode()).equals("") && !SystematicsUtil.getNotNullString(request.getToAccountId()).equals("") && !SystematicsUtil.getNotNullString(request.getToBranchCode()).equals("") && !SystematicsUtil.getNotNullString(request.getTransactionAmount()).equals("")){
 			GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
 			if(prop.getErrorMessage().trim().length() != 0){
 				String[] errorResponse = SystematicsUtil.checkForError(prop.getErrorMessage()).split("\\|");
@@ -315,11 +599,72 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		 }
 		return response;
 	}
-
+	/*<<<<<<<<<<<>>>>>>>>>>>>>>>>>fundTrSAtoCAJagacy>>>>>>>>>>>>>>>>>>>>>>>>*/
+	public  FundTransferResponse fundTrSAtoCAJagacy(FundTransferRequest request) {
+		FundTransferResponse response = new FundTransferResponse();
+		System.setProperty("jagacy.properties.dir","classpath");
+		try {
+			System.out.println("Jagacy balance inquiry");
+			//LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
+			//command.open();
+			if(!SystematicsUtil.getNotNullString(request.getCurrencyCode()).equals("") && !SystematicsUtil.getNotNullString(request.getFromAccountId()).equals("") && !SystematicsUtil.getNotNullString(request.getFromBranchCode()).equals("") && !SystematicsUtil.getNotNullString(request.getToAccountId()).equals("") && !SystematicsUtil.getNotNullString(request.getToBranchCode()).equals("") && !SystematicsUtil.getNotNullString(request.getTransactionAmount()).equals("")){
+				String returnValue =  client.getTTIBFundTransferSAtoCAJagacy(request.getCurrencyCode(), request.getFromAccountId(), request.getFromBranchCode(), request.getToAccountId(), request.getToBranchCode(), request.getTransactionAmount());
+				//String returnValue = command.submitCommand(request.getAccountId());
+				logger.debug("TTIB FundTransferResponse return message: " +returnValue);
+				if(returnValue == ""){
+					response.setErrorCode("99");
+					response.setReplyText("Account Not Found");
+				}else if(returnValue.contains("F:")){
+					response.setErrorCode("99");
+					response.setReplyText("Account Not Found");
+				}else{
+					//String returnMessage = prop.getReturnMessage();
+					String errorMessage = SystematicsUtil.checkForError(returnValue);
+					//logger.debug("TTIB response: " + returnValue);
+					if(errorMessage.trim().length() == 0){
+						response.setTransactionStatusCode("00");
+						response.setMessageCode("I");
+						response.setMessageText("PROCESS COMPLETE");
+						response.setUserReferenceNumber(request.getUserReferenceNumber());
+					}else{
+						String[] errorResponse = errorMessage.split("\\|");
+						response.setErrorCode(errorResponse[1]);
+						response.setReplyText(errorResponse[0]);
+						logger.debug("Error in return: " + errorResponse[1]+" ,"+errorResponse[1]);
+					}
+				}
+			}else{
+				nullError="";
+				nullError=nullError + ((request.getCurrencyCode().equals("")) ? "Currency Code \t" : "");
+				nullError=nullError + ((request.getFromAccountId().equals("")) ? "From Account ID \t" : "");
+				nullError=nullError + ((request.getFromBranchCode().equals("")) ? "From Branch Code \t" : "");
+				nullError=nullError + ((request.getToAccountId().equals("")) ? "To Account ID \t" : "");
+				nullError=nullError + ((request.getToBranchCode().equals("")) ? "To Branch Code \t" : "");
+				nullError=nullError + ((request.getTransactionAmount().equals("")) ? "Transaction Amount \t" : "");
+				
+				response.setErrorCode("99");
+				response.setReplyText("Required fields: " + nullError);
+				logger.debug(response);
+			}
+		} catch (JagacyException e) {
+			response.setErrorCode("99");
+			response.setReplyText("Error in connecting to mainframe. More INFO: " + e.getMessage());
+		}
+		
+		if(response!=null){
+			 SystematicsUtil.logRequestResponse(response, "FundTransferResponse response");
+		 }
+		return response;
+	}
+	
+	/*fundTrSAtoCAJagacy*/
+	
+	
+	
 	public FundTransferResponse fundTrCAtoSA(FundTransferRequest request) {
 	   	FundTransferResponse response = new FundTransferResponse();
 		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBFundTransferCAtoSA(request.getCurrencyCode(), request.getFromAccountId(), request.getFromBranchCode(), request.getToAccountId(), request.getToBranchCode(), request.getTransactionAmount());
-		if(!request.getCurrencyCode().equals("") && !request.getFromAccountId().equals("") && !request.getFromBranchCode().equals("") && !request.getToAccountId().equals("") && !request.getToBranchCode().equals("") && !request.getTransactionAmount().equals("")){
+		if(!SystematicsUtil.getNotNullString(request.getCurrencyCode()).equals("") && !SystematicsUtil.getNotNullString(request.getFromAccountId()).equals("") && !SystematicsUtil.getNotNullString(request.getFromBranchCode()).equals("") && !SystematicsUtil.getNotNullString(request.getToAccountId()).equals("") && !SystematicsUtil.getNotNullString(request.getToBranchCode()).equals("") && !SystematicsUtil.getNotNullString(request.getTransactionAmount()).equals("")){
 			GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
 			if(prop.getErrorMessage().trim().length() != 0){
 				String[] errorResponse = SystematicsUtil.checkForError(prop.getErrorMessage()).split("\\|");
@@ -361,11 +706,73 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		 }
 		return response;
 	}
+	/*<<<<<<<<<<<>>>>>>>>>>>>>>>>>fundTrCAtoSAJagacy>>>>>>>>>>>>>>>>>>>>>>>>*/
+	public  FundTransferResponse fundTrCAtoSAJagacy(FundTransferRequest request) {
+	   	FundTransferResponse response = new FundTransferResponse();
+		System.setProperty("jagacy.properties.dir","classpath");
+		try {
+			System.out.println("Jagacy balance inquiry");
+			//LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
+			//command.open();
+			if(!SystematicsUtil.getNotNullString(request.getCurrencyCode()).equals("") && !SystematicsUtil.getNotNullString(request.getFromAccountId()).equals("") && !SystematicsUtil.getNotNullString(request.getFromBranchCode()).equals("") && !SystematicsUtil.getNotNullString(request.getToAccountId()).equals("") && !SystematicsUtil.getNotNullString(request.getToBranchCode()).equals("") && !SystematicsUtil.getNotNullString(request.getTransactionAmount()).equals("")){
+				String returnValue =  client.getTTIBFundTransferCAtoSAJagacy(request.getCurrencyCode(), request.getFromAccountId(), request.getFromBranchCode(), request.getToAccountId(), request.getToBranchCode(), request.getTransactionAmount());
+				//String returnValue = command.submitCommand(request.getAccountId());
+				logger.debug("TTIB FundTransferResponse return message: " +returnValue);
+				if(returnValue == ""){
+					response.setErrorCode("99");
+					response.setReplyText("Account Not Found");
+				}else if(returnValue.contains("F:")){
+					response.setErrorCode("99");
+					response.setReplyText("Account Not Found");
+				}else{
+					//String returnMessage = prop.getReturnMessage();
+					String errorMessage = SystematicsUtil.checkForError(returnValue);
+					//logger.debug("TTIB response: " + returnValue);
+					if(errorMessage.trim().length() == 0){
+						response.setTransactionStatusCode("00");
+						response.setMessageCode("I");
+						response.setMessageText("PROCESS COMPLETE");
+						response.setUserReferenceNumber(request.getUserReferenceNumber());
+					}else{
+						String[] errorResponse = errorMessage.split("\\|");
+						response.setErrorCode(errorResponse[1]);
+						response.setReplyText(errorResponse[0]);
+						logger.debug("Error in return: " + errorResponse[1]+" ,"+errorResponse[1]);
+					}
+				}
+			}else{
+				nullError="";
+				nullError=nullError + ((request.getCurrencyCode().equals("")) ? "Currency Code \t" : "");
+				nullError=nullError + ((request.getFromAccountId().equals("")) ? "From Account ID \t" : "");
+				nullError=nullError + ((request.getFromBranchCode().equals("")) ? "From Branch Code \t" : "");
+				nullError=nullError + ((request.getToAccountId().equals("")) ? "To Account ID \t" : "");
+				nullError=nullError + ((request.getToBranchCode().equals("")) ? "To Branch Code \t" : "");
+				nullError=nullError + ((request.getTransactionAmount().equals("")) ? "Transaction Amount \t" : "");
+				
+				response.setErrorCode("99");
+				response.setReplyText("Required fields: " + nullError);
+				logger.debug(response);
+			}
+		} catch (JagacyException e) {
+			response.setErrorCode("99");
+			response.setReplyText("Error in connecting to mainframe. More INFO: " + e.getMessage());
+		}
+		
+		if(response!=null){
+			 SystematicsUtil.logRequestResponse(response, "FundTransferResponse response");
+		 }
+		return response;
+	}
+	
+	/*fundTrCAtoSAJagacy*/
+	
+	
+	
 	
 	public FundTransferResponse fundTrSAtoSA(FundTransferRequest request) {
 	   	FundTransferResponse response = new FundTransferResponse();
 		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBFundTransferSAtoSA(request.getCurrencyCode(), request.getFromAccountId(), request.getFromBranchCode(), request.getToAccountId(), request.getToBranchCode(), request.getTransactionAmount());
-		if(!request.getCurrencyCode().equals("") && !request.getFromAccountId().equals("") && !request.getFromBranchCode().equals("") && !request.getToAccountId().equals("") && !request.getToBranchCode().equals("") && !request.getTransactionAmount().equals("")){
+		if(!SystematicsUtil.getNotNullString(request.getCurrencyCode()).equals("") && !SystematicsUtil.getNotNullString(request.getFromAccountId()).equals("") && !SystematicsUtil.getNotNullString(request.getFromBranchCode()).equals("") && !SystematicsUtil.getNotNullString(request.getToAccountId()).equals("") && !SystematicsUtil.getNotNullString(request.getToBranchCode()).equals("") && !SystematicsUtil.getNotNullString(request.getTransactionAmount()).equals("")){
 			GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
 			if(prop.getErrorMessage().trim().length() != 0){
 				String[] errorResponse = SystematicsUtil.checkForError(prop.getErrorMessage()).split("\\|");
@@ -408,11 +815,74 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		return response;
 
 	}
+	/*<<<<<<<<<<<>>>>>>>>>>>>>>>>>fundTrSAtoSAJagacy>>>>>>>>>>>>>>>>>>>>>>>>*/
+	public  FundTransferResponse fundTrSAtoSAJagacy(FundTransferRequest request) {
+	   	FundTransferResponse response = new FundTransferResponse();
+		System.setProperty("jagacy.properties.dir","classpath");
+		try {
+			System.out.println("Jagacy balance inquiry");
+			//LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
+			//command.open();
+			if(!SystematicsUtil.getNotNullString(request.getCurrencyCode()).equals("") && !SystematicsUtil.getNotNullString(request.getFromAccountId()).equals("") && !SystematicsUtil.getNotNullString(request.getFromBranchCode()).equals("") && !SystematicsUtil.getNotNullString(request.getToAccountId()).equals("") && !SystematicsUtil.getNotNullString(request.getToBranchCode()).equals("") && !SystematicsUtil.getNotNullString(request.getTransactionAmount()).equals("")){
+				String returnValue =  client.getTTIBFundTransferSAtoSAJagacy(request.getCurrencyCode(), request.getFromAccountId(), request.getFromBranchCode(), request.getToAccountId(), request.getToBranchCode(), request.getTransactionAmount());
+				//String returnValue = command.submitCommand(request.getAccountId());
+				logger.debug("TTIB FundTransferResponse return message: " +returnValue);
+				if(returnValue == ""){
+					response.setErrorCode("99");
+					response.setReplyText("Account Not Found");
+				}else if(returnValue.contains("F:")){
+					response.setErrorCode("99");
+					response.setReplyText("Account Not Found");
+				}else{
+					//String returnMessage = prop.getReturnMessage();
+					String errorMessage = SystematicsUtil.checkForError(returnValue);
+					//logger.debug("TTIB response: " + returnValue);
+					if(errorMessage.trim().length() == 0){
+						response.setTransactionStatusCode("00");
+						response.setMessageCode("I");
+						response.setMessageText("PROCESS COMPLETE");
+						response.setUserReferenceNumber(request.getUserReferenceNumber());
+					}else{
+						String[] errorResponse = errorMessage.split("\\|");
+						response.setErrorCode(errorResponse[1]);
+						response.setReplyText(errorResponse[0]);
+						logger.debug("Error in return: " + errorResponse[1]+" ,"+errorResponse[1]);
+					}
+				}
+			}else{
+				nullError="";
+				nullError=nullError + ((request.getCurrencyCode().equals("")) ? "Currency Code \t" : "");
+				nullError=nullError + ((request.getFromAccountId().equals("")) ? "From Account ID \t" : "");
+				nullError=nullError + ((request.getFromBranchCode().equals("")) ? "From Branch Code \t" : "");
+				nullError=nullError + ((request.getToAccountId().equals("")) ? "To Account ID \t" : "");
+				nullError=nullError + ((request.getToBranchCode().equals("")) ? "To Branch Code \t" : "");
+				nullError=nullError + ((request.getTransactionAmount().equals("")) ? "Transaction Amount \t" : "");
+				
+				response.setErrorCode("99");
+				response.setReplyText("Required fields: " + nullError);
+				logger.debug(response);
+			}
+			
+		} catch (JagacyException e) {
+			response.setErrorCode("99");
+			response.setReplyText("Error in connecting to mainframe. More INFO: " + e.getMessage());
+		}
+		
+		if(response!=null){
+			 SystematicsUtil.logRequestResponse(response, "FundTransferResponse response");
+		 }
+		return response;
+	}
+	
+	/*fundTrSAtoSAJagacy*/
+	
+	
+	
 	
 	public FundTransferResponse fundTrCAtoCA(FundTransferRequest request) {
 	   	FundTransferResponse response = new FundTransferResponse();
 		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBFundTransferCAtoCA(request.getCurrencyCode(), request.getFromAccountId(), request.getFromBranchCode(), request.getToAccountId(), request.getToBranchCode(), request.getTransactionAmount());
-		if(!request.getCurrencyCode().equals("") && !request.getFromAccountId().equals("") && !request.getFromBranchCode().equals("") && !request.getToAccountId().equals("") && !request.getToBranchCode().equals("") && !request.getTransactionAmount().equals("")){
+		if(!SystematicsUtil.getNotNullString(request.getCurrencyCode()).equals("") && !SystematicsUtil.getNotNullString(request.getFromAccountId()).equals("") && !SystematicsUtil.getNotNullString(request.getFromBranchCode()).equals("") && !SystematicsUtil.getNotNullString(request.getToAccountId()).equals("") && !SystematicsUtil.getNotNullString(request.getToBranchCode()).equals("") && !SystematicsUtil.getNotNullString(request.getTransactionAmount()).equals("")){
 			GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
 			if(prop.getErrorMessage().trim().length() != 0){
 				String[] errorResponse = SystematicsUtil.checkForError(prop.getErrorMessage()).split("\\|");
@@ -455,11 +925,75 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		return response;
 
 	}
+	/*<<<<<<<<<<<>>>>>>>>>>>>>>>>>fundTrCAtoCAJagacy>>>>>>>>>>>>>>>>>>>>>>>>*/
+	public  FundTransferResponse fundTrCAtoCAJagacy(FundTransferRequest request) {
+	   	FundTransferResponse response = new FundTransferResponse();
+		System.setProperty("jagacy.properties.dir","classpath");
+		try {
+			System.out.println("Jagacy balance inquiry");
+			//LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
+			//command.open();
+			if(!SystematicsUtil.getNotNullString(request.getCurrencyCode()).equals("") && !SystematicsUtil.getNotNullString(request.getFromAccountId()).equals("") && !SystematicsUtil.getNotNullString(request.getFromBranchCode()).equals("") && !SystematicsUtil.getNotNullString(request.getToAccountId()).equals("") && !SystematicsUtil.getNotNullString(request.getToBranchCode()).equals("") && !SystematicsUtil.getNotNullString(request.getTransactionAmount()).equals("")){
+				String returnValue =  client.getTTIBFundTransferCAtoCAJagacy(request.getCurrencyCode(), request.getFromAccountId(), request.getFromBranchCode(), request.getToAccountId(), request.getToBranchCode(), request.getTransactionAmount());
+				//String returnValue = command.submitCommand(request.getAccountId());
+				logger.debug("TTIB FundTransferResponse return message: " +returnValue);
+				if(returnValue == ""){
+					response.setErrorCode("99");
+					response.setReplyText("Account Not Found");
+				}else if(returnValue.contains("F:")){
+					response.setErrorCode("99");
+					response.setReplyText("Account Not Found");
+				}else{
+					//String returnMessage = prop.getReturnMessage();
+					String errorMessage = SystematicsUtil.checkForError(returnValue);
+					//logger.debug("TTIB response: " + returnValue);
+					if(errorMessage.trim().length() == 0){
+						response.setTransactionStatusCode("00");
+						response.setMessageCode("I");
+						response.setMessageText("PROCESS COMPLETE");
+						response.setUserReferenceNumber(request.getUserReferenceNumber());
+					}else{
+						String[] errorResponse = errorMessage.split("\\|");
+						response.setErrorCode(errorResponse[1]);
+						response.setReplyText(errorResponse[0]);
+						logger.debug("Error in return: " + errorResponse[1]+" ,"+errorResponse[1]);
+					}
+				}
+			}else{
+				nullError="";
+				nullError=nullError + ((request.getCurrencyCode().equals("")) ? "Currency Code \t" : "");
+				nullError=nullError + ((request.getFromAccountId().equals("")) ? "From Account ID \t" : "");
+				nullError=nullError + ((request.getFromBranchCode().equals("")) ? "From Branch Code \t" : "");
+				nullError=nullError + ((request.getToAccountId().equals("")) ? "To Account ID \t" : "");
+				nullError=nullError + ((request.getToBranchCode().equals("")) ? "To Branch Code \t" : "");
+				nullError=nullError + ((request.getTransactionAmount().equals("")) ? "Transaction Amount \t" : "");
+				
+				response.setErrorCode("99");
+				response.setReplyText("Required fields: " + nullError);
+				logger.debug(response);
+			}
+			
+		} catch (JagacyException e) {
+			response.setErrorCode("99");
+			response.setReplyText("Error in connecting to mainframe. More INFO: " + e.getMessage());
+		}
+		
+		if(response!=null){
+			 SystematicsUtil.logRequestResponse(response, "FundTransferResponse response");
+		 }
+		return response;
+	}
+	
+	/*fundTrCAtoCAJagacy*/
+	
+	
+	
+	
 	
 	public BillsPaymentResponse billPayfrSA(BillsPaymentRequest request) {
 		BillsPaymentResponse response = new BillsPaymentResponse();
 		GetFromTTIB2ProcessWSResponse fromHost = client.getTTIBBillsPaymentSA(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId(), request.getMerchantID(), request.getSubscriberNumber(), request.getBillNo(), request.getPayeeName(), request.getTransactionAmount());
-		if(!request.getCurrencyCode().equals("") && !request.getBranchCode().equals("") && !request.getAccountId().equals("") && !request.getMerchantID().equals("") && !request.getSubscriberNumber().equals("") && !request.getBillNo().equals("") && !request.getPayeeName().equals("") && !request.getTransactionAmount().equals("")){
+		if(!SystematicsUtil.getNotNullString(request.getCurrencyCode()).equals("") && !SystematicsUtil.getNotNullString(request.getBranchCode()).equals("") && !SystematicsUtil.getNotNullString(request.getAccountId()).equals("") && !SystematicsUtil.getNotNullString(request.getMerchantID()).equals("") && !SystematicsUtil.getNotNullString(request.getSubscriberNumber()).equals("") && !SystematicsUtil.getNotNullString(request.getBillNo()).equals("") && !SystematicsUtil.getNotNullString(request.getPayeeName()).equals("") && !SystematicsUtil.getNotNullString(request.getTransactionAmount()).equals("")){
 			GetFromTTIB2OutputProperties prop = fromHost.getGetFromTTIB2ProcessWSReturn();
 			if(prop.getErrorMessage().trim().length() != 0){
 				String[] errorResponse = SystematicsUtil.checkForError(prop.getErrorMessage()).split("\\|");
@@ -502,15 +1036,77 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		
 		return response;
 	}
+	/*<<<<<<<<<<<>>>>>>>>>>>>>>>>>billPayfrSAJagacy>>>>>>>>>>>>>>>>>>>>>>>>*/
+	public  BillsPaymentResponse billPayfrSAJagacy(BillsPaymentRequest request) {
+		BillsPaymentResponse response = new BillsPaymentResponse();
+		System.setProperty("jagacy.properties.dir","classpath");
+		try {
+			System.out.println("Jagacy balance inquiry");
+			//LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
+			//command.open();
+			if(!SystematicsUtil.getNotNullString(request.getCurrencyCode()).equals("") && !SystematicsUtil.getNotNullString(request.getBranchCode()).equals("") && !SystematicsUtil.getNotNullString(request.getAccountId()).equals("") && !SystematicsUtil.getNotNullString(request.getMerchantID()).equals("") && !SystematicsUtil.getNotNullString(request.getSubscriberNumber()).equals("") && !SystematicsUtil.getNotNullString(request.getBillNo()).equals("") && !SystematicsUtil.getNotNullString(request.getPayeeName()).equals("") && !SystematicsUtil.getNotNullString(request.getTransactionAmount()).equals("")){
+				String returnValue =  client.getTTIBBillsPaymentSAJagacy(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId(), request.getMerchantID(), request.getSubscriberNumber(), request.getBillNo(), request.getPayeeName(), request.getTransactionAmount());
+				//String returnValue = command.submitCommand(request.getAccountId());
+				logger.debug("TTIB BillsPaymentResponse return message: " +returnValue);
+				if(returnValue == ""){
+					response.setErrorCode("99");
+					response.setReplyText("Account Not Found");
+				}else if(returnValue.contains("F:")){
+					response.setErrorCode("99");
+					response.setReplyText("Account Not Found");
+				}else{
+					//String returnMessage = prop.getReturnMessage();
+					String errorMessage = SystematicsUtil.checkForError(returnValue);
+					//logger.debug("TTIB response: " + returnValue);
+					if(errorMessage.trim().length() == 0){
+						response.setTransactionStatusCode("00");
+						response.setMessageCode("I");
+						response.setMessageText("PROCESS COMPLETE");
+						response.setUserReferenceNumber(request.getUserReferenceNumber());
+					}else{
+						String[] errorResponse = errorMessage.split("\\|");
+						response.setErrorCode(errorResponse[1]);
+						response.setReplyText(errorResponse[0]);
+						logger.debug("Error in return: " + errorResponse[1]+" ,"+errorResponse[1]);
+					}
+				}
+			}else{
+				nullError="";
+				nullError=nullError + ((request.getCurrencyCode().equals("")) ? "Currency Code \t" : "");
+				nullError=nullError + ((request.getBranchCode().equals("")) ? "Branch Code \t" : "");
+				nullError=nullError + ((request.getAccountId().equals("")) ? "Account ID \t" : "");
+				nullError=nullError + ((request.getMerchantID().equals("")) ? "Merchant ID \t" : "");
+				nullError=nullError + ((request.getSubscriberNumber().equals("")) ? "Subscriber Number \t" : "");
+				nullError=nullError + ((request.getBillNo().equals("")) ? "Bill Number \t" : "");
+				nullError=nullError + ((request.getPayeeName().equals("")) ? "Payee Name \t" : "");
+				nullError=nullError + ((request.getTransactionAmount().equals("")) ? "Transaction Amount \t" : "");
+				response.setErrorCode("99");
+				response.setReplyText("Required fields: " + nullError);
+				logger.debug(response);
+			}
+			
+		} catch (JagacyException e) {
+			response.setErrorCode("99");
+			response.setReplyText("Error in connecting to mainframe. More INFO: " + e.getMessage());
+		}
+		
+		if(response!=null){
+			 SystematicsUtil.logRequestResponse(response, "BillsPaymentResponse response");
+		 }
+		return response;
+	}
 	
+	/*billPayfrSAJagacy*/
 
+	
+	
 	public AccountDetailsInqLoanResponse accountLoan(AccountDetailsInqLoanRequest request){
 		AccountDetailsInqLoanResponse response = new AccountDetailsInqLoanResponse();
 		System.setProperty("jagacy.properties.dir","classpath");
 		try {
 			LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
 			command.open();
-			if(!request.getCurrencyCode().equals("") && !request.getBranchCode().equals("") && !request.getAccountId().equals("") && !request.getUserReferenceNumber().equals("")){
+			if(!SystematicsUtil.getNotNullString(request.getCurrencyCode()).equals("") && !SystematicsUtil.getNotNullString(request.getBranchCode()).equals("") && !SystematicsUtil.getNotNullString(request.getAccountId()).equals("") && !SystematicsUtil.getNotNullString(request.getUserReferenceNumber()).equals("")){
 				String returnValue = command.submitCommand(request.getAccountId());
 				logger.debug(returnValue);
 				if(returnValue == ""){
@@ -556,13 +1152,22 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		 }
 		return response;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
 	public AccountDetailsMessageIMResponse accountMessageIM(AccountDetailsMessageIMRequest request){
 		AccountDetailsMessageIMResponse response = new AccountDetailsMessageIMResponse();
 		System.setProperty("jagacy.properties.dir","classpath");
 		try {
-			LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
-			command.open();
-			if(!request.getCurrencyCode().equals("") && !request.getBranchCode().equals("") && !request.getAccountId().equals("") && !request.getUserReferenceNumber().equals("")){
+			
+			//LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
+			//command.open();
+			if(!SystematicsUtil.getNotNullString(request.getCurrencyCode()).equals("") && !SystematicsUtil.getNotNullString(request.getBranchCode()).equals("") && !SystematicsUtil.getNotNullString(request.getAccountId()).equals("") && !SystematicsUtil.getNotNullString(request.getUserReferenceNumber()).equals("")){
 				String returnValue = client.getTTIBAccountLoanCA(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId());
 				logger.debug(returnValue);
 				if(returnValue == ""){
@@ -587,7 +1192,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 					response.setEmployeeAccount(returnValue.substring(111,112)); //length:1
 					response.setJointAccount(returnValue.substring(112,115)); //length:3
 				}
-				command.close();
+				//command.close();
 			}else{
 				nullError="";
 				nullError=nullError + ((request.getCurrencyCode().equals("")) ? "Currency Code \t" : "");
@@ -612,9 +1217,9 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		AccountDetailsMessageSTResponse response = new AccountDetailsMessageSTResponse();
 		System.setProperty("jagacy.properties.dir","classpath");
 		try {
-			LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
-			command.open();
-			if(!request.getCurrencyCode().equals("") && !request.getBranchCode().equals("") && !request.getAccountId().equals("") && !request.getUserReferenceNumber().equals("")){
+			//LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
+			//command.open();
+			if(!SystematicsUtil.getNotNullString(request.getCurrencyCode()).equals("") && !SystematicsUtil.getNotNullString(request.getBranchCode()).equals("") && !SystematicsUtil.getNotNullString(request.getAccountId()).equals("") && !SystematicsUtil.getNotNullString(request.getUserReferenceNumber()).equals("")){
 				String returnValue = client.getTTIBAccountLoanSA(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId());
 				logger.debug(returnValue);
 				if(returnValue == ""){
@@ -639,7 +1244,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 					response.setEmployeeAccount(returnValue.substring(111,112)); //length:1
 					response.setJointAccount(returnValue.substring(112,115)); //length:3
 				}
-				command.close();
+				//command.close();
 				}else{
 					nullError="";
 					nullError=nullError + ((request.getCurrencyCode().equals("")) ? "Currency Code \t" : "");
@@ -665,9 +1270,9 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		AccountDetailsMessageTDResponse response = new AccountDetailsMessageTDResponse();
 		System.setProperty("jagacy.properties.dir","classpath");
 		try {
-			LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
-			command.open();
-			if(!request.getCurrencyCode().equals("") && !request.getBranchCode().equals("") && !request.getAccountId().equals("") && !request.getUserReferenceNumber().equals("")){
+			//LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
+			//command.open();
+			if(!SystematicsUtil.getNotNullString(request.getCurrencyCode()).equals("") && !SystematicsUtil.getNotNullString(request.getBranchCode()).equals("") && !SystematicsUtil.getNotNullString(request.getAccountId()).equals("") && !SystematicsUtil.getNotNullString(request.getUserReferenceNumber()).equals("")){
 				String returnValue = client.getTTIBAccountLoanTD(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId());
 				logger.debug(returnValue);
 				if(returnValue == ""){
@@ -692,7 +1297,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 					response.setEmployeeAccount(returnValue.substring(111,112)); //length:1
 					response.setJointAccount(returnValue.substring(112,115)); //length:3
 				}
-				command.close();
+				//command.close();
 			}else{
 				nullError="";
 				nullError=nullError + ((request.getCurrencyCode().equals("")) ? "Currency Code \t" : "");
@@ -734,11 +1339,9 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 			//String requestValue="First Request:WSP1" + "    " + request.getCurrencyCode()+request.getBranchCode()+request.getAccountId()+SystematicsUtil.getNextRecordNumber(nextRecordNumber)+request.getStartDate()+request.getEndDate();
 			//logger.debug(requestValue);
 			
-			
-			LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
-			command.open();
+		//LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
+		//command.open();
 			//check if request has null field/s
-			
 			if(!SystematicsUtil.getNotNullString(request.getCurrencyCode()).equals("") && !SystematicsUtil.getNotNullString(request.getBranchCode()).equals("") && !SystematicsUtil.getNotNullString(request.getAccountId()).equals("")  && !SystematicsUtil.getNotNullString(request.getStartDate()).equals("") && !SystematicsUtil.getNotNullString(request.getEndDate()).equals("") && !SystematicsUtil.getNotNullString(request.getStartingRecord()).equals("")){
 			//if(request.getCurrencyCode()!=null){
 				nextRecordNumber=Integer.parseInt(request.getStartingRecord());	
@@ -832,7 +1435,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 					
 					
 				
-					command.close();
+					//command.close();
 					
 			}else{
 				nullError="";
@@ -974,8 +1577,8 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 			//logger.debug(requestValue);
 			
 			 
-			LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
-			command.open();
+			//LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
+			//command.open();
 			//check if request has null field/s
 			if(!SystematicsUtil.getNotNullString(request.getCurrencyCode()).equals("") && !SystematicsUtil.getNotNullString(request.getBranchCode()).equals("") && !SystematicsUtil.getNotNullString(request.getAccountId()).equals("")  && !SystematicsUtil.getNotNullString(request.getStartDate()).equals("") && !SystematicsUtil.getNotNullString(request.getEndDate()).equals("") && !SystematicsUtil.getNotNullString(request.getStartingRecord()).equals("")){
 			//if(request.getCurrencyCode()!=null){
@@ -1070,7 +1673,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 					
 					
 				
-					command.close();
+					//command.close();
 					
 			}else{
 				nullError="";
@@ -1088,7 +1691,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 			
 		} catch (JagacyException e) {
 			
-			//e.printStackTrace();
+		e.printStackTrace();
 			response.setErrorCode("99");
 			response.setReplyText("Error in connecting to mainframe. More INFO: " + e.getMessage());
 			logger.debug("Error in connecting to mainframe. More INFO: " + e.getMessage());
