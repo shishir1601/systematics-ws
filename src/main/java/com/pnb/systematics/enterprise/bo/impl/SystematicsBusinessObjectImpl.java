@@ -1102,7 +1102,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 	
 	public AccountDetailsInqLoanResponse accountLoan(AccountDetailsInqLoanRequest request){
 		AccountDetailsInqLoanResponse response = new AccountDetailsInqLoanResponse();
-		System.setProperty("jagacy.properties.dir","classpath");
+		System.setProperty("jagacy1.properties.dir","classpath");
 		try {
 			LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
 			command.open();
@@ -1354,7 +1354,15 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 					}else if(returnValue.contains("ERROR READING")){
 						response.setErrorCode("99");
 						response.setReplyText(returnValue.substring(6,35));
+					}else if(returnValue.contains("NO TRANSACTION AVAILABLE")){
+						response.setErrorCode("99");
+						response.setReplyText("No Transaction Available");
 					}else{
+
+						////get the number of records
+						String recordCount=returnValue.substring(82,84).trim();
+						
+						int recordNumber=Integer.parseInt(recordCount);
 						
 						response.setTranId(returnValue.substring(0,4));
 						response.setTransactionStatusCode(returnValue.substring(4,6));
@@ -1371,10 +1379,6 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 						response.setNumberOfRecords(returnValue.substring(82,84));
 						
 						
-						////get the number of records
-						String recordCount=response.getNumberOfRecords().trim();
-						
-						int recordNumber=Integer.parseInt(recordCount);
 					
 						//List<TransactionHistoryResponseList> responseList = response.getResponse();
 						
@@ -1477,6 +1481,9 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 			}else if(returnValue.contains("ERROR READING")){
 				response.setErrorCode("99");
 				response.setReplyText(returnValue.substring(6,35));
+			}else if(returnValue.contains("NO TRANSACTION AVAILABLE")){
+				response.setErrorCode("99");
+				response.setReplyText("No Transaction Available");
 			}else{
 				
 				/*response.setTranId(returnValue.substring(0,4));
@@ -1588,13 +1595,24 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 					returnValue = client.getTransactionHistorySA(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId(), request.getStartDate(), request.getEndDate(), SystematicsUtil.getNextRecordNumber(nextRecordNumber), "");
 					System.out.println("Return: "+returnValue);
 					logger.debug(returnValue);
-					if(returnValue == ""){
+					if(returnValue.contains("NO TRANSACTION AVAILABLE")){
+						response.setErrorCode("99");
+						response.setReplyText("No Transaction Available");
+					}else if(returnValue == ""){
 						response.setErrorCode("99");
 						response.setReplyText("Error in connecting to mainframe");
 					}else if(returnValue.contains("ERROR READING")){
 						response.setErrorCode("99");
 						response.setReplyText(returnValue.substring(6,35));
 					}else{
+						
+					////get the number of records
+						String recordCount=returnValue.substring(82,84).trim();
+						
+						int recordNumber=Integer.parseInt(recordCount);
+					
+						
+						
 						response.setTranId(returnValue.substring(0,4));
 						response.setTransactionStatusCode(returnValue.substring(4,6));
 						//to insert 0 value
@@ -1611,11 +1629,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 						
 
 						
-						////get the number of records
-						String recordCount=response.getNumberOfRecords().trim();
 						
-						int recordNumber=Integer.parseInt(recordCount);
-					
 						//List<TransactionHistoryResponseList> responseList = response.getResponse();
 						
 						//loop
@@ -1768,14 +1782,20 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 			String lastKeyUsed="";
 			try{
 			//logger.debug(returnValue);
-			if(returnValue.equals("") ){
+			if(returnValue.contains("NO TRANSACTION AVAILABLE")){
+					response.setErrorCode("99");
+					response.setReplyText("No Transaction Available");
+			}else if(returnValue.contains("NO TRANSACTION AVAILABLE")){
+					response.setErrorCode("99");
+					response.setReplyText("No Transaction Available");
+			}else if(returnValue.equals("") ){
 				System.out.println("empty return");
 				response.setErrorCode("99");
 				response.setReplyText("Error in connecting to mainframe");
 			}else if(returnValue.contains("ERROR READING")){
 				response.setErrorCode("99");
 				response.setReplyText(returnValue.substring(6,35));
-				}else{
+			}else{
 					
 					/*response.setTranId(returnValue.substring(0,4));
 					response.setTransactionStatusCode(returnValue.substring(4,6));

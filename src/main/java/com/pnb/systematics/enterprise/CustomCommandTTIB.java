@@ -15,17 +15,17 @@ import com.jagacy.util.Loggable;
  * @author Robert M. Preston
  * 
  */
-public class CustomCommand extends Session3270 {
+public class CustomCommandTTIB extends Session3270 {
 
-    private JagacyProperties props2;
+    private JagacyProperties props;
 
     private Loggable logger;
 
     private String companyName = "";
 
-    public CustomCommand() throws JagacyException {
+    public CustomCommandTTIB() throws JagacyException {
         super("crawler");
-        props2 = getProperties();
+        props = getProperties();
         logger = getLoggable();
     }
 
@@ -101,17 +101,11 @@ public class CustomCommand extends Session3270 {
         	writeKey(Key.ENTER);
          }
         	//System.out.println("Sending command");
-     	if (waitForPosition(0,0, "WSPZ",1000)) {
-     		//if(!waitForPosition(0,4, "99",1000)){
-     			String[] output = readScreen();
-             	for(int index = 0; index < output.length; ++index){
-             		returnString += output[index];
-     		//}
-        	//waitForChange("logon.timeout.seconds");
-        	//System.out.println("Found");
-     		
+    	if (!waitForPosition("logon.wait", "logon.timeout.seconds")) {
+     		String[] output = readScreen();
+         	for(int index = 0; index < output.length; ++index){
+         		returnString += output[index];
          	}
-         	
          }
      	//if (!waitForPosition("logon.wait", "logon.timeout.seconds")) {
          	writeKey(Key.CLEAR);
