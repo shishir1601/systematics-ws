@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import com.jagacy.Seconds;
 import com.jagacy.util.JagacyException;
 import com.pnb.systematics.configuration.WebServiceUtil;
+import com.pnb.systematics.enterprise.CustomCommandLoanDetInq;
 import com.pnb.systematics.enterprise.SystematicsClient;
 import com.pnb.systematics.enterprise.SystematicsUtil;
 import com.pnb.systematics.enterprise.bo.SystematicsBusinessObject;
@@ -43,6 +44,7 @@ import com.pnb.systematics.interaction.TransactionHistorySARequest;
 import com.pnb.systematics.interaction.TransactionHistorySAResponse;
 import com.pnb.systematics.schema.GetFromTTIB2OutputProperties;
 import com.pnb.systematics.schema.GetFromTTIB2ProcessWSResponse;
+import com.sun.xml.fastinfoset.sax.Properties;
 import com.teligent.crawler.LoanAccountInquiryCommand;
 
 @Component
@@ -305,7 +307,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				logger.debug("TTIB ServiceChargeResponse return message: " +returnValue);
 				if(returnValue == ""){
 					response.setErrorCode("99");
-					response.setReplyText("Account Not Found");
+					response.setReplyText("Error in connecting to mainframe");
 				}else if(returnValue.contains("F:")){
 					response.setErrorCode("99");
 					response.setReplyText("Account Not Found");
@@ -407,7 +409,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				logger.debug("TTIB DebitMemoImResponse return message: " +returnValue);
 				if(returnValue == ""){
 					response.setErrorCode("99");
-					response.setReplyText("Account Not Found");
+					response.setReplyText("Error in connecting to mainframe");
 				}else if(returnValue.contains("F:")){
 					response.setErrorCode("99");
 					response.setReplyText("Account Not Found");
@@ -509,7 +511,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				logger.debug("TTIB DebitMemoStResponse return message: " +returnValue);
 				if(returnValue == ""){
 					response.setErrorCode("99");
-					response.setReplyText("Account Not Found");
+					response.setReplyText("Error in connecting to mainframe");
 				}else if(returnValue.contains("F:")){
 					response.setErrorCode("99");
 					response.setReplyText("Account Not Found");
@@ -613,7 +615,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				logger.debug("TTIB FundTransferResponse return message: " +returnValue);
 				if(returnValue == ""){
 					response.setErrorCode("99");
-					response.setReplyText("Account Not Found");
+					response.setReplyText("Error in connecting to mainframe");
 				}else if(returnValue.contains("F:")){
 					response.setErrorCode("99");
 					response.setReplyText("Account Not Found");
@@ -720,7 +722,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				logger.debug("TTIB FundTransferResponse return message: " +returnValue);
 				if(returnValue == ""){
 					response.setErrorCode("99");
-					response.setReplyText("Account Not Found");
+					response.setReplyText("Error in connecting to mainframe");
 				}else if(returnValue.contains("F:")){
 					response.setErrorCode("99");
 					response.setReplyText("Account Not Found");
@@ -829,7 +831,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				logger.debug("TTIB FundTransferResponse return message: " +returnValue);
 				if(returnValue == ""){
 					response.setErrorCode("99");
-					response.setReplyText("Account Not Found");
+					response.setReplyText("Error in connecting to mainframe");
 				}else if(returnValue.contains("F:")){
 					response.setErrorCode("99");
 					response.setReplyText("Account Not Found");
@@ -939,7 +941,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				logger.debug("TTIB FundTransferResponse return message: " +returnValue);
 				if(returnValue == ""){
 					response.setErrorCode("99");
-					response.setReplyText("Account Not Found");
+					response.setReplyText("Error in connecting to mainframe");
 				}else if(returnValue.contains("F:")){
 					response.setErrorCode("99");
 					response.setReplyText("Account Not Found");
@@ -1042,21 +1044,25 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		System.setProperty("jagacy.properties.dir","classpath");
 		try {
 			System.out.println("Jagacy balance inquiry");
+			System.out.println("1");
 			//LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
 			//command.open();
 			if(!SystematicsUtil.getNotNullString(request.getCurrencyCode()).equals("") && !SystematicsUtil.getNotNullString(request.getBranchCode()).equals("") && !SystematicsUtil.getNotNullString(request.getAccountId()).equals("") && !SystematicsUtil.getNotNullString(request.getMerchantID()).equals("") && !SystematicsUtil.getNotNullString(request.getSubscriberNumber()).equals("") && !SystematicsUtil.getNotNullString(request.getBillNo()).equals("") && !SystematicsUtil.getNotNullString(request.getPayeeName()).equals("") && !SystematicsUtil.getNotNullString(request.getTransactionAmount()).equals("")){
 				String returnValue =  client.getTTIBBillsPaymentSAJagacy(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId(), request.getMerchantID(), request.getSubscriberNumber(), request.getBillNo(), request.getPayeeName(), request.getTransactionAmount());
+				System.out.println("2");
 				//String returnValue = command.submitCommand(request.getAccountId());
 				logger.debug("TTIB BillsPaymentResponse return message: " +returnValue);
+				System.out.println("3");
 				if(returnValue == ""){
 					response.setErrorCode("99");
-					response.setReplyText("Account Not Found");
+					response.setReplyText("Error in connecting to mainframe");
 				}else if(returnValue.contains("F:")){
 					response.setErrorCode("99");
 					response.setReplyText("Account Not Found");
 				}else{
 					//String returnMessage = prop.getReturnMessage();
 					String errorMessage = SystematicsUtil.checkForError(returnValue);
+					System.out.println("4");
 					//logger.debug("TTIB response: " + returnValue);
 					if(errorMessage.trim().length() == 0){
 						response.setTransactionStatusCode("00");
@@ -1071,6 +1077,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 					}
 				}
 			}else{
+				System.out.println("5");
 				nullError="";
 				nullError=nullError + ((request.getCurrencyCode().equals("")) ? "Currency Code \t" : "");
 				nullError=nullError + ((request.getBranchCode().equals("")) ? "Branch Code \t" : "");
@@ -1082,6 +1089,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				nullError=nullError + ((request.getTransactionAmount().equals("")) ? "Transaction Amount \t" : "");
 				response.setErrorCode("99");
 				response.setReplyText("Required fields: " + nullError);
+				System.out.println("6");
 				logger.debug(response);
 			}
 			
@@ -1102,9 +1110,11 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 	
 	public AccountDetailsInqLoanResponse accountLoan(AccountDetailsInqLoanRequest request){
 		AccountDetailsInqLoanResponse response = new AccountDetailsInqLoanResponse();
-		System.setProperty("jagacy1.properties.dir","classpath");
+		System.setProperty("jagacy.properties.dir","classpath");
+		//System.out.println(System.getProperty("jagacy.properties.dir"));
+		//System.exit(0);
 		try {
-			LoanAccountInquiryCommand command = new LoanAccountInquiryCommand();
+			CustomCommandLoanDetInq command = new CustomCommandLoanDetInq();
 			command.open();
 			if(!SystematicsUtil.getNotNullString(request.getCurrencyCode()).equals("") && !SystematicsUtil.getNotNullString(request.getBranchCode()).equals("") && !SystematicsUtil.getNotNullString(request.getAccountId()).equals("") && !SystematicsUtil.getNotNullString(request.getUserReferenceNumber()).equals("")){
 				String returnValue = command.submitCommand(request.getAccountId());
@@ -1474,7 +1484,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 		String lastKeyUsed="";
 		try{
 			//logger.debug(returnValue);
-			if(returnValue.equals("") ){
+			/*if(returnValue.equals("") ){
 				//System.out.println("empty return");
 				response.setErrorCode("99");
 				response.setReplyText("Error in connecting to mainframe");
@@ -1484,7 +1494,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 			}else if(returnValue.contains("NO TRANSACTION AVAILABLE")){
 				response.setErrorCode("99");
 				response.setReplyText("No Transaction Available");
-			}else{
+			}else{*/
 				
 				/*response.setTranId(returnValue.substring(0,4));
 				response.setTransactionStatusCode(returnValue.substring(4,6));
@@ -1543,7 +1553,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 				//String dataFlag=returnValue.substring(response);
 				//check if data flag yes or no
 				//response.setResponse(responseList);	
-			}
+			//}
 		
 		}
 		catch(Exception e){
@@ -1595,7 +1605,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 					returnValue = client.getTransactionHistorySA(request.getCurrencyCode(), request.getBranchCode(), request.getAccountId(), request.getStartDate(), request.getEndDate(), SystematicsUtil.getNextRecordNumber(nextRecordNumber), "");
 					System.out.println("Return: "+returnValue);
 					logger.debug(returnValue);
-					if(returnValue.contains("NO TRANSACTION AVAILABLE")){
+					/*if(returnValue.contains("NO TRANSACTION AVAILABLE")){
 						response.setErrorCode("99");
 						response.setReplyText("No Transaction Available");
 					}else if(returnValue == ""){
@@ -1604,7 +1614,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 					}else if(returnValue.contains("ERROR READING")){
 						response.setErrorCode("99");
 						response.setReplyText(returnValue.substring(6,35));
-					}else{
+					}else{*/
 						
 					////get the number of records
 						String recordCount=returnValue.substring(82,84).trim();
@@ -1683,7 +1693,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 						 }
 						
 						
-					}
+					//}
 					
 					
 				
@@ -1782,7 +1792,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 			String lastKeyUsed="";
 			try{
 			//logger.debug(returnValue);
-			if(returnValue.contains("NO TRANSACTION AVAILABLE")){
+			/*if(returnValue.contains("NO TRANSACTION AVAILABLE")){
 					response.setErrorCode("99");
 					response.setReplyText("No Transaction Available");
 			}else if(returnValue.contains("NO TRANSACTION AVAILABLE")){
@@ -1795,7 +1805,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 			}else if(returnValue.contains("ERROR READING")){
 				response.setErrorCode("99");
 				response.setReplyText(returnValue.substring(6,35));
-			}else{
+			}else{*/
 					
 					/*response.setTranId(returnValue.substring(0,4));
 					response.setTransactionStatusCode(returnValue.substring(4,6));
@@ -1855,7 +1865,7 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 					//String dataFlag=returnValue.substring(response);
 					//check if data flag yes or no
 					//response.setResponse(responseList);	
-				}
+				//}
 			
 			}
 			catch(Exception e){
@@ -1866,5 +1876,6 @@ public class SystematicsBusinessObjectImpl implements SystematicsBusinessObject{
 			
 		
 		}
+
 	
 }

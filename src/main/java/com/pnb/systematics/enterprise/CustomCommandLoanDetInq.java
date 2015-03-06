@@ -24,99 +24,78 @@ public class CustomCommandLoanDetInq extends Session3270 {
     private String companyName = "";
 
     public CustomCommandLoanDetInq() throws JagacyException {
-        super("crawler");
-        props = getProperties();
-        logger = getLoggable();
-    }
+		super("crawler","10.1.80.75",9995);
+		props = getProperties();
+		logger = getLoggable();
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.jagacy.Session3270#logon()
-     */
-    protected boolean logon() throws JagacyException {
-        // Notice that you don't have to prefix each property with 'example2'.
-        // Jagacy will do this for you.
-    	
-       if (!waitForPosition("logon.wait", "logon.timeout.seconds")) {
-        	writeKey(Key.CLEAR);
-       }
-    	//System.out.println(new Date().toString());
-    //if (waitForPosition(17,7, "ACCOUNT ACCESS", 500)) {
-    		//System.out.println("Found Account access");
-    	
-    	
-    	/*waitForChange("logon.timeout.seconds");*/
-    	
-    	/*if(waitForUnlock(200)){
-    		writeKey(Key.CLEAR);
-    		waitForUnlock(200);
-       }*/
-    
-        System.out.println("Session log on");
-        return true;
-    }
+	protected boolean logon() throws JagacyException {
+		System.out.println("Logon: "+new Date().toString());
+	if (!waitForPosition("logon.wait", "logon.timeout.seconds")) {
+			writeKey(Key.CLEAR);
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.jagacy.Session3270#logoff()
-     */
-    protected void logoff() throws JagacyException {
-    	
-     	//if (!waitForPosition("logon.wait", "logon.timeout.seconds")) {
-			
-        if(waitForUnlock(200)){
-         	writePosition(0, 0, "cssf logoff");
-			writeKey(Key.ENTER);
-         	}
-		//}
-     	
-    	
-    	System.out.println("Session log offf");
-    }
+		return true;
+	}
 
- 
-    public String submitCommand(String command) throws JagacyException{
-    	String returnString = ""; 
-    	/*if (!waitForPosition("logon.wait", "logon.timeout.seconds")) {
-         	writeKey(Key.CLEAR);
-         }
-    	if (!waitForPosition("logon.wait", "logon.timeout.seconds")) {
-        	writePosition(0,0,command);
+	protected void logoff() throws JagacyException {
+
+		waitForUnlock("loan.timeout.seconds");
+		writeKey(Key.CLEAR);
+		waitForUnlock("loan.timeout.seconds");
+			writePosition(0, 0, "cssf logoff");
         	writeKey(Key.ENTER);
-         }
-     	if (!waitForPosition("logon.wait", "logon.timeout.seconds")) {
-     		String[] output = readScreen();
-         	for(int index = 0; index < output.length; ++index){
-         		returnString += output[index];
-         	}
-         }
-    	*/
-    	if (!waitForPosition("logon.wait", "logon.timeout.seconds")) {
-        	writeKey(Key.CLEAR);
-         }
-    	//if(!waitForUnlock(5000)){
-    	if (!waitForPosition("logon.wait", "logon.timeout.seconds")) {
-        	writePosition(0,0,command);
+	}
+
+	public String submitCommand(String accountNumber) throws JagacyException {
+		String returnString = "";
+		waitForUnlock("loan.timeout.seconds");
+		writeKey(Key.CLEAR);
+		waitForUnlock("loan.timeout.seconds");
+		
+		System.out.println("write tsso:");
+		writePosition(0, 0, "tsso");
+        writeKey(Key.ENTER);
+       
+       	System.out.println("Write satt:");
+		waitForUnlock("loan.timeout.seconds");
+		writePosition(20, 12, "satt");
+        writeKey(Key.ENTER);
+		
+        System.out.println("read the data:");
+		waitForChange("loan.timeout.seconds");
+		String message = readPosition(23,0,78);
+		waitForUnlock("loan.timeout.seconds");
+		
+			System.out.println("Message:"+message);
+			if(message.contains("F:") || message.contains("E:")){
+				System.out.println("wiht f or e:");
+					writePosition(21, 56, "Y");
+					writeKey(Key.ENTER);
+					waitForUnlock("loan.timeout.seconds");
+						
+				
+			}else{
+				System.out.println("without f or e:");
+					writeKey(Key.CLEAR);
+        }
+		waitForUnlock("loan.timeout.seconds");
+			writePosition(0, 0, "amai");
         	writeKey(Key.ENTER);
-         }
-        	//System.out.println("Sending command");
-     	if (waitForPosition(0,0, "WSPZ",1000)) {
-        	//waitForChange("logon.timeout.seconds");
-        	//System.out.println("Found");
-     		String[] output = readScreen();
-         	for(int index = 0; index < output.length; ++index){
-         		returnString += output[index];
-         	}
-         	
-         }
-     	//if (!waitForPosition("logon.wait", "logon.timeout.seconds")) {
-         	writeKey(Key.CLEAR);
-         //}
-         	//System.out.println("return:  "+returnString);
-    		logoff();
-    		//System.out.println(new Date().toString());
-    	return returnString;
-    }
+		waitForUnlock("loan.timeout.seconds");
+			writePosition(2, 37, accountNumber);
+			writePosition(2,8,"1");
+			writePosition(2,16,"1");
+        	writeKey(Key.ENTER);
+		waitForUnlock("loan.timeout.seconds");
+        	String[] array = readScreen();
+        	for(int index = 0; index < array.length; ++index){
+        		returnString += array[index];
+        	}
+        	
+        	System.out.println("Logoff: "+new Date().toString());
+		return returnString;
+		
+
+	}
 }

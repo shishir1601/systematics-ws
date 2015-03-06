@@ -92,15 +92,17 @@ public class CustomCommandFundTransfer extends Session3270 {
          	}
          }
     	*/
-    	if (!waitForPosition("logon.wait", "logon.timeout.seconds")) {
+    	//if (!waitForPosition("logon.wait", "logon.timeout.seconds")) {
+    	waitForUnlock("loan.timeout.seconds");
         	writeKey(Key.CLEAR);
-         }
+         //}
     	//if(!waitForUnlock(5000)){
-    	if (!waitForPosition("logon.wait", "logon.timeout.seconds")) {
+    	//if (!waitForPosition("logon.wait", "logon.timeout.seconds")) {
+        	waitForUnlock("loan.timeout.seconds");
         	writePosition(0,0,command);
         	writeKey(Key.ENTER);
-         }
-    	waitForUnlock(5000);
+        // }
+        	waitForUnlock("loan.timeout.seconds");
         	//System.out.println("Sending command");
     	if (!waitForPosition("logon.wait", "logon.timeout.seconds")) {
      		String[] output = readScreen();

@@ -14,7 +14,7 @@ public class LoanAccountInquiryCommand extends Session3270 {
 	private String companyName = "";
 
 	public LoanAccountInquiryCommand() throws JagacyException {
-		super("crawler");
+		super("crawler","10.1.80.75",9995);
 		props = getProperties();
 		logger = getLoggable();
 	}
@@ -22,6 +22,7 @@ public class LoanAccountInquiryCommand extends Session3270 {
 	protected boolean logon() throws JagacyException {
 		if (!waitForPosition("logon.wait", "logon.timeout.seconds")) {
 			writeKey(Key.CLEAR);
+			System.out.println("logon");
 		}
 
 		return true;
@@ -37,23 +38,13 @@ public class LoanAccountInquiryCommand extends Session3270 {
 			writeKey(Key.CLEAR);
 		}
 		if (!waitForPosition("logon.wait", "logon.timeout.seconds")) {
-			writePosition(0, 0, "cssf logoff");
-			writeKey(Key.ENTER);
-		}
-		if (!waitForPosition("logon.wait", "logon.timeout.seconds")) {
-			writePosition(19, 5, "H");
-			writeKey(Key.ENTER);
-		}
-		if (!waitForPosition("logon.wait", "logon.timeout.seconds")) {
-        	writeKey(Key.CLEAR);
-        }
-		if (!waitForPosition("logon.wait", "logon.timeout.seconds")) {
 			writePosition(0, 0, "tsso");
         	writeKey(Key.ENTER);
         }
 		if (!waitForPosition("logon.wait", "logon.timeout.seconds")) {
 			writePosition(20, 12, "satt");
         	writeKey(Key.ENTER);
+        	writeKey(Key.CLEAR);
         }
 		if (!waitForPosition("logon.wait", "logon.timeout.seconds")) {
 			String message = readPosition(23,1,78);
@@ -69,11 +60,6 @@ public class LoanAccountInquiryCommand extends Session3270 {
 				if(!waitForPosition("logon.wait", "logon.timeout.seconds"))
 					writeKey(Key.CLEAR);
 			}
-        }
-		
-		if (!waitForPosition("logon.wait", "logon.timeout.seconds")) {
-			writePosition(20, 12, "satt");
-        	writeKey(Key.CLEAR);
         }
 		
 		if (!waitForPosition("logon.wait", "logon.timeout.seconds")) {
@@ -93,7 +79,9 @@ public class LoanAccountInquiryCommand extends Session3270 {
         	}
         }
 		
-		
 		return returnString;
+
 	}
+	
+	
 }

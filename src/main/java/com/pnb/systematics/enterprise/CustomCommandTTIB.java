@@ -37,8 +37,11 @@ public class CustomCommandTTIB extends Session3270 {
     protected boolean logon() throws JagacyException {
         // Notice that you don't have to prefix each property with 'example2'.
         // Jagacy will do this for you.
+    	System.out.println("From: "+new Date().toString());
        if (!waitForPosition("logon.wait", "logon.timeout.seconds")) {
-        	writeKey(Key.CLEAR);
+    //waitForChange(10000);
+   // waitForUnlock(10000);
+    	writeKey(Key.CLEAR);
         }
     	//System.out.println(new Date().toString());
     //if (waitForPosition(17,7, "ACCOUNT ACCESS", 500)) {
@@ -92,27 +95,31 @@ public class CustomCommandTTIB extends Session3270 {
          	}
          }
     	*/
-    	if (!waitForPosition("logon.wait", "logon.timeout.seconds")) {
-        	writeKey(Key.CLEAR);
-         }
+    //	if (!waitForPosition("logon.wait", "logon.timeout.seconds")) {
+    	waitForUnlock("loan.timeout.seconds");
+    	writeKey(Key.CLEAR);
+         //}
     	//if(!waitForUnlock(5000)){
-    	if (!waitForPosition("logon.wait", "logon.timeout.seconds")) {
-        	writePosition(0,0,command);
+    	//if (!waitForPosition("logon.wait", "logon.timeout.seconds")) {
+    	waitForUnlock("loan.timeout.seconds");
+    	writePosition(0,0,command);
         	writeKey(Key.ENTER);
-         }
+       //  }
         	//System.out.println("Sending command");
-    	if (!waitForPosition("logon.wait", "logon.timeout.seconds")) {
-     		String[] output = readScreen();
+    	//if (!waitForPosition("logon.wait", "logon.timeout.seconds")) {
+        	waitForUnlock("loan.timeout.seconds");
+        	String[] output = readScreen();
          	for(int index = 0; index < output.length; ++index){
          		returnString += output[index];
          	}
-         }
+        // }
      	//if (!waitForPosition("logon.wait", "logon.timeout.seconds")) {
          	writeKey(Key.CLEAR);
          //}
          	//System.out.println("return:  "+returnString);
     		logoff();
     		//System.out.println(new Date().toString());
+    		
     	return returnString;
     }
 }
