@@ -1,6 +1,5 @@
 package com.pnb.systematics.enterprise;
 
-
 import java.util.Date;
 
 import com.jagacy.Key;
@@ -9,21 +8,14 @@ import com.jagacy.util.JagacyException;
 import com.jagacy.util.JagacyProperties;
 import com.jagacy.util.Loggable;
 
-/**
- * This class uses positions to retrieve the first 5 patents.
- * 
- * @author Robert M. Preston
- * 
- */
 public class CustomCommandLoanDetInq extends Session3270 {
+	private JagacyProperties props;
 
-    private JagacyProperties props;
-    
-    private Loggable logger;
+	private Loggable logger;
 
-    private String companyName = "";
+	private String companyName = "";
 
-    public CustomCommandLoanDetInq() throws JagacyException {
+	public CustomCommandLoanDetInq() throws JagacyException {
 		super("crawler","10.1.80.75",9995);
 		props = getProperties();
 		logger = getLoggable();
@@ -60,8 +52,11 @@ public class CustomCommandLoanDetInq extends Session3270 {
        	System.out.println("Write satt:");
 		waitForUnlock("loan.timeout.seconds");
 		writePosition(20, 12, "satt");
+		writePosition(21, 56, "Y");
         writeKey(Key.ENTER);
-		
+        waitForUnlock("loan.timeout.seconds");
+        writeKey(Key.ENTER);
+        
         System.out.println("read the data:");
 		waitForChange("loan.timeout.seconds");
 		String message = readPosition(23,0,78);
@@ -70,10 +65,15 @@ public class CustomCommandLoanDetInq extends Session3270 {
 			System.out.println("Message:"+message);
 			if(message.contains("F:") || message.contains("E:")){
 				System.out.println("wiht f or e:");
-					writePosition(21, 56, "Y");
+				
+					//writePosition(21, 56, "Y");
+					//writeKey(Key.ENTER);
+					waitForUnlock("loan.timeout.seconds");
 					writeKey(Key.ENTER);
 					waitForUnlock("loan.timeout.seconds");
-						
+					writeKey(Key.ENTER);
+					waitForUnlock("loan.timeout.seconds");
+					writeKey(Key.CLEAR);
 				
 			}else{
 				System.out.println("without f or e:");
@@ -98,4 +98,6 @@ public class CustomCommandLoanDetInq extends Session3270 {
 		
 
 	}
+	
+	
 }
